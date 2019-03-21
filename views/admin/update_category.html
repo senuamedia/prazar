@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="page">
+     
+      <div class="page-header">
+        <h1 class="page-title">Update Category</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+           <li class="breadcrumb-item"><a href="/prazar_admin/categories">Category List</a></li>           
+          <li class="breadcrumb-item active">Update Category</li>
+        </ol>
+        
+      </div>
+      <div class="page-content container-fluid">
+        
+            <!-- Panel Floating Labels -->
+        <div class="panel col-lg-10">
+            <div class="panel-heading">
+                <h3 class="panel-title"> </h3>
+				<button class="openPopupSuggestedCat" data-href="{{base_url}}prazar_admin/get_suggested_category" data-toggle="modal" style="    right: 0px;margin-bottom: 20px;position: absolute;z-index: 999;bottom: -19px;"><i class="site-menu-icon fa-sitemap" aria-hidden="true"></i>Suggested Category</button>
+            </div> 
+              <div class="panel-body container-fluid">
+
+                 
+                  
+                       {% if data.error.length > 0 %}
+				      
+				      <div class="alert alert-danger  alert-dismissible">
+					   <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					      {{data.error}}
+					</div>
+                       {% endif %}
+				  
+				  {%  if data.success.length > 0 %}
+			      <div class="alert alert-success  alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					{{data.success}}
+					</div>
+			     {% endif %}
+				  
+                  <form  action="/prazar_admin/update_category" class="update_cat_form" method="post" enctype="multipart/form-data" >
+                  
+                  <div class="row">  
+                    <div class="col-lg-12">
+						
+						<input type="hidden" id="main_cat_id" name="cat_id" value="{{data.cat_detail.cat_id}}"/>
+						<input type="hidden" name="old_file_name" value="{{data.cat_detail.cat_image}}"/>
+						
+                        <div class="form-group" data-plugin="formMaterial">
+                          <label class="floating-label">Category Name</label>
+                          <input type="text" class="form-control empty" value="{{data.cat_detail.cat_name}}" name="cat_name" required>
+                        </div>
+                       <div class="col-lg-6 col-md-6 ">
+						   <div class="form-group" data-plugin="formMaterial">
+                            <label class="floating-label">Home Category Image</label><br>
+                            <input type="file" name="image_file" class="choose_image" accept="image/*" >
+                        </div> 
+						
+						</div>
+                       <div class="col-lg-6 col-md-6 ">
+						   <div class="image_preview_div_edit">
+						   <img width="300" height="200" class="show_image" src="/categories/{{data.cat_detail.cat_image}}"/>
+						   
+						   </div>
+						
+						</div>
+                       
+					   
+					   <div class="col-lg-6 col-md-6 ">
+						   <div class="form-group" data-plugin="formMaterial">
+                            <label class="floating-label">Category Banner Image</label><br>
+                            <input type="file" name="image_banner" class="choose_image1 banner_img_cat" accept="image/*" >
+                        </div> 
+						
+						</div>
+                       <div class="col-lg-6 col-md-6 ">
+						   <div class="image_preview_div_edit">
+						   <img width="300" height="200" class="show_image1" src="/categories/{{data.cat_detail.cat_banner_image}}"/>
+						   
+						   </div>
+						 <span id="banner_err" class="text-danger"></span>
+						</div>
+					   
+					    <!-- sub categories -->
+						
+					   <div class="mainDivSubCategories">  
+					   
+                       {% for sub_cat in data.cat_detail.sub_cat %}	
+					   
+                         <div class="div_exp_description subcateDiv input_history_wrap" style="/*border: 1px solid lightgray;*/">
+						 <div class="subCategoryDivRemove" data-sub-cat-id="{{sub_cat.id}}">
+									<i class="icon wb-close" aria-hidden="true"></i>
+								</div>
+                              <div class="row">
+								<div class="col-sm-6">
+								<label class="floating-label">Sub Category Name</label> 
+									<div class="form-group " data-plugin="formMaterial" style="border: 1px solid lightgray;">
+										<div><input type="text" class="form-control empty" value="{{sub_cat.name}}" name="sub_catrgory" required>
+										<input type="hidden" class="form-control empty" value="{{sub_cat.id}}" name="sub_catrgory_id" >
+										</div>                                  
+									  </div> 
+								</div>
+								<div class="col-sm-6">
+								<label class="floating-label">Sub sub Category Name</label> 
+									<div class="subSubCategoryDiv">
+									<input type="hidden" name="total_sub_sub_cat" class="total_sub_sub" value="{{sub_cat.subsub_cats.length}}"/>
+									   {%for subsub_cat in sub_cat.subsub_cats %}
+										<div class="form-group subSubcateButtonInput clearfix" data-plugin="formMaterial">     {%if loop.index == 1%}              
+											<button class="add_history_button exp_desc_botton" type="button"><i class="icon wb-plus-circle" aria-hidden="true"></i> </button>                
+											{%else%}
+											<button class="remove_field exp_desc_botton" data-sub-sub-id="{{subsub_cat.id}}" type="button"><i class="icon wb-close" aria-hidden="true"></i> </button> 
+											{%endif%}
+											<div class="subSubcateInput"><input type="text" class="form-control empty" name="subsub_catrgory" required value="{{subsub_cat.name}}">
+											<input type="hidden" class="form-control empty" name="subsub_cat_id"  value="{{subsub_cat.id}}">
+											</div>                                  
+										  </div> 
+										  {%endfor%}
+									</div>
+								</div>
+							  </div>
+                          </div>
+						   {%endfor%}
+						 </div>
+					   
+                    </div>                   
+                </div><!--end row -->
+                   
+					
+					 <div class="clearfix mainDivSubCategoryButtons">
+						<button type="button" class="btn btn-primary button_padding SCB_left mainDivSubCategoriesButton" >Add More sub categories</button>
+						 <div class="SCB_right">
+							<a href="/prazar_admin/categories" class="btn btn-default button_padding cat_update_btn mr-10" >Cancel</a>
+							<button type="submit" class="btn btn-primary button_padding cat_update_btn" >Save</button>
+						 </div>
+					</div>
+                </form>              
+                
+              </div>
+              <!-- End Panel Floating Labels -->                
+
+           </div>
+      </div>
+
+   
+      
+    </div>
+
+
+	<!-- Modal suggested category -->
+  <div class="modal fade modal-3d-slit" id="suggested_cat_popup" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" >
+	<div class="modal-dialog modal-simple">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		  </button>
+		  <h4 class="modal-title">View suggested Category Names</h4>
+		</div>
+		<div class="modal-body">
+
+			                                                      
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>                      
+	</div>
+  </div>
+  <!-- End Modal -->
+	
+{% endblock %}

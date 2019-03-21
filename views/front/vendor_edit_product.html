@@ -1,0 +1,616 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+     <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class=""><a href="/vendor_manage_product"> Manage Products</a></li>
+                                <li class="#">Edit Product</li>
+                                <li class="active">{{data.product_details.product_name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                <div class="col-md-12 col-sm-12">
+					
+					{% if data.message.length > 0 %}
+					
+					     <div class="alert alert-success alert-dismissible show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.message}}
+							</div>
+					
+					{% endif %}
+                    <form class="product-form" id="edit_product_form" method="post" enctype="multipart/form-data">
+						
+						  <input type="hidden" id="total_images" name="total_images" value="{{data.products_images.length}}"/>
+						
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Title</h3>
+                                    <input class="wv_form_focus" id="edit_product_name"  type="text"  name="product_name_edit" value="{{data.product_details.product_name}}" required pattern=".{0,40}" oninvalid="setCustomValidity('Please match the requested format max 40 letters')" oninput="setCustomValidity('')">
+                                   </div>
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Primary category</h3>
+                                    <select class="wv_form_focus" id="primary_cat" name="cat1_edit" required>
+                                        <option value="">Select category</option>
+										{% for cate in data.categories %}  
+                                        <option value="{{cate.cat_id}}" {% if data.product_details.primary_category == cate.cat_id %} selected="selected" {% endif %}>                                                                      {{cate.cat_name}}
+										</option>
+                                       {% endfor %}
+                                    </select>
+                                   </div>
+									
+									<!--
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Secondary category</h3>
+                                    <select class="wv_form_focus" id="secondry_cat" name="cat2_edit" >
+                                       <option value="">Select category</option>
+										{% for cate in data.categories %}  
+                                        <option value="{{cate.cat_id}}" {% if data.secondry_cat == cate.cat_id %} selected="selected" {% endif %}>
+											{{cate.cat_name}}
+										</option>
+                                       {% endfor %}
+                                    </select>
+                                   </div> -->
+									
+									  <div id="subcat_div">
+										  
+									   <div class="col-md-12 padL0 padR0 form-group">
+										   <h3>Sub category</h3>
+										   <select class="wv_form_focus" id="sub_cat" name="sub_cat_edit" multiple >
+											 {% for sub_cat in data.all_subcates %}
+											 
+											 {%set is_selected = 0 %}
+											 
+												  {% for pro_sub_cat in data.product_cats %}
+												  
+													{%if pro_sub_cat.id == sub_cat.id %}
+													  {%set is_selected = 1 %}
+													{%endif%}
+												  
+												  {%endfor%}
+											  
+											   <option value="{{sub_cat.id}}"  {%if is_selected == 1 %}selected="selected" {%endif %}>
+												   {{sub_cat.name}}
+											   </option>
+											   {% endfor %}
+										   </select>
+										  
+										</div>
+										
+									   </div>	
+									   
+									   <!-- sub sub category -->
+									   <div id="subsubcat_div" >
+									   <div class="col-md-12 padL0 padR0 form-group">
+										   <h3>Sub sub category</h3>
+										   <select class="wv_form_focus" id="subsub_cat" name="subsub_cat_edit" multiple >
+										    {% for subsub_cats in  data.all_sub_sub_cats %}
+											 
+											 {%set is_selected = 0 %}
+											 
+												  {% for pro_subsub_cat in data.selected_sub_sub_cats %}
+												  
+													{%if pro_subsub_cat.id == subsub_cats.id %}
+													  {%set is_selected = 1 %}
+													{%endif%}
+												  
+												  {%endfor%}
+											  
+											   <option value="{{subsub_cats.id}}"  {%if is_selected == 1 %}selected="selected" {%endif %}>
+												   {{subsub_cats.name}}
+											   </option>
+											   {% endfor %}
+										  
+										   </select>
+										  </div>
+									 
+									  </div>
+									   
+									
+                                <!--
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Add product Personalisation (Max 7 Products)</h3>
+                                    <input class="wv_form_focus" type="text" placeholder="Personalised Products:">
+                                   </div> -->
+                                 <div class="col-md-12 padL0 padR0 form-group">
+									 
+									 <ul class="product_previous_imgs">
+										 {% for images in data.products_images %}
+										 <li>
+											 <a href="/products/{{images.image_url}}" target="_blank">
+												 See Image {{loop.index}}
+											 </a> 
+											 <a onclick="deleteProductImg({{images.id}},{{data.product_id}})">
+												 <i class="fa fa-trash" aria-hidden="true"></i>
+											 </a>
+										 </li>
+										 {% endfor %}
+									 </ul>
+								 </div> 
+									
+									<input type="hidden" id="page_type_pro_image" value="edit_product"/>
+									
+                                 <!--  <div class="col-md-12 padL0 padR0">
+									  <input type="hidden" id="total_imgs" value="{{data.products_images.length+1}}"/>
+									  <a class="" id="add_more_img">Add More Image</a>
+									  </div> -->
+									  {%for key , val in data.pro_images_arr %}
+                                  <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add{{val}}" id="img-div-no{{val}}" >
+								                {%if key==0%}
+                                                  <h3>Product images</h3>
+												{%endif%}
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files{{val}}">Choose Photo {{val}}</label>
+                                                    <input type="file" id="pro_files{{val}}"   name="pro_image{{val}}" class="FilesUploader pro_files_class" img_no="{{val}}" accept="image/*" >
+                                                    </div>
+												  
+									             <span class="img_err_product" id="image_err{{val}}"></span>
+									   <input id="image_width{{val}}" type="hidden" name="image_width{{val}}" value=""/>
+                                   </div>
+								   
+								   {%endfor%}
+                                     
+									 
+									  <div class="col-md-12 cropper_main_div">
+									  
+									  <input type="hidden" name="test1" id="test1" value=""/>
+									  {%for key , val in data.pro_images_arr %}
+									      
+								   <div class="cropper" id="cropper_container{{val}}">
+									<img id="photo{{val}}" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<textarea style="display:none" type="hidden" name="cropped_img{{val}}" id="cropped_img{{val}}" data=""/></textarea>
+									<input type="hidden" name="cropped_img_ext{{val}}" id="cropped_img_ext{{val}}" value=""/>
+									</div>
+										  
+										  
+									  {%endfor%}
+									  
+									  </div>
+									 
+									 
+									 
+									 
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Description</h3>
+                                    <textarea class="wv_form_focus empty summernote product_desc"  data-plugin="summernote"  name="desc_edit" >{{data.product_details.product_description}}</textarea>
+                                   </div>
+
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Regular Price</h3>
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span>
+                                    <input class="wv_form_focus wv_dolr-padd" id="regular_price_id" min="0" step="any" type="number" placeholder="Regular Price:" name="price_edit" value="{{data.product_details.price}}" required>
+									
+                                   </div>
+								   
+								     <div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Is this product on sale?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="is_on_sale_yes" class="checkcontainer" id="option_sale1">Yes
+                                        <input type="radio" {% if data.product_details.is_on_sale == 1 %} checked="checked" {%endif%}  id="is_on_sale_yes" name="is_on_sale" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="is_on_sale_no" class="checkcontainer" id="option_sale2">No
+                                        <input type="radio" {% if data.product_details.is_on_sale == 0 %} checked="checked" {%endif%} id="is_on_sale_no" name="is_on_sale" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   
+								   
+								   
+                                   <div class="col-md-12 padL0 padR0 form-group {% if data.product_details.is_on_sale == 0 %} hide_div {%endif%}" id="sell_price_div_pro">
+                                    <h3>Sale Price</h3>
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span>
+                                    <input class="wv_form_focus wv_dolr-padd" id="sell_price_id" min="0" step="any" type="number"  value="{{data.product_details.sale_price}}" name="sale_price_edit" >
+									<p>Sale price can be between 5% and 50% off of the regular price</p>
+									<!--<p>Should be min 5% of price max 50% of price.</p>-->
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Gender</h3>
+                                    <select class="wv_form_focus" id="edit_product_gender" name="gender_edit" required>
+									
+									 <option value="" >Please choose</option>
+                                        <option value="male" {% if data.product_details.gender == "male" %} selected="selected" {% endif %}>Male</option>
+                                        <option value="female" {% if data.product_details.gender == "female" %} selected="selected" {% endif %}>Female</option>
+                                        <option value="neutral" {% if data.product_details.gender == "neutral" %} selected="selected" {% endif %}>Neutral</option>
+                                        <option value="undefined" {% if data.product_details.gender == "undefined" %} selected="selected" {% endif %}>Undefined</option>
+                                    </select>
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Quantity of Stock available</h3>
+                                    <input class="wv_form_focus" type="number" id="edit_product_stock"  name="stock_quantity_edit" value="{{data.product_details.quantity_remaining}}" required>
+                                   </div>
+ 
+									
+								<div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Customization Option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="customizedyes" class="checkcontainer" id="option11">Yes
+                                        <input type="radio" {% if data.product_details.is_customizable == 1 %} checked {% endif %}  id="customizedyes" name="customized" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="customizedno" class="checkcontainer" id="option11">No
+                                        <input type="radio" {% if data.product_details.is_customizable == 0 %} checked {% endif %} id="customizedno" name="customized" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                  </div>
+									
+								 {% if data.product_details.is_customizable == 1 %}
+									 
+								   <div id="custom_inpt_lbls_div" class="{% if data.product_details.is_customizable == 0 %}hide_div{%endif%}">
+								   
+								   
+								   <input type="hidden" id="total_lables" value="{{data.product_details.custome_input_label.length}}"/>
+								   {% set count_label = 1%}
+								   {% for labels in data.product_details.custome_input_label %}
+											
+								   <div class="label_div">
+								    <div class="col-md-10 padL0 padR0 form-group label_headings">
+                                     <h3>Input Label #{{count_label}}</h3>
+                                     <input class="wv_form_focus {% if count_label == 1 %}first_cst_label{%endif%}"  type="text" placeholder="Custom Text:" name="cst_txt_lbl" value="{{labels}}"  maxlength="50">
+                                    </div>
+								    <div class="col-md-2 padL0 padR0 form-group form-plus-add">
+                                      {% if count_label == 1 %}
+									  <h1 id="add_custom_opt">+</h1>
+									  {%else%}
+									   <h1 class="remove_custom_opt">-</h1>
+									  {%endif%}
+                                    </div>
+								   </div>
+								   {% set count_label = count_label+1%}
+								   {% endfor %}
+								   
+								   </div>
+								   
+								 {%else%}
+								   
+								    <div id="custom_inpt_lbls_div" class="hide_div">
+								   
+								   <input type="hidden" id="total_lables" value="1"/>
+								   
+								   <div class="label_div">
+								    <div class="col-md-10 padL0 padR0 form-group label_headings">
+                                     <h3>Input Label #1</h3>
+                                     <input class="wv_form_focus first_cst_label" maxlength="50" type="text" placeholder="Custom Text:" name="cst_txt_lbl" >
+                                    </div>
+								    <div class="col-md-2 padL0 padR0 form-group form-plus-add">
+                                      <h1 id="add_custom_opt">+</h1>
+                                    </div>
+								   </div>
+								   </div>
+								 {%endif%}
+								   
+								   
+								    <div class="col-md-12 padL0 padR0 form-group {% if data.product_details.is_customizable == 0 %}hide_div{%endif%}" id="cstm_price_div">
+                                    <h3>Price</h3>
+									
+                                    <input class="wv_form_focus" min="0" step="any" type="number" placeholder="Customize text price:" name="customized_price" value="{{data.product_details.customize_price}}">
+                                   </div>
+									
+									
+									
+									
+									<div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Variation Option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="variableyes" class="checkcontainer" id="option14">Yes
+                                        <input type="radio" {% if data.product_details.product_type == 2 %} checked {% endif %}  id="variableyes" name="is_variable" value="2">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="variableno" class="checkcontainer" id="option15">No
+                                        <input type="radio" {% if data.product_details.product_type == 1 %} checked {% endif %} id="variableno" name="is_variable" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                  </div>
+								
+									<input type="hidden" id="continue_inpt_hidn" name="continue_to_variant" value="0"/>
+									
+								    <input type="hidden" id="continue_inpt_hidn_type" name="continue_inpt_hidn_type" value="{%  if data.product_details.product_type == 1 %}1{%else%}2{%endif%}"/>
+									
+									 <input type="hidden" id="product_status" name="product_status" value="{{data.product_details.is_active}}"/>
+									
+									
+									<div class="col-md-3 padL0 add_pr_varint_btn_div {% if data.product_details.product_type == 1 %} hide_div {% endif %}">
+										
+										{%  if data.product_details.product_type == 1 %}
+										 <a href="JavaScript:void(0);" class="login_submit wv_button_prazar" id="edit_prod_var_btn"  >Variants</a> 
+										{%else%}
+										 <a href="JavaScript:void(0);" class="login_submit wv_button_prazar" id="edit_prod_var_btn"  >Variants</a> 
+										
+										{%endif%}
+										</div>
+									
+									
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Gift wrap option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="gift_wrap_yes" class="checkcontainer" id="option1">Yes
+                                        <input type="radio" {% if data.product_details.is_gift_wrap == 1 %} checked {% endif %} id="gift_wrap_yes" name="gift_wrap_edit" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="gift_wrap_no" class="checkcontainer" id="option2">No
+                                        <input type="radio" {% if data.product_details.is_gift_wrap == 0 %} checked {% endif %} id="gift_wrap_no" name="gift_wrap_edit" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        <h3>Price for gift wrap</h3>
+										<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                        <input {% if data.product_details.is_gift_wrap == 0 %}  disabled {%else%} required {%endif%} class="wv_form_focus wv_dolr-padd" type="number" min="0" step="any" placeholder="Price for gift wrap:" name="gift_price_edit" value="{{data.product_details.gift_price}}">
+                                    </div>
+
+                                    <div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Ships Overseas</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="ship_overseas_yes" class="checkcontainer" id="option3">Yes
+                                        <input type="radio" {% if data.product_details.is_shipped_overseas == 1 %} checked {% endif %} id="ship_overseas_yes" name="ship_overseas_edit"  value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="ship_overseas_no" class="checkcontainer" id="option4">No
+                                        <input type="radio" {% if data.product_details.is_shipped_overseas == 0 %} checked {% endif %} id="ship_overseas_no" name="ship_overseas_edit" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div> 
+
+                                   <div class="col-md-12 padL0 padR0 form-group wv_widget">
+                                        <h3>Region to ship</h3>
+                                       
+										
+										
+										<ul class="wv_choose_color ship_regons_ul">
+										
+										{% for state in data.states %}
+											
+											{% set ischecked=0 %}
+											
+											{% for region in data.product_details.ship_region %}
+											 
+											 
+											  {% if state.name == region  %}
+											  
+											   {% set ischecked=1 %}
+											
+											   {% endif %}
+											
+											{% endfor %}
+										
+                                            <li>
+                                                <input type="checkbox" class="check-colr" value="{{state.name}}" id="region_id{{loop.index}}" name="ship_region_edit" {% if ischecked == 1 %} checked {% endif %} >
+                                                <label class="form-label region_labels" for="region_id{{loop.index}}" {% if data.product_details.is_shipped_overseas == 0 %} style="cursor:not-allowed" {% endif %}> {{state.name}}</label>
+                                            </li>
+                                          {% endfor %}
+                                        </ul>
+										
+										
+                                    </div> 
+
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Ships Overseas price</h3>
+								
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number" placeholder="Price Of Ships Overseas:" name="ship_overseas_price" value="{{data.product_details.ship_overseas_price}}"  id="overseas_ship_input_id" {% if data.product_details.is_shipped_overseas == 0 %} disabled {%endif%}>
+                                   </div> 
+									
+									
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Express delivery available?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="express_delivery_yes" class="checkcontainer" id="option5">Yes
+                                        <input type="radio" {% if data.product_details.is_express_delivery == 1 %} checked {% endif %}  id="express_delivery_yes" name="express_type_edit" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="express_delivery_no" class="checkcontainer" id="option6">No
+                                        <input type="radio" id="express_delivery_no" name="express_type_edit" value="0" {% if data.product_details.is_express_delivery == 0 %} checked {% endif %} >
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   
+								   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Express delivery price</h3>
+									
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number" placeholder="Price Of Express Delivery:" name="express_delivery_price"  id="express_delivery_input_id_edit" value="{{data.product_details.express_delivery_price}}" {% if data.product_details.is_express_delivery == 0 %} disabled {%endif%}>
+                                   </div>
+
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        <h3>Dimension</h3>
+                                    </div>
+
+                                    <div class="col-md-6 padL0  form-group">
+                                    <h3>Width</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop">CM</span>
+                                    <input class="wv_form_focus" name="width_edit" type="text" value="{{data.product_details.product_width}}"  id="width_input" autocomplete="off" required>
+                                   </div>
+
+                                   <div class="col-md-6  padR0 form-group">
+                                    <h3>Height</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">CM</span>
+                                    <input class="wv_form_focus" name="height_edit" type="text"  value="{{data.product_details.product_height}}" id="height_input" autocomplete="off" required>
+                                   </div>
+								   
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Length</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">CM</span>
+                                    <input class="wv_form_focus" name="length_edit"  value="{{data.product_details.product_length}}" type="text"  id="length_input" autocomplete="off" required>
+                                   </div>
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Weight</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">KG</span>
+                                    <input class="wv_form_focus" name="weight_edit" type="text"  value="{{data.product_details.product_weight}}" id="weight_input" autocomplete="off" required>
+                                   </div>
+
+									<!--
+									<div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Is free shipping available?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="is_free_delivery_yes" class="checkcontainer" id="option11">Yes
+                                        <input type="radio" {% if data.product_details.is_free_delivery == 1 %} checked="checked" {% endif %} id="is_free_delivery_yes" name="is_free_delivery" value="1" >
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="is_free_delivery_no" class="checkcontainer" id="option12">No
+                                        <input type="radio" id="is_free_delivery_no" name="is_free_delivery" value="0" {% if data.product_details.is_free_delivery == 0 %} checked="checked" {% endif %}>
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div> -->
+									
+									
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Price of Shipping</h3>
+									<input type="hidden" id="is_free_delivery_hidden" name="is_free_delivery" value="0" >
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number" placeholder="Enter 0 for Free shipping" name="ship_price_edit" value="{{data.product_details.ship_price}}" id="price_ship_input_id" required>
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Ships Within</h3>
+                                    <select class="wv_form_focus" id="edit_product_ships_within" name="ship_within_edit" required>
+                                        <option value="">Please choose</option>
+                                        <option value="1-3 Business Days" {% if data.product_details.ship_with_in == "1-3 Business Days" %} selected="selected" {% endif %}>
+											1-3 Business Days
+										</option>
+                                        <option value="3-5 Business Days" {% if data.product_details.ship_with_in == "3-5 Business Days" %} selected="selected" {% endif %}>
+											3-5 Business Days
+										</option>
+                                        <option value="5-10 Business Days" {% if data.product_details.ship_with_in == "5-10 Business Days" %} selected="selected" {% endif %}>
+											5-10 Business Days
+										</option>
+                                    </select>
+                                   </div>
+									<!--
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Specification</h3>
+									<textarea class="form-control empty summernote" data-plugin="summernote" rows="10"  name="specification" placeholder="Page Description">{{data.product_details.specification}}</textarea>
+									  </div>-->
+									
+									<!--<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Delivery & Returns</h3>
+									<textarea class="form-control empty summernote" data-plugin="summernote" rows="10"  name="delivery_returns" placeholder="Page Description">{{data.product_details.delivery_returns}}</textarea>
+									  </div>-->
+									
+									
+									
+                                </div>
+                                 <input type="hidden" name="post_tok" value="{{data.encoded_pro_id}}" />
+                                <div class="col-md-12">
+                                	<div class="row">
+                                	    <div class="col-md-3">
+											<input type="submit" data="0" name="later_sub" class="login_submit edit_product_form edit_pro_btns" value="Save for Later" id="edit_save_later_pro">
+										</div>
+										
+                                	    <div class="col-md-3">
+										<input type="submit" data="1" name="live_sub" class="login_submit edit_product_form edit_pro_btns" value="List Product" id="edit_list_pro">
+										</div>
+										
+										<div class="col-md-3"><input type="reset"  name="reset" class="login_submit edit_pro_btns" value="Reset"></div>
+										
+										<div class="col-md-3 back_btn_div edit_pro_btns"><a href="/vendor_manage_product">Back</a></div>
+										
+										
+										
+                                    </div>
+                                </div> 
+
+
+                            </div>
+                        </form>
+
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//-->
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Get fresh prazar trends and unique gift ideas delivered right to your inbox</p>
+                        <div class="prazar-subscribe-inner-box">
+                            <input type="email" class="transparent-field" placeholder="email address">
+                            <input  type="submit" class="submit-btn" value="Subscribe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>          
+       
+       
+{% endblock %}    

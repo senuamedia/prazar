@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Category List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item active">Category List</li>
+        </ol>        
+      </div>
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9"><a class="btn btn-primary" href="/prazar_admin/add_category">Add Category</a> </div> 
+                <div class="col-lg-3">
+                  
+                </div>                 
+            </div>
+            <br>
+            <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                 
+                  <th>Home Category Image</th>
+                  <th>Category Name</th>
+                  <th>Total Products</th>
+                  <th>Sub category Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            
+              <tbody class="categories_sort">
+				  
+				  {% if data.categories.length == 0 %}
+				  <tr><td colspan="6">No data found </td><tr>
+				  {% endif %}
+				  
+                {% for cat in data.categories %}
+                <tr cat_id="{{cat.cat_id}}">
+                 
+                  <td><img  src="/categories/{{cat.cat_image}}" width="65" height="40" class="img-thumbnail"></td>
+                  <td>{{cat.cat_name}}</td>
+                  <td>{{cat.total_products}}</td>
+                  <td style="width:40%">
+					  {% for sub_cat in cat.sub_cat %}
+                   <span class="badge badge-info">{{sub_cat.name}}</span> 
+					  {% endfor %}
+                  </td>
+                 
+                  <td>
+				  
+					   <a href="/prazar_admin/update_category/{{cat.cat_id}}" class="btn btn-primary btn-sm employer_delete">Edit </a>
+                      <a href="javascript:void(0)" onclick="categoryDelete({{cat.cat_id}},'{{cat.cat_name}}')" class="btn btn-danger btn-sm employer_delete">Delete </a>
+					</td>
+                                                   
+                </tr>
+				 
+               {% endfor %}
+              </tbody>
+            </table>
+			 
+			  
+			  {% set productCount = data.total_pages %}
+              {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row"> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/prazar_admin/categories?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+             
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+		  
+		
+        <!-- End Panel Basic -->
+      </div> 
+      </div>
+     
+    
+    <!-- End Page -->
+    
+
+
+{% endblock %}

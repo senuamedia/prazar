@@ -1,0 +1,165 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                
+                                <li class="active">Wishlist</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<input type="hidden" id="url_to_share" value="{{shared_wishlist_url}}">
+		<input type="hidden" id="msg_to_share" value="Prazar Wishlist">
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="table-responsive table-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail-th wc_left_align" style="width:15%;">Image</th>
+                                    <th class="product-thumbnail-th">Product</th>
+                                    <th class="product-name-th">Price</th>
+                                    <th class="product-subtotal">View</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table_body_wishlist_table">
+								{% if data.wishlist.length == 0 %}
+								<tr>
+									<td colspan="6">Data Not found</td>
+								</tr>
+								{% endif %}
+								
+								{% for wish in data.wishlist %}
+                                <tr class="prod_tr" data-id="{{wish.product_id}}" data-type="{{wish.product_type}}" data_is_customizable="{{wish.is_customizable}}" data-pr="{{wish.sale_price}}" data_is_customizable="{{wish.is_customizable}}">
+                                    <td class="wc_left_align" style="width:15%;"><a href="#"><img src="/products/{{wish.image_url}}" alt="cart"></a></td>
+                                    <td class="cart-product-title"><a href="#">{{wish.product_name}}</a>
+                                        <br><p>{{wish.store_name}}</p>
+                                        <ul class="wv_rating">
+										{% if wish.average_rates == 0 %}
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates > 0 && wish.average_rates < 1 %}
+											<li><i class="fa fa-star-half-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates == 1 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates > 1 && wish.average_rates < 2 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-half-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates == 2 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates > 2 && wish.average_rates < 3 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-half-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates == 3 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates > 3 && wish.average_rates < 4 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-half-o"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates == 4 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-o"></i></li>
+											{% elseif wish.average_rates > 4 && wish.average_rates < 5 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star-half-o"></i></li>
+											{% elseif wish.average_rates == 5 %}
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											
+										 {% endif %}	
+											<li><span class="review">({{wish.total_rates}})</span></li>
+										</ul>
+                                    </td>
+                                    <td class="cart-product-price"><span>${{wish.sale_price}}</span></td>
+                                    <td class="delete-products"><a href="{{base_url}}product_datail?p={{wish.slug}}" style="border:none;">View</a></td>
+                                </tr>
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+					{% if data.wishlist.length > 0 %}
+					<div class="col-md-12 wv_w-button padLR0 add_all_div">
+                        <!--<ul class="wishlist_share">
+                            <li><a><i class="fa fa-facebook"></i></a></li>
+                            <li><a><i class="fa fa-instagram"></i></a></li>
+                        </ul>-->
+						<!--<div id="share_btns_jsshare" ></div>
+						<a href="javascript:void(0);" class="wv_button wv_button_style4 marT0 add_all_cart">Add all to cart</a>-->
+					</div>
+					{% endif %}
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//-->
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Get fresh prazar trends and unique gift ideas delivered right to your inbox</p>
+                        <div class="prazar-subscribe-inner-box">
+                            <input type="email" class="transparent-field" placeholder="email address">
+                            <input type="submit" class="submit-btn" value="Subscribe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>          
+       
+       
+{% endblock %}    

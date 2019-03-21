@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="delete_overlay">
+<div class="loader_delete">
+
+</div>
+</div>
+
+<!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Potential vendors List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item active">Potential vendorsList</li>
+        </ol>
+        
+      </div>
+
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>
+          </header>
+          <div class="panel-body">
+
+          <div class="row">              
+                <div class="col-lg-6"><h3></h3> </div> 
+                <div class="col-lg-6">
+                                  
+                </div>            
+            </div>
+      <br/>
+      <br/>
+         
+            <table class="table table-hover table-striped w-full">
+              <thead>
+                <tr>
+                  <th>S.No.</th>                  
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Business Name</th>
+                  <th>Business Location</th>           
+                  <th>Approved/DisApproved</th>                  
+                  <th>Action</th> 
+                </tr>
+              </thead>
+          
+              <tbody>
+				  
+			    {% if data.vendors.length == 0 %}
+				  <tr><td colspan="7">No data found </td><tr>
+				{% endif %}
+				  
+             {% for vendor in data.vendors %}
+                <tr>
+                  <td>{{loop.index}}</td>
+                  <td>{{vendor.name}}</td>
+                  <td>{{vendor.email}}</td>
+                  <td>{{vendor.store_name}}</td>
+                  <td >{{vendor.address_line_1}}</td>   
+					
+                  <td><select class="form-control vendor_aprove" >
+					  
+                    <option value="0" {% if vendor.is_approve == 0 %} selected {% endif %}>Select</option>
+                    <option value="1" {% if vendor.is_approve == 1 %} selected {% endif %} >Approved</option>
+                    <option value="2" {% if vendor.is_approve == 2 %} selected {% endif %}>Rejected</option>
+                    <option value="3" {% if vendor.is_approve == 3 %} selected {% endif %}>International Selling</option>
+                  </select>
+					  <input type="hidden" class="vendor_id" name="vendor_id" id="vendor{{vendor.user_id}}" value="{{vendor.user_id}}"/>
+                </td>
+                  
+                  <td>
+					 
+					  
+					    <a href="/prazar_admin/potential_vendor_detail?vendor_id={{vendor.user_id}}" class="btn btn-primary btn-sm employer_delete">View </a>
+					  
+                      <a href="javascript:void(0)" onclick="vendorRequestdelete({{vendor.user_id}})" class="btn btn-danger btn-sm employer_delete">Delete </a>
+					</td>
+                </tr>
+               
+           
+				  {% endfor %}
+                
+              </tbody>
+            </table>
+			  
+            {% set productCount = data.total_pages %}
+              {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row"> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/prazar_admin/potential_vendors?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+    </div>
+    <!-- End Page -->
+    
+    
+
+
+{% endblock %}

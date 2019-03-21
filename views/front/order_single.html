@@ -1,0 +1,485 @@
+{% extends 'layout.html' %}
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Order</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <!--//==Shop Single Page Start==//-->
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-12 col-sm-12 wv_mydetail marT30 marB70">
+                       
+                           <ul class="wv_page-tab">
+								<li class="ptab-li"><a href="/user_dashboard">My Details</a></li>
+								<li class="ptab-li active"><a href="/user_orders" {% if data.updated_return_request > 0 %}class="notification_red_dot"{% endif %}>My Orders</a></li> 
+								<li class="ptab-li"><a href="/users_messages" {% if data.unread_msg_count > 0 %} class="notification_red_dot" {% endif %}>My Messages</a></li>
+							</ul>
+                     
+                         
+                                <div class="wv_ptab-content">
+                                    
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper">
+										<div class="wv_myorder_list">
+											<div class="col-md-6 myorder_left">
+												<h2>Order No :</h2>
+												<h2>Ordered on :</h2>
+												<h2>Total</h2>
+											</div>
+											<div class="col-md-6 myorder_right">
+												<h3>{{data.order_data.order_no}}</h3>
+												<h3>{{data.order_data.order_date}}, {{data.order_data.order_time}}</h3>
+												<h3>${{data.order_data.order_total.toFixed(2)}}</h3>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper">
+										<div class="wv_myorder_list">
+											<div class="col-md-6 myorder_left">
+												<h4>Shipped to :</h4>
+											</div>
+											<div class="col-md-6 myorder_right">
+												<h3 class="para_li-height">{{data.order_data.ship_fullname}}<br>{{data.order_data.ship_addr1}} {{data.order_data.ship_city}},<br> {{data.order_data.ship_state}},<br> {{data.order_data.ship_country}},<br> {{data.order_data.ship_zip_code}}</h3>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-12 marT30 marB20 myordr_table">
+										<div class="table-content">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="product-thumbnail-th">Image</th>
+														<th class="product-thumbnail-th">Product</th>
+														<th class="product-thumbnail-th">Store Name</th>
+														<th class="product-quantity-th">Quantity</th>
+														<th class="product-name-th">Price</th>
+														<th class="product-name-th">Gift Wrapping</th>
+														<th class="product-subtotal"></th>
+													</tr>
+												</thead>
+												<tbody>
+												
+												{% set special_requestes_total= 0%}
+												
+												
+												
+													{% for prd in data.order_data.items_details %}
+													
+													   {% if prd.add_request != "" %}
+					                                     {% set special_requestes_total= special_requestes_total+1%}
+					
+					                                   {% endif %}
+													
+													<tr>
+														<td style="width:10%;"><a href="javascript:void(0)"><img src="./products/{{prd.product_image}}" alt="cart"></a></td>
+														<td class="cart-product-title">
+															<a href="javascript:void(0)">{{prd.product_name}}</a>
+														
+															{%if prd.is_variable==2%}
+															 {{prd.variation_data | safe}}
+															{%endif%}
+															
+															{{prd.customization_data | safe}}
+														</td>
+														<td class="cart-product-price"><span>{{prd.store_name}}</span></td>
+														<td class="cart-product-price"><span>{{prd.quantity}}</span></td>
+														<td class="cart-product-price wv_stock"><span>${{prd.product_price_sub_total.toFixed(2)}}</span></td>
+														
+														<td class="cart-product-price wv_stock">
+														<span>{% if prd.is_gift_wrap == 1 %}Yes {%else%} No{%endif%}</span></td>
+														
+														
+														<td class="cart-product-button" id="wrapper">
+															<a class="morder_btn1" href="#pop_address{{prd.id}}">Track my order</a><br>
+															<a class="morder_btn2"  href="/users_messages?ritkn={{prd.vendor_id}}">Contact Seller</a><br>
+															{% if prd.order_status == 3 && prd.is_return == 0 && prd.order_status != 4 %}
+																{% if prd.show_return_button == "yes" %}
+																<a class="morder_btn3"  href="#returnPopup{{prd.id}}">Return item</a>
+																{% endif %}
+															{%elseif prd.is_return == 1 &&  prd.order_status == 3 %}
+															
+															 <a style="background-color:#c75867;border:1px solid #c75867;color:#fff" class="morder_btn3"  href="#returnStatusPopup{{prd.id}}">RETURN STATUS</a>
+															 
+															 {%elseif prd.is_return == 5 &&  prd.order_status == 3 %}
+															
+															 <a style="background-color:#c75867;border:1px solid #c75867;color:#fff" class="morder_btn3"  href="#returnStatusacceptedPopup{{prd.id}}">RETURN STATUS</a>
+															 {%elseif prd.order_status == 3 && prd.is_return == 3%}
+															 
+															 <a style="background-color:#c75867;border:1px solid #c75867;color:#fff" class="morder_btn3"  href="#returnCancelPopup{{prd.id}}">RETURN STATUS</a>
+															 
+															 {%else%}
+															 
+															{% endif %}
+															
+															{% if prd.order_status == 4 %}
+															<a style="background-color:#c75867;border:1px solid #c75867;color:#fff" class="morder_btn3" href="/customer_refund_detail?opi={{prd.id}}">refunded</a>
+															{% endif %}
+														</td>
+													</tr>
+													
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+									<div class="col-sm-12 col-md-6 marT20 marB20">
+										<div class="myorderbill_btn1">
+											<a id="request1"  href="#product_requests" class="wv_button_prazar">Special delivery request ({{special_requestes_total}})</a>
+										</div>
+									</div>
+									
+										
+									
+									<div class="col-sm-12 col-md-6 marT20 marB20 wv_bill_detail">
+										<div class="wv_checkout_right">
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Order Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													{% set order_total_fixed = data.order_data.sub_total - data.order_data.gift_wrap_price %}
+													<p>${{order_total_fixed.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Shipping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.shipping_total.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Gift Wrapping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.gift_wrap_price.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_totaling">
+												<div class="col-xs-6 col-md-6 wv_total_left textL">
+													<p>Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_total_right textR">
+													<p>${{data.order_data.order_total.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="myorderbill_btn">
+												<a href="javascript:void(0);" class="download_invoice">Download Invoice</a>
+											</div>
+										</div>
+									</div>								
+                                </div>
+								
+                               <div id="editor"></div>
+                     		
+								<div class="wv_ptab-content" id="area_to_get_pdf" style="display:none; background: #fff;position: relative;width: 100%;height: auto;overflow-y: hidden;z-index: 5;border: 1px solid;border-color: #ebebeb; padding: 70px 30px; 10px">
+                                    <div class="col-md-12" style="text-align:center;">
+										<h3>Prazar Purchase Invoice</h3>
+									</div>
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper">
+										
+										<div class="wv_myorder_list"  style="padding-left:30px; padding-right:30px;">
+											<table class="table">
+												<tr>
+													<th>Order No :</th>
+													<td>{{data.order_data.order_no}}</td>
+												</tr>
+												<tr>
+													<th>Ordered on :</th>
+													<td>{{data.order_data.order_date}}, {{data.order_data.order_time}}</td>
+												</tr>
+												<tr>
+													<th>Total</th>
+													<td>${{data.order_data.order_total.toFixed(2)}}</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper" >
+										<div class="wv_myorder_list" style="padding-left:30px; padding-right:30px;">
+											<table class="table">
+												<tr>
+													<th>Shipped to :</th>
+													<td>{{data.order_data.ship_fullname}}<br>{{data.order_data.ship_addr1}} {{data.order_data.ship_add2}},<br> {{data.order_data.ship_city}},<br> {{data.order_data.ship_state}},<br> {{data.order_data.ship_country}},<br> {{data.order_data.ship_zip_code}}</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-12 marT30 marB20 myordr_table">
+										<div class="table-responsive table-content">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="product-thumbnail-th">Image</th>
+														<th class="product-thumbnail-th">Product</th>
+														<th class="product-thumbnail-th">Store Name</th>
+														<th class="product-quantity-th">Quantity</th>
+														<th class="product-name-th">Price</th>
+														<th class="product-name-th">Gift Wrapping</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for prd in data.order_data.items_details %}
+													<!--<tr>
+														<td style="width:10%;"><a href="javascript:void(0)"><img src="./products/{{prd.product_image}}" alt="cart"></a></td>
+														<td class="cart-product-title">
+															<a href="javascript:void(0)" style="font-size: 14px;">{{prd.product_name}}</a>
+														</td>
+														<td class="cart-product-price"><span>{{prd.quantity}}</span></td>
+														<td class="cart-product-price wv_stock"><span>${{prd.price_total}}</span></td>
+													</tr>-->
+													
+													<tr>
+														<td style="width:10%;"><a href="javascript:void(0)"><img src="./products/{{prd.product_image}}" alt="cart"></a></td>
+														<td class="cart-product-title">
+															<span  style="font-size: 14px; font-weight: 700; color: #000;">{{prd.product_name}}
+														
+															{%if prd.is_variable==2%}
+															 {{prd.variation_data | safe}}
+															{%endif%}
+															
+															{{prd.customization_data | safe}}
+															</span>
+														</td>
+														<td class="cart-product-price"><span>{{prd.store_name}}</span></td>
+														<td class="cart-product-price"><span>{{prd.quantity}}</span></td>
+														<td class="cart-product-price wv_stock"><span>${{prd.product_price_sub_total.toFixed(2)}}</span></td>
+														<td class="cart-product-price wv_stock">
+														<span>{% if prd.is_gift_wrap == 1 %}Yes {%else%} No{%endif%}</span></td>
+													</tr>
+													
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-6 marT20 marB20">
+										
+									</div>
+									<div class="col-sm-12 col-md-6 marT20 marB20 wv_bill_detail">
+										<div class="wv_checkout_right">
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Order Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													{% set order_total_fixed = data.order_data.sub_total - data.order_data.gift_wrap_price %}
+													<p>${{order_total_fixed.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Shipping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.shipping_total.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Gift Wrapping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.gift_wrap_price.toFixed(2)}}</p>
+												</div>
+											</div>
+											<div class="wv_totaling">
+												<div class="col-xs-6 col-md-6 wv_total_left textL">
+													<p>Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_total_right textR">
+													<p>${{data.order_data.order_total.toFixed(2)}}</p>
+												</div>
+											</div>
+										</div>
+									</div>								
+                                </div>
+								
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+        <!--//==Shop Single Page End==//-->    
+{% for prd in data.order_data.items_details %}  
+<div id="pop_address{{prd.id}}" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+		<h2>Order Tracking Details</h2>
+		<a class="close" href="#">×</a>
+		<h3><p style="    padding: 30px 10px 30px 43px;">
+		 Status :- {% if prd.order_status == 0 %}Pending{% elseif prd.order_status == 1 %}Processed{% elseif prd.order_status == 2 %}Shipped{% else %}Completed{% endif %}
+		</p><h3>	
+		
+		{% if prd.order_status != 0 && prd.order_status != 1 %}
+		<h3><p style="    padding: 30px 10px 30px 43px;">Order Tracking Number :- {{prd.shipping_tracking_number}}</p></h3>
+		<h3><p style="    padding: 30px 10px 30px 43px;">Shipping Company Name :- {{prd.shipping_company_name}}</p></h3>
+		{% endif %}
+	</div>
+</div>
+
+<!-- return request model start here -->
+{% if prd.order_status == 3 && prd.is_return == 0 && prd.order_status != 4 %}
+<div id="returnPopup{{prd.id}}" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+		<h2>Return Item</h2>
+		<a class="close" href="#">×</a>
+		
+		<form class="contact-form address-popup return_requet_form" method="post" >
+					
+					<div class="row">
+						<input type="hidden" name="or_pro_id" value="{{prd.id}}"/>
+						
+						<div class="col-md-12 form-group">
+						<h4>Return Reason<h4>
+						<select name="return_reason_type" required>
+						<option value="">Choose Reason</option>
+						<option value="1">Issue With Product</option>
+						<option value="2">Change Of Mind</option>
+						</select>
+						</div>
+						
+						<div class="col-md-12 form-group">
+						<h4>Return Reason Description<h4>
+						<textarea name="reason" required style="font-family: 'avenirl';font-weight: 400;"></textarea>
+						</div>
+						
+					
+					</div>
+					<div class="mydetail_btn">
+						<input type="submit" class="submit-btn" name="sub" value="Submit"/>
+					</div>
+				</form>
+	</div>
+</div>
+
+{%elseif prd.is_return == 1 &&  prd.order_status == 3 %}
+<div id="returnStatusPopup{{prd.id}}" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+		<h2>Refund Status</h2>
+		<a class="close" href="#">×</a>
+		
+		<form class="contact-form address-popup return_requet_form" method="post" >
+					
+					<div class="row">
+						<input type="hidden" name="or_pro_id" value="{{prd.id}}"/>
+						<div class="col-md-12 form-group">
+						<p>Return Requested - {{prd.return_request_date}}<p>
+						<p>Pending Vendor Action<p>
+						
+						</div>
+						
+					
+					</div>
+					
+				</form>
+	</div>
+</div>
+
+{%elseif prd.is_return == 5 &&  prd.order_status == 3 %}
+<div id="returnStatusacceptedPopup{{prd.id}}" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+		<h2>Refund Status</h2>
+		<a class="close" href="#">×</a>
+		
+		<form class="contact-form address-popup return_requet_form" method="post" >
+					
+					<div class="row">
+						<input type="hidden" name="or_pro_id" value="{{prd.id}}"/>
+						<div class="col-md-12 form-group">
+						<p>Return Requested - {{prd.return_request_date}}<p>
+						<p>Return Accepted - {{prd.return_action_date}}<p>
+						<p>{{prd.cancel_reason}}</p>
+						</div>
+						
+					
+					</div>
+					
+				</form>
+	</div>
+</div>
+{%elseif  prd.order_status == 3 && prd.is_return == 3%}
+
+
+<div id="returnCancelPopup{{prd.id}}" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+				<h2>Refund Status</h2>
+		<a class="close" href="#">×</a>
+		
+		<form class="contact-form address-popup " method="post" >
+					
+					<div class="row">
+						<input type="hidden" name="or_pro_id" value="{{prd.id}}"/>
+						<div class="col-md-12 form-group">
+						
+						<p>Return Requested - {{prd.return_request_date}}<p>
+						<p>Return Canceled - {{prd.return_action_date}}<p>
+						<p>{{prd.cancel_reason}}</p>
+						</div>
+						
+					
+					</div>
+					
+				</form>
+	</div>
+</div>
+
+{%else%}
+
+{%endif%}
+<!-- return request model end here -->
+
+{% endfor %}
+
+<div id="product_requests" class="overlay">
+	<div class="popup col-md-6 col-md-offset-3">
+		<h2>Special delivery request</h2>
+		<a class="close" href="#">×</a>
+		<div class="col-md-12 table-responsive table-content wv_tble">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Request</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for prd in data.order_data.items_details %} 
+					{% if prd.add_request != "" %}
+					<tr>
+						<td>{{prd.product_name}}</td>
+						<td>{{prd.add_request}}</td>
+					</tr>
+					{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}    

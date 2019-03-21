@@ -1,0 +1,67 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+     <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/user_dashboard">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Refund Success</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==sell with us Page Start==//-->
+        <div class="order_dwrapper">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 order_inner">
+						<h1>Refund Details</h1>
+						<div class="col-md-6 bank-detail">
+							<div class="col-md-6 bank-left">
+								<h2>Order No :</h2>
+								<h2>Refund Date :</h2>
+								<h2>Product name :</h2>
+							</div>
+							<div class="col-md-6 bank-right">
+								<h3>{{data.refund_detail.order_no}}</h3>
+								<h3>{{data.refund_detail.transaction_date}}</h3>
+								<h3>{{data.refund_detail.product_name}}</h3>
+							</div>
+						</div>
+						<div class="col-md-6 bank-detail">
+							<div class="col-md-6 bank-left">
+								<h2>Refunded Amount :</h2>
+							
+								<h2>Transaction Id :</h2>
+								<h2>Refund status :</h2>
+								
+							</div>
+							<div class="col-md-6 bank-right">
+								<h3>$ {{data.refund_detail.refunded_amt}}</h3>
+								<h3>{{data.refund_detail.transection_id}}</h3>
+								<h3>Refunded</h3>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+       <br/>
+{% endblock %}    

@@ -1,0 +1,190 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Vendor Sign up</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                <div class="col-md-10 col-md-offset-1">
+                    <!-- multistep form -->
+<!-- MultiStep Form -->
+
+        <form id="msform" method="post" enctype="multipart/form-data">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active">Personal Details</li>
+                <li>Social Profiles</li>
+                <li>Account Setup</li>
+            </ul>
+            <!-- fieldsets -->
+            <fieldset>
+                <h2 class="fs-title">Personal Details</h2>
+                <h2 class="fs-title">Step1-Create a seller account</h2>
+                <!--<div class="col-md-3 form-group padL0 float_left"><p class="label_p">My Store Type:</p></div>
+                <div class="col-md-9 form-group padR0 float_left">
+                <div class="fullwidth float_left radio_div">
+                <input type="radio" name="store_type" class="form_radio" id="individual">
+                <label for="individual">Individual (ID Verification will be required)</label>
+                </div>
+                <div class="fullwidth float_left radio_div">
+                <input type="radio" name="store_type" class="form_radio" id="company">
+                <label for="company">Company (A business registration will be required)</label>
+                </div>
+                </div> -->
+                <!--
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">I am Based in:</p></div>
+                <div class="col-md-9 form-group padR0 float_left">
+                <select name="country" required>
+                 <option value="">Country*</option>
+                 {% for country in data.countries %}
+				 <option value="{{country.name}}">{{country.name}}</option>
+                  {% endfor %}
+                </select>
+					<span class="text-danger err"></span>
+                </div> -->
+                
+				<input type="hidden" name="country" value="Australia" />
+				<input type="hidden" name="vendor_id" value="{{data.vendor_details.user_id}}" />
+				<input type="hidden" name="store_id" value="{{data.vendor_details.store_id}}" />
+				
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Business Name:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="store_name" placeholder="Business Name*" value="{{data.vendor_details.store_name}}"><span class="text-danger err"></span></div>
+                
+				 <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Address Line 1:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="add" placeholder="Address Line 1*" value="{{data.vendor_details.address_line_1}}"><span class="text-danger err"></span></div>
+
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Address Line 2:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="add1" placeholder="Address Line 2" value="{{data.vendor_details.address_line_2}}"><span class="text-danger err"></span></div>
+				
+				
+				 <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Country:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="country" placeholder="Country*" value="{{data.vendor_details.country}}" disabled><span class="text-danger err"></span></div>
+				
+				<div class="col-md-3 form-group padL0 float_left"><p class="label_p">State:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="state" placeholder="State*" value="{{data.vendor_details.state}}" disabled><span class="text-danger err"></span></div>
+				
+				
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Email:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="email" name="email" placeholder="Email Address*" value="{{data.vendor_details.email}}"><span class="text-danger err"></span></div>
+                
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Phone No:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="phone" placeholder="Phone Number*"value="{{data.vendor_details.phone_no}}"><span class="text-danger err"></span></div>
+
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Store Logo:</p></div>
+                <div class="col-md-9 form-group padR0 float_left pic_upload">
+                                                 <div class="upload-btn">
+                                                    <span>No file selected</span>
+                                                    <label for="file-upload2">Choose File</label>
+                                                    <input type="file" class="" id="file-upload2" name="logo_file" accept="image/*">
+													 <p class="text-danger err" style="margin:0px"></p>
+                                                  </div>
+                </div>
+				
+				
+				<div class="col-md-3 form-group padL0 float_left"><p class="label_p">Store Banner:</p></div>
+                <div class="col-md-9 form-group padR0 float_left pic_upload">
+                                                 <div class="upload-btn">
+                                                    <span>No file selected</span>
+                                                    <label for="file-upload1">Choose File</label>
+                                                    <input type="file" class="" id="file-upload1" name="banner_file" accept="image/*">
+													 <p class="text-danger err" style="margin:0px"></p>
+                                                  </div>
+                </div>
+				
+                <input type="button" id="vendor_step_one_btn" name="next" step="1" class="next action-button" value="Next"/>
+            </fieldset>
+            <fieldset>
+                <h2 class="fs-title">Step2 - FILL IN PAYPAL DETAILS</h2>
+				
+                <!-- <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Bank Name:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="bank_name" placeholder="XYZ bank*"><span class="text-danger err"></span></div>
+                
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Account No:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="number" name="accout_no" placeholder="1223658866*"><span class="text-danger err"></span></div>
+                
+                <div class="col-md-3 form-group padL0 float_left"><p class="label_p">Address:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="text" name="bank_address" placeholder="Lorem ipsum*"><span class="text-danger err"></span></div> -->
+				
+				<div class="col-md-3 form-group padL0 float_left"><p class="label_p">Paypal Account Email:</p></div>
+                <div class="col-md-9 form-group padR0 float_left"><input type="email" name="paypal_email" placeholder="user@example.com *"><span class="text-danger err"></span>
+				<p>You will not be able to receive payments without entering your business Paypal email address and updating your settings within Paypal.Please also note that you will not be charged any fees by Paypal</p>
+				</div>
+				
+				
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" name="next" step="2" class="next action-button" value="Next"/>
+            </fieldset>
+            <fieldset>
+                   <h2 class="fs-title">Step3 - Term & Condition</h2>
+                  <!-- <ul class="terms_ul">
+                    <li>It is a long established fact that a reader will be distracted</li>
+                    <li>It is a long established fact that a reader will be distracted</li>
+                    <li>It is a long established fact that a reader will be distracted</li>
+                    <li>It is a long established fact that a reader will be distracted</li>
+                   </ul> -->
+                   <div class="wv_widget wv_checkout_check marT30">
+                                            <input type="checkbox" class="grey" value="terms" name="terms" id="grey2" >
+                                            <label for="grey2"><a href="/terms_conditions" target="_blank" style="text-decoration:underline;color:#86c2ea;">I agree with Terms & Conditions</a></label>
+					    <span class="text-danger err"></span>
+                   </div>
+				   
+				     <div class="wv_widget wv_checkout_check marT30">
+                                            <input type="checkbox" class="grey" value="privacy" name="terms" id="grey3" >
+                                            <label for="grey3"><a href="/privacy_policy" target="_blank" style="text-decoration:underline;color:#86c2ea;">Privacy Policy</a></label>
+					    <span class="text-danger err2"></span>
+                   </div>
+                <input type="button" name="previous" class="marT30 previous action-button-previous" value="Previous"/>
+                <input type="submit" name="submit" class="marT30 submit action-button" id="three_step_form" value="SIGNUP"/>
+            </fieldset>
+        </form>
+        <!-- link to designify.me code snippets -->
+        <!-- /.link to designify.me code snippets -->
+<!-- /.MultiStep Form -->
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//-->
+       <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>     
+        <!--//=======Footer Start=======//--> 
+       
+{% endblock %}    

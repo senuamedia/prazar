@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Orders</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <!--//==Shop Single Page Start==//-->
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-12 col-sm-12 wv_mydetail marT30 marB70">
+                       
+                           <ul class="wv_page-tab">
+								<li class="ptab-li"><a href="/user_dashboard">My Details</a></li>
+								<li class="ptab-li active"><a href="/user_orders" {% if data.updated_return_request > 0 %}class="notification_red_dot"{% endif %}>My Orders</a></li> <!-- FARID -->
+								<li class="ptab-li"><a href="/users_messages" {% if data.unread_msg_count > 0 %}class="notification_red_dot"{% endif %}>My Messages</a></li><!-- FARID -->
+								<!--<li class="ptab-li"><a href="/users_messages?ritkn=1">Contact Support</a></li>-->
+								<li class="ptab-li"><a href="/wishlist">Wishlist</a></li>
+							</ul>
+                     
+                         
+                                <div class="wv_ptab-content">
+                                    
+									<div class="table-responsive table-content wv_tble">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th class="product-thumbnail-th">Order No.</th>
+													<th class="product-thumbnail-th">Date</th>
+													<th class="product-name-th">Time</th>
+													<th class="product-subtotal">Payment Status</th>
+													<th class="product-remove">Amount</th>
+													<th class="product-remove">View Order</th>
+												</tr>
+											</thead>
+											<tbody>
+											{% for item in data.product_details %}
+												<tr>
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>{{item.order_no}}</span></a></td>
+													
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>{{item.order_date}}</span></a></td>
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>{{item.order_time}}</span></a></td>
+													{% if item.is_paid == 1%}
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>Complete</span></a></td>
+													{% else %}
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>Pending</span></a></td>
+													{% endif %}
+													<td class="cart-product-price1"><a href="/order_single?oi={{item.order_no}}"><span>${{item.order_total.toFixed(2)}}</span></a></td>
+													
+													
+													<td class="cart-product-price1 view_ordr_btn_td"><a href="/order_single?oi={{item.order_no}}">View Order</a></td>
+													
+												</tr>
+											{% endfor %}
+											</tbody>
+										</table>
+									</div>								
+                                </div>
+                               
+                        
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+        <!--//==Shop Single Page End==//-->    
+       
+
+{% endblock %}    

@@ -1,0 +1,8 @@
+File from: [uploads/temp/1538541526235.png]
+
+File to: [uploads/vendor_products/1538541526235.png]
+
+Compression algorithm: [pngquant]
+
+============== LOG ============== 
+Error: spawn C:\xampp\htdocs\prazar\node_modules\pngquant-bin\vendor\pngquant.exe ENOENT================================= 

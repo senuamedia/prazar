@@ -1,0 +1,179 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+   <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb"  >
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+								
+								 <li ><a href="/vendor_manage_product">Manage Products</a></li>
+                                <li class="active">Edit Variant</li>
+                                <li class="active">{{data.product_name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <div class="product_v-wrapper" id="variant_wraper_div">
+			<div class="container">
+				<div class="row variant_main_div_row">
+					<form method="post">
+					 <div class="col-md-12 productv_inner">
+						<h1>Variants</h1>
+						<p>Set the product variants like size and color</p>
+					</div>
+						
+						{% if data.message.length > 0 %}
+						
+						  <div class="col-md-12 alert alert-success alert-dismissible show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.message}}
+							</div>
+						
+						{% endif %}
+					 <div class="col-md-12 variant_option padLR0 marTB30">
+						<h2>Add variant option type</h2>
+						<div class="col-md-6 form-group padLR0">
+							<select class="wv_form_focus varianttype_select_box" name="varinat_types">
+								<option value="">Select variant type</option>
+								{% for variant in data.variants %}
+								  {% set is_disabled=0 %}
+								  {% set custom_saved_name='' %}
+								 {% for saved_variant in data.pro_variants %}
+
+									  {% if variant.variant_id == saved_variant.variant_id %} 
+									    {% set is_disabled=1 %}
+										{% set custom_saved_name=saved_variant.variant_name %}
+									  {% endif %} 
+								  {% endfor %}
+								  
+								   <option variant_id="{{variant.variant_id}}" value="{{variant.variant}}" {% if is_disabled == 1%} disabled {% endif %}  variant_type="{{variant.is_custome}}"  style="text-transform:capitalize;">
+								   {% if is_disabled == 1 %}
+								     {{custom_saved_name}}
+								    {% else %}
+								    {{variant.variant}}
+								   {%endif%}
+								   </option>
+								  
+								{% endfor %}
+								
+							
+							 
+							</select>
+						</div>
+					</div>
+					
+					{% for saved_variants in data.pro_variants %}
+					
+					<div class="col-md-12 variant_option1 padLR0 marB30 variant_box_div scroll{{saved_variants.variant_id}}">
+					<input type="hidden" class="pro_variant_id_class" name="pro_variant_id" value="{{saved_variants.product_Variants_id}}">
+					<input type="hidden" name="variant_id" value="{{saved_variants.variant_id}}">
+					<input type="hidden" name="variant_val_number" class="variant_val_number" value="{{saved_variants.variant_vals.length}}">
+					<div class="variant_delete">
+					<a>
+					<i variant_id="{{saved_variants.variant_id}}" pro_varaint_id="{{saved_variants.product_Variants_id}}"  class="w-del fa fa-trash-o variant_delete_btn" aria-hidden="true">
+					</i></a>
+					</div>
+					<div class="col-md-4 variant-left">
+					<div class="col-md-12 form-group padLR0">
+					<h3>Variant display Type</h3>
+					{% if saved_variants.variant_name == 'color' %}
+					<select class="wv_form_focus" name="display_type">
+					<option value="dropdown" {% if saved_variants.display_type == 'dropdown' %} selected='selected' {% endif %} disabled>Dropdown</option>
+					<option value="radio" {% if saved_variants.display_type == 'radio' %} selected='selected' {% endif %} disabled>Radio</option>
+					<option value="checkbox" {% if saved_variants.display_type == 'checkbox' %} selected='selected' {% endif %}>Checkbox</option> 
+					</select>
+					{% else %}
+					<select class="wv_form_focus" name="display_type">
+					<option value="dropdown" {% if saved_variants.display_type == 'dropdown' %} selected='selected' {% endif %}>Dropdown</option>
+					<option value="radio" {% if saved_variants.display_type == 'radio' %} selected='selected' {% endif %}>Radio</option>
+					<option value="checkbox" {% if saved_variants.display_type == 'checkbox' %} selected='selected' {% endif %} disabled>Checkbox</option> 
+					</select>
+					{% endif %}
+					</div>
+					<div class="col-md-12 form-group padLR0">
+					<h3>Variant Title</h3> 
+					{% if saved_variants.variant_name == 'color' %}
+					<input class="wv_form_focus" type="text" value="{{saved_variants.variant_name}}" name="variant_name" placeholder="" readonly=""></div>
+					{% else %}
+					<input class="wv_form_focus" type="text" value="{{saved_variants.variant_name}}" name="variant_name" placeholder="" ></div>
+					{% endif %}
+					</div>
+					<div class="col-md-6 col-md-offset-1 variant-right">
+					<h3>Variant Values</h3>
+					<div class="variant pre_check">
+					
+					<ul class="wv_widget sortable_options ui-sortable" id="{{saved_variants.variant_id}}">
+					{% for variant_values in saved_variants.variant_vals %}
+					 <li class="ui-state-default ui-sortable-handle" style="border-color:{{variant_values.value}}"> 
+					  <input type="checkbox" checked='checked' value="{{variant_values.value}}" class="grey" name="varaint_val" id="opt{{saved_variants.product_Variants_id}}{{loop.index}}"> <label for="opt{{saved_variants.product_Variants_id}}{{loop.index}}">{{variant_values.value}}</label><span class="remo_var_op" opt-id="{{variant_values.id}}">X</span>
+					</li>
+					{%endfor%}
+					</ul>
+					</div><h3>Enter New Variant Values</h3> 
+					
+					{% if saved_variants.variant_name == 'color' %}	
+					<div id="clpkr"  class="input-group colorpicker-component"><input style="margin-bottom:0px" type="text" class="option_val_field" placeholder="choose color code" value="#DD0F20" ><span class="input-group-addon"><i></i></span></div>	
+					{% else %}	
+						<input type="text" class="option_val_field" placeholder="enter new value">
+					{% endif %}
+						
+					<span class="err" style="color:red"></span>
+					<div class="variant_btn"> 
+					<a class="bth_A addVariantValueField">Add</a>
+					</div>
+					</div>
+					</div>
+					
+						
+					{%endfor%}
+					
+					<input type="hidden" name="post_tok" value="{{data.encoded_pro_id}}" />
+					
+					 <div class="col-md-12 var_sav-btn ">
+						<input class="bth_A variant_sub_btn"  type="submit" name="sub" value="Save">
+					</div>
+				   </form>
+				</div>
+				
+			</div>
+		</div>
+		
+		<input type="hidden" id="count_of_variants" value="{{data.pro_variants.length}}" />
+		
+        <div id="scroll_div"></div>
+        <!--//==Wishlist Page End==//-->
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Get fresh prazar trends and unique gift ideas delivered right to your inbox</p>
+                        <div class="prazar-subscribe-inner-box">
+                            <input type="email" class="transparent-field" placeholder="email address">
+                            <input type="submit" class="submit-btn" value="Subscribe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>  
+       
+{% endblock %}    

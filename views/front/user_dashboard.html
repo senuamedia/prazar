@@ -1,0 +1,432 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Manage Profile</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <!--//==Shop Single Page Start==//-->
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-12 col-sm-12 wv_mydetail marT30 marB70">
+                       
+                           <ul class="wv_page-tab">
+								<li class="ptab-li active"><a href="/user_dashboard">My Details</a></li>
+								<li class="ptab-li"><a href="/user_orders" {% if data.updated_return_request > 0 %}class="notification_red_dot"{% endif %}>My Orders</a></li>
+                                <li class="ptab-li"><a href="/users_messages" {% if data.unread_msg_count > 0 %}class="notification_red_dot"{% endif %}>My Messages</a></li>
+                                <!--<li class="ptab-li"><a href="/users_messages?ritkn=1">Contact Support</a></li>-->
+								<li class="ptab-li"><a href="/wishlist">Wishlist</a></li>
+							</ul>
+                     
+                         
+                                <div class="wv_ptab-content">
+                                    <div class="col-sm-12 col-md-12 wv_checkout_left marT30 marB20 wv_mydet_form">
+										<h2>Personal details</h2>
+										
+										<!--//==Contact Form Start==//-->
+										<form class="contact-form" method="post" id="customer_personl_form">
+											<div class="row">
+												<!--//==Contact Input Field==//-->
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus" type="text"  placeholder="First Name" name="fname" value="{{data.user_details.fname}}" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus" type="text"  placeholder="Last Name" name="lname" value="{{data.user_details.lname}}" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus" type="email"  placeholder="Email" name="email" value="{{data.user_details.email}}" readonly>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus" type="text"  placeholder="Phone Number" name="phone_no" value="{{data.user_details.phone_no}}" >
+												</div>
+												<div class="col-md-4 form-group">
+													<input class="wv_form_focus" type="password"  placeholder="Old Password" name="old_pass">
+												</div>
+												<div class="col-md-4 form-group">
+													<input class="wv_form_focus newpassword" type="password"  placeholder="New Password" name="new_pass">
+												</div>
+												<input type="hidden" value="{{data.user_details.password}}" name="db_userp"/>
+												<div class="col-md-4  form-group">
+													<input class="wv_form_focus cpassword" type="password"  placeholder="Confirm Password" name="confirm_pass">
+												</div>
+												<!--//==Contact Form End==//-->
+										<div class="mydetail_btn">
+											<input type="submit" name="sub" value="Update" />
+										</div>
+												<!--//==Contact Input Field==//-->
+											</div>
+										</form>
+										<!--//==Contact Form End==//-->
+									</div>
+									
+									 <div class="col-sm-12 col-md-12 wv_checkout_left marT30 marB20 wv_mydet_form">
+										<h2>Show at checkout</h2>
+										
+										
+										<div class="table-responsive table-content table_detail">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="product-thumbnail-th">Show at checkout</th>
+														<th class="product-thumbnail-th">Location</th>
+														<th class="product-name-th">Name</th>
+														<th class="product-quantity-th">Address</th>
+														<th class="product-subtotal"></th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for ship_add in data.shipping_add %}
+													<tr>
+														<td> <div class="wv_widget wv_checkout_check wv_table-check">
+																<input type="checkbox" class="grey shipp_add_show" data-atr="{{ship_add.id}}" name="is_show" {% if ship_add.is_show == 1 %} checked="checked" {% endif %} id="grey{{loop.index}}"/>
+																<label class="wv_Label marB30" for="grey{{loop.index}}"></label>
+															 </div>
+														 </td>
+														
+														<td class="cart-product-title"><a href="#">{{ship_add.location}}</a></td>
+														<td class="cart-product-price"><span></span>{{ship_add.fname}} {{ship_add.lname}}</td>
+														<td class="p-qty">
+															<span>{{ship_add.address_line_1}} </span>
+														</td>
+														<td class="cart-product-price" id="wrapper">
+															<a href="#pop_add_edit{{ship_add.id}}" class="wv_edit customer_edit_add_btn"  data-no="{{ship_add.id}}">
+																<i class="wv_deg fa fa-pencil" aria-hidden="true"></i>
+															</a>
+															<a href="#" onclick="deleteCustomerShipAdd({{ship_add.id}})" class="wv_delete"><i class="wv_deg fa fa-trash-o" aria-hidden="true"></i></a>
+														</td>
+													</tr>
+													
+													
+  	
+													
+												{% endfor %}
+												</tbody>
+											</table>
+											<div class="mydetail_btn2">
+												
+												<a href="#pop_address" >Add Address</a>
+												
+												 
+											</div>
+										</div>
+									
+									</div>
+									
+								<!--
+									
+									<div class="wv_widget wv_checkout_check">
+										<input type="checkbox" class="grey" name="pink" id="same_add_check">
+										<label for="same_add_check">Use shipping details for billing</label>
+									</div>
+									
+									<div class="col-sm-12 col-md-12 wv_checkout_left marT0 marB20 wv_mydet_form">
+										<h2>Billing details</h2>
+										
+										<form class="contact-form" id="bill_address_form" method="post">
+											<div class="row">
+												
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_fname" type="text"  placeholder="First Name" value="{{data.billing_add.fname}}" name="fname" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_lname" type="text"  placeholder="Last Name" value="{{data.billing_add.lname}}" name="lname" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_comp" type="text"  placeholder="Company Name" value="{{data.billing_add.company_name}}" name="company_name" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_phone" type="text"  placeholder="Phone Number" value="{{data.billing_add.phone_no}}" name="phone_no" required>
+												</div>
+												<div class="col-md-12 form-group">
+													<input class="wv_form_focus bil_street auto_location1" type="text"  placeholder="Address Line 1" value="{{data.billing_add.address_line_1}}" name="add1" required>
+												</div>
+												<div class="col-md-12 form-group">
+													<input class="wv_form_focus bil_street2 auto_location" type="text"  placeholder="Address Line 2" value="{{data.billing_add.address_line_2}}" name="add2">
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_city" type="text"  placeholder="Suburb/City" value="{{data.billing_add.city}}" name="city" required>
+												</div>
+												<div class="col-md-6 form-group">
+													<input class="wv_form_focus bil_postcode" type="text"  placeholder="Postcode/Zip" value="{{data.billing_add.postal_code}}" name="postal_code" required>
+												</div>
+												<div class="col-md-12 form-group">
+							<select class="wv_form_focus country_select_box bil_country" name="country" required>
+								<option value="" >Select Country</option>
+								{% for country in data.countries%}
+								  <option value="{{country.name}}" {% if data.billing_add.country == country.name  %} selected="selected" {% endif %}>{{country.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-12 form-group">
+							<select class="wv_form_focus states_select_box bil_state" name="state" required>
+								<option value="{{data.billing_add.state}}" selected>{{data.billing_add.state}}</option>
+								
+							</select>
+						</div>
+												
+												
+											</div>
+											
+										
+										
+										<div class="mydetail_btn">
+											<input type="submit" name="sub" value="Update" />
+										</div>
+										<div class="mydetail_btn">
+											<input type="reset" name="reset_btn" value="Reset" />
+										</div>
+										
+											</form>
+									</div> -->
+									
+                                </div>
+                               
+                        
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+				
+				<div class="delete_acct_div"><a onclick="deleteCustomerAccount()">delete account</a></div>
+            </div>
+        </section>
+        <!--//==Shop Single Page End==//-->    
+       
+
+  <!-- popups start here -->
+  	 <!-- Add ship address  Modal -->
+            <div id="pop_address" class="overlay">
+			<div class="popup col-md-6 col-md-offset-3">
+				<h2>Shipping Details</h2>
+				<a class="close" href="#">&times;</a>
+				<form class="contact-form address-popup" method="post" id="add_address_form">
+					
+					<div class="row">
+					
+						<div class="col-md-12 form-group">
+						<input class="wv_form_focus" type="text" name="location" required placeholder="Location ex:- Home , office">
+						
+							<!--<select class="wv_form_focus" name="location" required >
+							
+								<option value="">Select location</option>
+								<option value="home">Home</option>
+								<option value="office">office</option>
+								<option value="parents">parents</option>
+								<option value="brother">brother</option>
+								<option value="other">other</option>
+							</select> -->
+						</div>
+						
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="fname" required placeholder="First Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="lname" required  placeholder="Last Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="company_name"   placeholder="Company Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="phone_no"  placeholder="Phone Number">
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus auto_location1" type="text" name="add1" required placeholder="Address Line 1">
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus auto_location" name="add2" type="text"  placeholder="Address Line 2">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="city" required  placeholder="Suburb/City">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" type="text" name="postal_code"  placeholder="Postcode/Zip" required>
+						</div>
+						
+							<div class="col-md-12 form-group">
+							<select class="wv_form_focus country_select_box" name="country" required>
+								<option value="" selected>Select Country</option>
+								{% for country in data.countries%}
+								  <option value="{{country.name}}">{{country.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-12 form-group">
+							<select class="wv_form_focus states_select_box" name="state" required >
+								<option value="" selected>State</option>
+								
+							</select>
+						</div>
+					
+					</div>
+					
+					<div class="mydetail_cancel shipp_add_cancel">
+						<a class="" href="/user_dashboard">Cancel</a>
+						
+					</div>
+					
+					<div class="mydetail_btn" style="margin:25px 1% 25px 15px;">
+						<input type="submit" class="submit-btn" name="sub" value="Save"/>
+					</div>
+				</form>
+				
+			</div>
+		</div>
+        <!-- End Modal -->
+
+ <!-- Edit ship address model Modal -->
+
+           {% for ship_add in data.shipping_add %}
+
+            <div id="pop_add_edit{{ship_add.id}}" class="overlay">
+			<div class="popup col-md-6 col-md-offset-3">
+				<h2>Shipping Details</h2>
+				<a class="close" href="#">&times;</a>
+				<form class="contact-form address-popup edit_address_form" method="post" >
+					<input type="hidden" name="add_id" value="{{ship_add.id}}"/>
+					<div class="row">
+						<div class="col-md-12 form-group">
+						
+						<input class="wv_form_focus" type="text" name="location" required placeholder="Location ex:- Home , office" value="{{ship_add.location}}">
+						
+							<!--<select class="wv_form_focus" name="location" required >
+								
+								<option value="{{ship_add.location}}" selected>{{ship_add.location}}</option>
+								
+							</select> -->
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.fname}}" type="text" name="fname" required placeholder="First Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.lname}}" type="text" name="lname" required  placeholder="Last Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.company_name}}" type="text" name="company_name"   placeholder="Company Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.phone_no}}" type="text" name="phone_no"  placeholder="Phone Number">
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus auto_location1" value="{{ship_add.address_line_1}}" type="text" name="add1"  placeholder="Address Line 1" required>
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus auto_location" value="{{ship_add.address_line_2}}" name="add2" type="text"  placeholder="Address Line 2">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.city}}" type="text" name="city" required  placeholder="Suburb/City">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{ship_add.postal_code}}" type="text" name="postal_code"  placeholder="Postcode/Zip" required>
+						</div>
+						
+							<div class="col-md-12 form-group">
+							<select id="edit_ship_add_country{{ship_add.id}}" class="wv_form_focus country_select_box" name="country" required>
+								<option value="" >Select Country</option>
+								{% for country in data.countries%}
+								  <option value="{{country.name}}" {% if country.name == ship_add.country %} selected="selected" {% endif %}>{{country.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-12 form-group">
+							<select id="edit_ship_add_state{{ship_add.id}}" class="wv_form_focus states_select_box" name="state" required >
+								<option value="" >State</option>
+								<option value="{{ship_add.state}}" selected>{{ship_add.state}}</option>
+								
+							</select>
+						</div>
+					
+					</div>
+					
+					<div class="mydetail_cancel shipp_add_cancel">
+						<a class="" href="/user_dashboard">Cancel</a>
+						
+					</div>
+					
+					<div class="mydetail_btn">
+						<input type="submit" class="submit-btn" name="sub" value="Save"/>
+					</div>
+					
+				</form>
+				
+			</div>
+		</div>
+        <!-- End Modal -->
+		
+        {% endfor %}
+		
+		
+			<!-- review AND rating model -->
+		
+		<div id="review_rating_popup" class="overlay">
+            <div class="popup col-md-6 col-md-offset-3">
+                <h2>Tell us what you think</h2>
+                <a class="close close_popup" href="#">&times;</a>
+                  <div class="slider_review">
+						<div class="review_form_parent_div">
+						   {% for order in data.orders%}
+						   <form class="customer_rate_review_form" >
+							<div class="product_div" id="product_{{loop.index}}">
+								<div class="col-md-3 popup_lcontent1">
+									<img src="products/{{order.image_url}}" alt="review">
+								</div>
+								<div class="col-md-6 popup_rcontent1">
+									<h3>{{order.product_name}}</h3>
+									<h4>{{order.store_name}}</h4>
+									<h4>Date Purchased : {{order.order_date}}</h4>
+								</div>
+								<div class="col-md-12 popup_lcontent1">
+										<h3>Product Review and Rate</h3>
+										<input type="hidden" name="product_id"  value="{{order.product_id}}"/>
+										<input type="hidden" name="rate" class="rate_val" value="5"/>
+										<ul class="wv_rating_popup">
+											<li class="rated rate_no1 rate_li" rate_no="1"><i class="fa fa-star"></i></li>
+											<li class="rated rate_no2 rate_li" rate_no="2"><i class="fa fa-star"></i></li>
+											<li class="rated rate_no3 rate_li" rate_no="3"><i class="fa fa-star"></i></li>
+											<li class="rated rate_no4 rate_li" rate_no="4"><i class="fa fa-star"></i></li>
+											<li class="rated rate_no5 rate_li" rate_no="5"><i class="fa fa-star"></i></li>
+										</ul>
+										<textarea class="wv_form_focus" name="review" placeholder="Review" required></textarea>
+								</div>
+								<div class="col-md-12 popup_lcontent2">
+									<div class="row">
+										<div class="col-md-4 col-md-offset-4 "><input type="submit" class="login_submit rate_product_popup_submit" value="Submit"></div>
+									</div>
+								</div>
+								
+							  </div>
+							</form>
+						   {%endfor%}
+						</div>
+                        <div class="navigation_div">
+                            <span><img src="front_assets/img/previous.png" id="prev_product" data-slide-id="1">
+                            <img src="front_assets/img/next.png" id="next_product" data-slide-id="2"></span>
+                        </div>
+                 </div>
+            </div>
+        </div>
+		{% if data.orders.length > 0 && data.visited == 0 %}
+		<script>
+		 window.history.replaceState(null, null, "#review_rating_popup");
+		</script>
+		{%endif%}
+{% endblock %}    

@@ -1,0 +1,326 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Manage Profile/Shop</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+		
+		<div class="store_wrapper marT50">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 store_inner_left">
+						
+						{% if data.store_save != "" && data.store_save != undefined %}
+						
+							<div class="alert alert-success alert-dismissible show" role="alert">
+							<button type="button"  class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.store_save}}
+							</div>
+						{% endif %}
+						
+						<form class="contact-form product-form" id="vendor_manage_store_form" method="post" enctype="multipart/form-data">
+							<div class="row">
+								<!--//==Contact Input Field==//-->
+								
+								<div class="col-md-12 form-group">
+								<h3>Store Name</h3>
+									<input type="text" class="wv_form_focus" placeholder="Store Name" name="store_name" required value="{{data.store_detail.store_name}}"/>
+								</div>
+								
+								<div class="col-md-12 form-group">
+								<h3>Tell Us About Your Store</h3>
+									<textarea rows="4" placeholder="Store description" name="desc" required>{{data.store_detail.description}}</textarea>
+								</div>
+								
+								<div class="col-md-12 form-group">
+									<h3>Store Address</h3>
+									<input type="text" class="wv_form_focus auto_location" placeholder="Address line 1" id="business_location" name="address_line1"  value="{{data.store_detail.address_line_1}}" required autocomplete="off">
+									
+									<input type="hidden" class="lat" value="{{data.store_detail.lat}}" name="lat"/>
+								    <input type="hidden" class="lng" value="{{data.store_detail.lng}}" name="lng"/>
+									
+									<!-- <select class="wv_form_focus">
+										<option value="Address11">Address</option>
+										<option value="Address12">Address1</option>
+										<option value="Address13">Address2</option>
+										<option value="Address14">Address3</option>
+									</select> -->
+								</div>
+							
+								<div class="col-md-12 form-group">
+									<input type="text" class="wv_form_focus" placeholder="Address line 2" name="address_line2" value="{{data.store_detail.address_line_2}}"/ autocomplete="off">
+								</div>
+								
+								<div class="col-md-6 form-group">
+									<select class="wv_form_focus" name="country">
+										<option value="Australia" selected="selected">Australia</option>
+										
+									</select>
+								</div>
+								<div class="col-md-6 form-group">
+									<select class="wv_form_focus" name="state" reuired>
+										<option value="">State</option>
+										{% for state in data.states %}
+										<option value="{{state.name}}" {% if state.name == data.store_detail.state %} selected='selected' {% endif %}>{{state.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								
+								
+								<div class="col-md-12 form-group">
+									<input type="text" class="wv_form_focus" placeholder="City" name="city" value="{{data.store_detail.city}}"/>
+								</div>
+								
+								
+								<div class="col-md-12 form-group">
+									<input type="text" class="wv_form_focus" placeholder="zip code" name="zip_code" value="{{data.store_detail.postal_code}}"/>
+								</div>
+								
+								<div class="col-md-12 form-group">
+								<h3>Free Shipping Threshold on your Store</h3>								                 <p>If a customer spends over a certain amount will they receive free shipping?</p>
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr responsive_dollar" style="top: 65px;left: 16px;">$</span>
+									<input type="number" step=".01" min="1" class="wv_form_focus wv_dolr-padd" placeholder="Minimum purchase amount for free shipping (0 for free shipping)" name="minimum_purcahse_amt_for_free_ship" value="{%if data.store_detail.minimum_purcahse_amt_for_free_ship == 0%}{%else%}{{data.store_detail.minimum_purcahse_amt_for_free_ship}}{%endif%}" style="    padding: 10px 15px 10px 45px;"/>
+								</div>
+								
+								
+							</div>
+							<input type="hidden" name="store_id1" value="{{data.store_detail.store_id}}" />
+							<input type="submit" class="login_submit" value="Save" name="store_sub" >
+							
+							<div class="col-md-12 form-group marT20">
+								<div class="col-md-4">
+								
+								{%if data.store_detail.store_logo!="" %}
+								<img id="store_logo_pre" src="/store_logo/{{data.store_detail.store_logo}}"  title="store logo" onerror="arguments[0].currentTarget.style.display='none'" />
+								{%else%}
+								
+								<img id="store_logo_pre" src="/front_assets/img/store_logo_placeholder.png"  title="store logo" onerror="arguments[0].currentTarget.style.display='none'" />
+								{%endif%}
+								</div>
+								<div class="col-md-8 pic_upload"> 
+                                     <span class="head_span">Store Logo</span>								
+									<div class="upload-btn" style="border:none;">
+										<!--<span>{{data.store_detail.store_logo}}</span> -->
+										<input type="hidden" name="logo_old_name" value="{{data.store_detail.store_logo}}" />
+										
+										<label for="file-uploadlogo">Upload New Logo</label>
+										<input type="file" id="file-uploadlogo" name="store_logo" accept="image/*" >
+									  </div>
+								</div>
+								</div>
+								
+								<div class="col-md-12 form-group">
+								<div class="col-md-4" style="padding-top:15px;">
+								{% if data.store_detail.store_banner !="" %}
+								<img id="store_banner_pre" src="/store_logo/{{data.store_detail.store_banner}}"  title="store banner"  onerror="arguments[0].currentTarget.style.display='none'"/>
+								{%else%}
+								  <img id="store_banner_pre" src="/front_assets/img/store_banner_placeholder.png"  title="store banner"  onerror="arguments[0].currentTarget.style.display='none'"/>
+								{%endif%}
+								</div>
+								<div class="col-md-8 pic_upload"> 
+                                     <span class="head_span">Store Banner</span>								
+									<div class="upload-btn" style="border:none;">
+										<!--<span>{{data.store_detail.store_banner}}</span> -->
+										<input type="hidden" name="banner_old_name" value="{{data.store_detail.store_banner}}" />
+										
+										<label for="file-uploadbanner">Upload New Banner</label>
+										<input type="file" id="file-uploadbanner" name="store_banner" accept="image/*" >
+									  </div>
+								</div>
+								</div>
+							
+							
+						</form>
+					</div>
+					<div class="col-md-6 store_inner_right">
+						
+						{% if data.promo_msg %}
+						
+							<div class="alert alert-success alert-dismissible show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.promo_msg}}
+							</div>
+						{% endif %}
+						<form method="post" id="promo_code_sub_form">
+						<h1 class="wv_s-heading">Promo Codes<br>
+							<!--<span>Sed ut perspiciatis unde omnis iste natus error sit.</span>-->
+						</h1>
+						
+						<div class="col-md-12 wv_payment store_radio">
+							<ul>
+								<li class="store_field-text">
+									<h3>Promo code active</h3>
+								</li>
+								<li>
+									<label class="control control--radio">Yes
+										<input type="radio" value="1" name="promo_status" checked="checked"/>
+										<span class="control__indicator"></span>
+									</label>
+								</li>
+								<li>
+									<label class="control control--radio">No 
+										<input type="radio" value="0" name="promo_status"/>
+										<span class="control__indicator"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus" type="text" name="promo_code" id="promo_code_input"   placeholder="" pattern="[A-Z]{10}" oninvalid="setCustomValidity('Please match the requested format 10 capital letter promo code')" oninput="setCustomValidity('')"  required>
+						</div>
+						<div class="col-md-7 form-group">
+							<input class="wv_form_focus" type="number" step="0.01"  placeholder="Discount Percentage" name="discount" required>
+						</div>
+						<div class="col-md-5 mydetail_btn1">
+							<!-- <a href="">Add promo</a> -->
+							<input type="hidden" name="store_id" value="{{data.store_detail.store_id}}"/>
+							<input type="submit" class="" value="Add promo" name="promo_sub" >
+						</div>
+						</form>
+					</div>
+				</div>
+				<br/>
+                    <div class="col-md-12 padL0 padR0">
+                        <h1 class="wv_s-heading1">Manage Promo Codes</h1>              
+                   </div>
+			</div>
+
+		</div>
+
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="col-sm-12 col-md-12 marT30 marB20 wv_store-table">
+						<div class="table-responsive table-content">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="product-thumbnail-th">Promo Code</th>
+										<th class="product-quantity-th">Discount Percentage</th>
+										<th class="product-name-th">Status</th>
+										<th class="product-subtotal">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+									{% if data.promo_codes.length == 0 %}
+									<tr>
+									  <td class="cart-product-title" colspan="4">Data not found</td>
+									</tr>
+									{% endif %}
+									
+									{% for code in data.promo_codes %}
+									<tr>
+										<td class="cart-product-title">
+											<!--<a href="#">Lorem Women dress</a> -->
+											<span>{{code.code}}</span>
+										</td>
+										<td class="cart-product-price"><span>{{code.discount_percentage}}%</span></td>
+										<td class="cart-product-button">
+										    <label class="switch">
+												<input type="checkbox" {% if code.is_active ==1 %} checked {% endif %}>
+												<span class="slider round"></span>
+										    </label>
+									    </td>
+										<td class="cart-product-price" id="wrapper">
+											<a href="#pop_edit_promo{{code.id}}" class="wv_edit"><i class="wv_deg fa fa-pencil" aria-hidden="true"></i></a>
+											<a href="#" onclick="deletePromoCode({{code.id}})" class="wv_delete"><i class="wv_deg fa fa-trash-o" aria-hidden="true"></i></a>
+										</td>
+									</tr>
+									{% endfor %}
+									
+								</tbody>
+							</table>
+							
+							{% set productCount = data.total_pages %}
+                            {% set productCountAsArray = Array(productCount) %}
+							<ul class="pagination" style="margin-top:0px">
+								{% for x, y in productCountAsArray %}	 
+								 <li {% if data.page == x %} class="active" {% endif %}><a href="/vendor_dashboard?page={{x}}" >{{loop.index}}</a></li>
+								{% endfor %}	 
+					 </ul>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+        
+		<!-- edit promo code model -->
+		
+		{% for code in data.promo_codes %}
+
+            <div id="pop_edit_promo{{code.id}}" class="overlay">
+			<div class="popup col-md-6 col-md-offset-3">
+				<h2>Promo Code</h2>
+				<a class="close" href="#">&times;</a>
+				<form class="contact-form address-popup edit_promo_form" method="post" >
+					<input type="hidden" name="promo_id" value="{{code.id}}"/>
+					<div class="row">
+							
+						
+						<div class="col-md-12 wv_payment store_radio">
+							<ul>
+								<li class="store_field-text">
+									<h3>Promo code active</h3>
+								</li>
+								<li>
+									<label class="control control--radio">Yes
+										<input type="radio" value="1" name="promo_status" {%if code.is_active == 1%} checked="checked" {%endif%}/>
+										<span class="control__indicator"></span>
+									</label>
+								</li>
+								<li>
+									<label class="control control--radio">No 
+										<input type="radio" value="0" name="promo_status" {%if code.is_active == 0%} checked="checked" {%endif%}/>
+										<span class="control__indicator"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus" type="text" name="promo_code"   placeholder="DUMMYPRO" pattern="[A-Z]{8}" title="8 capital letter promo code" value="{{code.code}}" required>
+						</div>
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus" type="number" step="0.01"  placeholder="Discount Percentage" name="discount" value="{{code.discount_percentage}}" required>
+						</div>
+					
+					
+					</div>
+					<div class="mydetail_btn">
+						<input type="submit" class="submit-btn" name="sub" value="Submit"/>
+					</div>
+				</form>
+				
+			</div>
+		</div>
+        <!-- End Modal -->
+		
+        {% endfor %}
+		
+	   
+{% endblock %}    

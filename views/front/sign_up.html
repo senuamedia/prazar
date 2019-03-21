@@ -1,0 +1,81 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Sign Up</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <section class="login-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <div class="login-form col-md-6 col-md-offset-3">
+                        <h1 class="heading_form padB100">Sign Up</h1>
+						
+						 {% if data.error.length > 0 %}
+						
+						<div class="alert alert-danger"> {{data.error}}</div>
+						
+						 {% endif %}
+						
+                        <form method="post" >
+                            <input type="text" class="login_input" placeholder="First Name" id="fname" name="first_name" required  title="Enter Your First Name">
+							 <input type="text" class="login_input" placeholder="Last Name" id="lname" name="last_name" required  title="Enter Your Last Name">
+                            <input type="email" class="login_input email_address" placeholder="Email" id="email" name="email" required>
+                            <input type="email" class="login_input cemail_address" placeholder="Confirm Email" id="confirm-email" name="confirm-email" required>
+                            <input type="password" class="login_input newpassword" placeholder="Password" id="Password" name="Password" required>
+                            <input type="password" class="login_input cpassword" placeholder="Confirm Password" id="confirm-password" name="confirm-password" required>
+							<div class="wv_widget wv_checkout_check">
+								<input type="checkbox" class="grey" name="newsletter" id="grey">
+								<label for="grey">Signup to newsletter</label>
+							</div>
+                            <input type="submit" name="sub" class="login_submit" value="Sign up">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//==Login Page End==//-->
+		
+		<section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+       
+{% endblock %}    

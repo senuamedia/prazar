@@ -1,0 +1,10 @@
+File from: [uploads/temp/1543238732356.jpeg]
+
+File to: [uploads/vendor_products/1543238732356.jpeg]
+
+Compression algorithm: [mozjpeg]
+
+============== LOG ============== 
+Error: Command failed: C:\xampp\htdocs\prazar\node_modules\mozjpeg\vendor\cjpeg.exe -quality 60 -outfile uploads/vendor_products/1543238732356.jpeg uploads/temp/1543238732356.jpeg
+Unrecognized input file format --- perhaps you need -targa
+================================= 

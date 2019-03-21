@@ -1,0 +1,311 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="bootstrap admin template">
+    <meta name="author" content="">
+    
+    <title>{{title}}</title>
+    
+    <link rel="apple-touch-icon" href="./Admin_assets/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="./Admin_assets/assets/images/favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./Admin_assets/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./Admin_assets/global/css/bootstrap-extend.min.css">
+    <link rel="stylesheet" href="./Admin_assets/assets/css/site.min.css">
+    <link rel="stylesheet" href="./Admin_assets/assets/css/style.css">    
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/animsition/animsition.css">
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/asscrollable/asScrollable.css">
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/switchery/switchery.css">
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/intro-js/introjs.css">
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/slidepanel/slidePanel.css">
+    <link rel="stylesheet" href="./Admin_assets/global/vendor/flag-icon-css/flag-icon.css">
+    	<link rel="stylesheet" href="./Admin_assets/global/vendor/chartist/chartist.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/aspieprogress/asPieProgress.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/dashboard/v2.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/select2/select2.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/multi-select/multi-select.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/forms/advanced.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css">
+       
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-fixedcolumns-bs4/dataTables.fixedcolumns.bootstrap4.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-rowgroup-bs4/dataTables.rowgroup.bootstrap4.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css">
+
+         <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css">
+    
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/tables/datatable.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/uikit/modals.css">
+        
+        <!-- sweetalert css-->
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/bootstrap-sweetalert/sweetalert.css">
+        <link rel="stylesheet" href="./Admin_assets/global/vendor/summernote/summernote.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/advanced/rating.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/examples/css/structure/chat.css">
+        <link rel="stylesheet" href="./Admin_assets/assets/css/bootstrap-datepicker.css">
+        
+ 
+		<link rel="stylesheet" href="./Admin_assets/assets/examples/css/forms/layouts.css">
+   
+    <!-- Fonts -->
+    <link rel="stylesheet" href="./Admin_assets/global/fonts/web-icons/web-icons.min.css">
+    <link rel="stylesheet" href="./Admin_assets/global/fonts/brand-icons/brand-icons.min.css">
+    <link rel="stylesheet" href="./Admin_assets/global/fonts/font-awesome/font-awesome.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+    
+    <!--[if lt IE 9]>
+    <script src="./Admin_assets/global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+    
+    <!--[if lt IE 10]>
+    <script src="./Admin_assets/global/vendor/media-match/media.match.min.js"></script>
+    <script src="./Admin_assets/global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Scripts -->
+    
+    <script src="./Admin_assets/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+      Breakpoints();
+    </script>
+    <style>
+        #start_date_div{
+            float:left;
+        }
+        #end_date_div{
+            float:left;
+        }
+        #search_btn_div{
+          float:left;
+        }
+        .datepicker-dropdown {
+            z-index: 10000;
+         }
+    </style>
+  </head>
+ 
+   <!-- header content start here -->
+
+    <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+    
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided"
+          data-toggle="menubar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="hamburger-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-collapse"
+          data-toggle="collapse">
+          <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+        </button>
+        <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="#">
+          <img class="navbar-brand-logo" src="./Admin_assets/assets/images/logo.png" title="Remark">
+          <span class="navbar-brand-text hidden-xs-down"></span>
+        </div>
+      
+      </div>
+    
+      <div class="navbar-container container-fluid">
+        <!-- Navbar Collapse -->
+        <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+          <!-- Navbar Toolbar -->
+          <ul class="nav navbar-toolbar">
+            <li class="nav-item hidden-float" id="toggleMenubar">
+              <a class="nav-link" data-toggle="menubar" href="#" role="button">
+                <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+              </a>
+            </li>
+            <li class="nav-item hidden-sm-down" id="toggleFullscreen">
+              <a class="nav-link icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                <span class="sr-only">Toggle fullscreen</span>
+              </a>
+            </li>
+        
+           
+          </ul>
+          <!-- End Navbar Toolbar -->
+    
+          <!-- Navbar Toolbar Right -->
+          <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+           
+            <li class="nav-item dropdown">
+              <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
+                data-animation="scale-up" role="button">
+                <span class="avatar avatar-online">
+                   <img src="/Admin_assets/assets/images/default-boy.png" alt="...">
+               
+                  <i></i>
+                </span>
+              </a>
+              <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="/prazar_admin/admin_profile" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Admin Profile</a>
+                <a class="dropdown-item" href="/prazar_admin/update_password" role="menuitem"><i class="icon fa-key" aria-hidden="true"></i> Change Password</a>
+                <div class="dropdown-divider" role="presentation"></div>
+                <a class="dropdown-item" href="/prazar_admin/admin_logout" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+              </div>
+            </li>
+
+          </ul>
+          <!-- End Navbar Toolbar Right -->
+        </div>
+        <!-- End Navbar Collapse -->
+    
+        <!-- Site Navbar Seach -->
+        <div class="collapse navbar-search-overlap" id="site-navbar-search">
+          <form role="search">
+            <div class="form-group">
+              <div class="input-search">
+                <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                <input type="text" class="form-control" name="site-search" placeholder="Search...">
+                <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+                  data-toggle="collapse" aria-label="Close"></button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- End Site Navbar Seach -->
+      </div>
+    </nav> 
+	
+<!-- Side bar start here -->
+
+<!-- base url set -->
+<input type="hidden" id="base_url_value" value="{{base_url}}" />
+
+<div class="site-menubar">
+      <div class="site-menubar-body">
+        <div>
+          <div>
+            <ul class="site-menu" data-plugin="menu">
+              
+              <li class="site-menu-item {% if data.req_path == '/dashboard' %} active {% endif %}">
+                  <a  href="/prazar_admin/dashboard">
+                        <i class="site-menu-icon wb-dashboard" aria-hidden="true"></i>
+                        <span class="site-menu-title">Dashboard</span>                            
+                  </a>                
+              </li>
+              <li class="site-menu-item {% if data.req_path == '/customers' %} active {% endif %}">
+                <a href="/prazar_admin/customers" >
+                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                        <span class="site-menu-title">Customer management</span>
+                        <span class="site-menu-arrow"></span>
+                </a>
+
+              </li>
+              <li class="site-menu-item {% if data.req_path == '/vendors' %} active {% endif %}">
+                <a href="/prazar_admin/vendors">
+                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                        <span class="site-menu-title">Vendor management</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li> 
+              
+			   <li class="site-menu-item {% if data.req_path == '/international_vendors' %} active {% endif %}">
+                <a href="/prazar_admin/international_vendors">
+                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                        <span class="site-menu-title">International Vendors</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li> 
+			  
+			  
+            <!--  <li class="site-menu-item ">
+                <a href="#">
+                        <i class="site-menu-icon fa-product-hunt" aria-hidden="true"></i>
+                        <span class="site-menu-title">Product list </span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li> -->
+				
+              <li class="site-menu-item {% if data.req_path == '/categories' || data.req_path == '/add_category' || data.req_path == '/update_category' %} active {% endif %}">
+                <a href="/prazar_admin/categories">
+                        <i class="site-menu-icon fa-sitemap" aria-hidden="true"></i>
+                        <span class="site-menu-title">Category Management</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li>
+                          
+
+              <li class="site-menu-item  {% if data.req_path == '/home_page_managemant' %} active {% endif %}">
+                <a href="/prazar_admin/home_page_managemant">
+                        <i class="site-menu-icon wb-image" aria-hidden="true"></i>
+                        <span class="site-menu-title">Home page Management</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>
+              </li> 
+             
+              <li class="site-menu-item {% if data.req_path == '/cms_managemant' || data.req_path == '/cms_single' %} active {% endif %}">
+                <a href="/prazar_admin/cms_managemant">
+                        <i class="site-menu-icon wb-library" aria-hidden="true"></i>
+                        <span class="site-menu-title">Content management</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li>   
+              <li class="site-menu-item {% if data.req_path == '/order_history' %} active {% endif %}">
+                <a href="/prazar_admin/order_history">
+                        <i class="site-menu-icon fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="site-menu-title">Order history</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li>              
+              <li class="site-menu-item {% if data.req_path == '/footer_managemant' %} active {% endif %}">
+                <a href="/prazar_admin/footer_managemant">
+                        <i class="site-menu-icon wb-list" aria-hidden="true"></i>
+                        <span class="site-menu-title">Footer Management</span>
+                                <span class="site-menu-arrow"></span>
+                    </a>                
+              </li>
+             <li class="site-menu-item ">
+               <a href="/prazar_admin/customer_messages">
+                       <i class="site-menu-icon wb-chat" aria-hidden="true"></i>
+                       <span class="site-menu-title">Customers Messaging</span>
+                           <span class="site-menu-arrow"></span>
+                   </a>                
+             </li> 
+              <li class="site-menu-item ">
+               <a href="/prazar_admin/vendors_messages">
+                       <i class="site-menu-icon wb-chat" aria-hidden="true"></i>
+                       <span class="site-menu-title">Vendors Messaging</span>
+                           <span class="site-menu-arrow"></span>
+                   </a>                
+             </li> 
+              <li class="site-menu-item ">
+               <a href="/prazar_admin/vendor_vs_customers">
+                       <i class="site-menu-icon wb-chat" aria-hidden="true"></i>
+                       <span class="site-menu-title">Vendors VS Customer Messages</span>
+                           <span class="site-menu-arrow"></span>
+                   </a>                
+             </li>
+              <li class="site-menu-item {% if data.req_path  == '/potential_vendors' %} active {% endif %}">
+                <a href="/prazar_admin/potential_vendors">
+                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                        <span class="site-menu-title">Potential vendors</span>
+                            <span class="site-menu-arrow"></span>
+                    </a>                
+              </li>
+             
+              
+              
+            </ul>
+            </div>
+        </div>
+      </div>
+    
+      </div>  
+
+      <div class="site-gridmenu">
+      <div>
+        <div>
+          
+        </div>
+      </div>
+    </div>

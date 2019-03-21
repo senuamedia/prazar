@@ -1,0 +1,226 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+		<input type="hidden" value="1" id="new_arrival_page_val">
+		
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li>
+                                    <a class="active">New Arrivals</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Shop Page Start==//-->
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Sidear Start==//-->
+					
+					
+                    <!--//==Shop Page Sidear End==//-->
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-12 col-sm-12 marB50 wvshop_right">
+                        <div class="row">
+                            
+							{% if data.userdata %}
+								<input type="hidden" id="is_user_logged_in" value="1">
+							{% else %}
+								<input type="hidden" id="is_user_logged_in" value="0">
+							{% endif %}
+							
+							
+                            <!--//==Product Item Start==//-->
+							<input type="hidden" id="cat_id" value="{{ data.cat_id }}">
+							<input type="hidden" id="sub_cat_id" value="{{ data.sub_cat_id }}">
+							<input type="hidden" id="sub_cat_slug" value="{{ data.sub_cat_slug }}">
+							<input type="hidden" id="cat_slug" value="{{ data.cat_slug }}">
+							{% if data.product_data.length == 0 %}
+							<input type="hidden" id="call_ajax" value="0">
+							{% else %}
+							<input type="hidden" id="call_ajax" value="1">
+							{% endif %}
+							<div id="product_main_container_to_append">
+								{% for single_prod in data.product_data %}
+								<div class="col-md-4 col-sm-6 col-xs-6 wv_product_width marB30" >
+									<div class="wa-theme-design-block">
+										<figure class="dark-theme">
+										<a class="pro_img_anchr" href="/product_datail?p={{single_prod.slug}}">
+											
+											<img src="./products/{{single_prod.images[0].image_url}}" alt="Women Thumbnail">
+											</a>
+											{% if single_prod.quantity == 0 %}
+											<div class="out_stock_div">
+												<span>out of stock</span>
+											</div>
+											{% endif %}
+											<!--<div class="ribbon"><span>New</span></div>-->
+											{% if single_prod.quantity != 0 %}
+											 {% if single_prod.product_type == 2%}
+												<span class="block-sticker-tag1 add_variant_pro_cart" data-id="{{single_prod.product_id}}" data-slug="{{single_prod.slug}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+												  {%else%}
+												   <span class="block-sticker-tag1 add_to_cart_other" data-id="{{single_prod.product_id}}" data-sale-price="{{single_prod.sale_price}}" data-is-customize="{{single_prod.is_customizable}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+											     {%endif%}	
+											{% endif %}
+											{% if data.userdata %}
+											<span class="block-sticker-tag2 add_to_wishlist" data-id="{{single_prod.product_id}}" style="cursor:pointer;">									   
+												<span class="off_tag1"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></span>
+											</span>
+											{% else %}
+											<span class="block-sticker-tag2">									   
+												<a class="off_tag1" href="/login"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></a>
+											</span>
+											{% endif %}
+											<span class="block-sticker-tag3">
+											<a class="off_tag1 btn-action btn-quickview" href="/product_datail?p={{single_prod.slug}}"><strong><i class="fa fa-eye" aria-hidden="true"></i></strong></a>
+											</span>
+										</figure>
+										<div class="block-caption1">
+											<h4><a href="/product_datail?p={{single_prod.slug}}">{{single_prod.product_name}}</a></h4>
+											<div class="col-xs-12 col-sm-12 col-md-12 text_left">
+												<a class="price-text-color " href="/store?ss={{single_prod.store_slug}}">By {{single_prod.store_name}}</a>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-12 review_right">
+												<ul class="wv_rating">
+												{% if single_prod.ratings[0].average_rates == 0 %}
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 0 && single_prod.ratings[0].average_rates < 1 %}
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 1 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 1 && single_prod.ratings[0].average_rates < 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 2 && single_prod.ratings[0].average_rates < 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 3 && single_prod.ratings[0].average_rates < 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 4 && single_prod.ratings[0].average_rates < 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													
+												 {% endif %}	
+													<li><span class="review">({{single_prod.ratings[0].total_rates}})</span></li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<div class="price col-md-12">
+											{% if Number.isInteger(single_prod.sale_price)%}
+												<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%else%}
+											<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%endif%}
+											{% if single_prod.sale_price < single_prod.price %}
+											<span class="actual-price">${{single_prod.price.toFixed(2)}}</span>
+											{% endif %}
+											</div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								{% endfor %}
+								{% if data.product_data.length == 0 %}
+								<div class="col-md-12">
+									<h2>Sorry we couldn’t find what you were looking for </h2>
+								</div>
+							</div>
+							{% endif %}
+                            <!--//==Product Item End==//-->						
+                        </div>
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+        <!--//==Shop Page End==//-->
+      <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+{% endblock %}    

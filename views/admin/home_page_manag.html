@@ -1,0 +1,595 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Home Page Management</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item active">Home Page Management</li>
+        </ol>        
+      </div>
+		
+	<!-- Banners section  start here -->
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"> Featured Slider</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlit" data-toggle="modal"
+                      type="button">Add Home Page Slider</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlit" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+					 <form method="POST" id="add_slider_form" enctype="multipart/form-data" >  
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close close-model" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add Home Page Slider</h4>
+                          </div>
+                          <div class="modal-body">
+                                    <span id="success_msg" style="color:green"></span>        
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                     
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="text" class="form-control empty title" name="heading" required>
+                                        <label class="floating-label">Home Page slider Heading</label>
+                                      </div>
+									  
+									  <div class="form-group form-material floating" data-plugin="formMaterial">
+                                                                                                     
+										  <input type="text" name="pro_name" value="" class="form-control  title"/>
+										  <label class="floating-label">Slider CTA Text</label>      
+                                      </div>
+									  
+									  
+									  
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                                                                                      
+										  <input type="url" name="pro_slug" value="" class="form-control  title" pattern="https?://.+" title="Include http://" />
+										  
+										    <label class="floating-label">Slider CTA URL</label>
+											
+                                      </div>
+									  
+									  
+									  
+                                    <div class="form-group " data-plugin="formMaterial">                                        
+                                        <label class="floating-label">Home Page slider Image</label><br/>
+                                        <input type="file" id="slider_image" name="slider_image" class="" accept="image/*" required>
+                                    </div> 
+									
+									<span style="color:red" id="image_err"></span>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="short_description" >
+                                      <label class="floating-label">Home page Slider Short Description</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default close-model" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary slider_save_btn" >Save</button>
+                          </div>
+                        </div>
+                         
+                      </div>
+						  </form> 
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+         
+            <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>ID No.</th>
+                  <th>Image</th>           
+                  <th>Heading</th>  
+                  <th>Slider CTA Text</th> 				  
+                  <th>Slider CTA Url</th> 				  
+                  <th>Short Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+             
+				  {% if data.sliders.length == 0 %}
+				  <tr>
+					  <td colspan="6">Data not found</td>
+				  </tr>
+				  {% endif %}
+				  
+				  {% for  slide in data.sliders %}
+				  
+                  <tr>
+                  <td>{{slide.id}}</td> 
+                  <td><img  src="/sliders/{{slide.image}}" width="65" height="40" class="img-thumbnail"></td>
+				  <td>{{slide.heading}}</td>
+                  <td>{{slide.product_name}}</td>
+                  <td>{{slide.product_slug}}</td>
+                  
+                  <td>{{slide.short_desc}}</td>
+                  <td>
+					  <button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitedit{{slide.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+					  
+                      <a href="javascript:void(0)" onclick="homeBannerDelete({{slide.id}})" class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr>                        
+      
+                  <!-- Modal edit  -->
+                  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitedit{{slide.id}}" aria-hidden="true" aria-labelledby="exampleModalTitle{{slide.id}}" role="dialog" >
+				  <form method="POST" class="add_slider_form" data-id="{{slide.id}}" enctype="multipart/form-data" >
+				    <div class="modal-dialog modal-simple">
+					    
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close close-model" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Edit Home Page Slider</h4>
+                          </div>
+                          <div class="modal-body">
+                                    <span id="success_msg" style="color:green"></span>        
+                              <div class="row">  
+                                <div class="col-lg-12">  
+
+                                     <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="text" class="form-control  title" value="{{slide.heading}}" name="heading" required>
+                                        <label class="floating-label">slider Heading</label>
+                                      </div>
+
+								
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                                                                                     
+										  <input type="text" name="pro_name" value="{{slide.product_name}}" class="form-control  title"/>
+										  <label class="floating-label">Slider CTA Text</label>      
+                                      </div>
+									  
+									  
+									  
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                                                                                      
+										  <input type="url" name="pro_slug" value="{{slide.product_slug}}" class="form-control  title" pattern="https?://.+" title="Include http://" />
+										  
+										    <label class="floating-label">Slider CTA URL</label>
+											
+                                      </div>
+									  
+									  
+									   <input type="hidden" name="slider_id" value="{{slide.id}}" class=""/>
+									   
+                                    
+									<img src="/sliders/{{slide.image}}" width="100" height="100"/>
+									
+                                    <div class="form-group " data-plugin="formMaterial">                                                                     
+                                        <label class="floating-label">Home Page slider Image</label><br/>
+                                        <input type="file" class="slider_image" name="slider_image" class="" accept="image/*" data-id="{{slide.id}}">
+										<input type="hidden" name="old_image" value="{{slide.image}}"/>
+                                    </div> 
+									
+									<span style="color:red" class="image_err{{slide.id}}"></span>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control title" name="short_description" value="{{slide.short_desc}}" >
+                                      <label class="floating-label">Home page slider Short Description</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default close-model" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary slider_save_btn" >Save</button>
+                          </div>
+						  
+                        </div>
+                        
+                      </div>
+						   </form> 
+                  </div>
+                  <!-- End Modal edit  -->  
+				  
+                {% endfor %}
+                
+              </tbody>
+				
+            </table>
+              
+            
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+	
+		
+	<!-- 2 CTA Banners section  start here -->
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"> CTA'S Splitting</h3>
+          </header>
+          <div class="panel-body">
+            
+            <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>CTA Text</th>                 
+                  <th>CTA Url</th>                 
+                  <th>Action</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+             
+				  {% if data.cta_banners.length == 0 %}
+				  <tr>
+					  <td colspan="6">Data not found</td>
+				  </tr>
+				  {% endif %}
+				  
+				  {% for  slide in data.cta_banners %}
+				  
+                  <tr>
+                  <td><img  src="/cta/{{slide.image}}" width="100" height="100" class="img-thumbnail"></td>
+                  <td>{{slide.heading}}</td>
+                  <td>{{slide.store_slug}}</td>
+                  <td>
+					  <button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitcta{{slide.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+				                          
+                </tr>                        
+      
+                  <!-- Modal edit  -->
+                  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitcta{{slide.id}}" aria-hidden="true"
+                    aria-labelledby="exampleModalTitle" role="dialog" >
+					  <form method="POST" class="edit_cta_form" enctype="multipart/form-data" >  
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close close-model" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Edit cta splitting</h4>
+                          </div>
+                          <div class="modal-body">
+                                    <span id="success_msg_store" style="color:green"></span>        
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                     
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="text" class="form-control  title" value="{{slide.heading}}" name="heading" required>
+                                        <label class="floating-label">CTA Text</label>
+                                      </div>
+									
+									
+									 <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     
+										
+										 <input type="url" class="form-control  title" name="store_slug" value="{{slide.store_slug}}" pattern="https?://.+" title="Include http://" >
+										
+                                        <label class="floating-label">CTA URl</label>
+                                      </div>
+									
+									 <input type="hidden" name="cta_id" value="{{slide.id}}"/>
+									
+									
+									<img src="/cta/{{slide.image}}" widt="100" height="100"/>
+									
+                                    <div class="form-group " data-plugin="formMaterial">                                                                     
+                                        <label class="floating-label">Image</label><br/>
+                                        <input type="file" class="cta_image" name="cta_image" class="" accept="image/*" >
+										<input type="hidden" name="old_image" value="{{slide.image}}"/>
+                                    </div> 
+									
+									<span style="color:red" id="cta_image_err"></span>
+									
+                              
+                                </div>                   
+                            </div><!--end row -->                                                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default close-model" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary cta_save_btn" >Save</button>
+                          </div>
+                        </div>
+                         
+                      </div>
+						  </form>  
+                  </div>
+                  <!-- End Modal edit  -->  
+				  
+                {% endfor %}
+                
+              </tbody>
+				
+            </table>
+              
+            
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>	
+		
+	<!-- popular products section -->	
+		
+	<div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">What’s Trending</h3>
+          </header>
+			
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary"  {% if data.populars_pro.length < 6 %}data-target="#add_popular_model" data-toggle="modal" {%else%} id="check_popular_pro" {%endif%} type="button">Add What’s Trending</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="add_popular_model" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog">
+                      <form method="POST" id="add_popular_form" enctype="multipart/form-data" >  
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add What's trending products</h4>
+                          </div>
+                          <div class="modal-body">
+                                    <span id="success_msg" style="color:green"></span>        
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                      <div class="form-group" data-plugin="formMaterial">
+                                        <label class="floating-label">Product Name</label>                                                               <input style="width:100%" class="search-box" type="text" name="search_product" placeholder="enter product name ex. my prodduct" required/>
+										
+										  <input type="hidden" name="pro_slug" class="searched_pro_slug"/>
+                                         <div class="suggesstion-box"></div>                      
+                                      </div>
+                                  
+                                </div>                   
+                            </div><!--end row -->                                                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary popular_save_btn" >Save</button>
+                          </div>
+                        </div>
+                         
+                      </div>
+						  </form> 
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+          <br/>
+			  
+			  <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>SR No.</th>
+                  <th>Image</th>
+                  <th>Product Name</th>                                 
+                  <th>Ratting</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+				  {% if data.populars_pro.length == 0 %}
+				  <tr><td colspan="6">No data found </td></tr>
+				  {% endif %}
+				  
+				  {% for popular in data.populars_pro %}
+                    <tr>
+                  <td>{{loop.index}}</td> 
+                  <td>
+					  <img src="/products/{{popular.images[0].image_url}}" width="65" height="40">
+				 </td>
+                  <td>{{popular.product_name}}</td>
+                 
+                  <td>
+					  <div class="col-xs-12 col-sm-12 col-md-12 review_right">
+							<ul class="wv_rating">
+												{% if popular.ratings.average_rates == 0 %}
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates > 0 && popular.ratings.average_rates < 1 %}
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates == 1 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates > 1 && popular.ratings.average_rates < 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates == 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates > 2 && popular.ratings.average_rates < 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates == 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates > 3 && popular.ratings.average_rates < 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates == 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif popular.ratings.average_rates > 4 && popular.ratings.average_rates < 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													{% elseif popular.ratings.average_rates == 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													
+												 {% endif %}	
+													<li><span class="review">({{popular.ratings.total_rates}})</span></li>
+												</ul>
+						</div>
+		           </td>
+                  <td>$ {{popular.sale_price}}</td>
+                  <td>
+                      <a href="javascript:void(0)" onclick='popularProductDelete("{{popular.slug}}")' class="btn btn-danger btn-sm employer_delete">Delete from trending list</a></td>                                                   
+                </tr>
+                  {% endfor %}              
+              </tbody>
+            </table>
+            
+              </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+		
+		
+    <!-- blue bacground section -->
+	  <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">Blue Background Section</h3>
+          </header>
+          <div class="panel-body">
+            
+           <!-- blue background model -->
+            <div class="modal fade modal-3d-slit" id="blue_section_model" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog">
+                    <div class="modal-dialog modal-simple">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title">Blue Background Section</h4>
+                        </div>
+						 <form method="POST" enctype="multipart/form-data" id="blue_section_form">
+                        <div class="modal-body">
+							
+							<span id="blu_success_msg" style="color:green"></span>  
+							
+                            <div class="row">  
+                              <div class="col-lg-12">                        
+                                    <input type="hidden" class="form-control " name="table_id" value="{{data.blue_section.id}}">
+                                  
+                                      <div class="form-group floating" data-plugin="formMaterial">
+                                        <label class="floating-label">Heading</label>
+                                        <input type="text" class="form-control  title" name="blue_heading" value="{{data.blue_section.heading}}" required="">
+                                      </div>
+                                      
+                                                                          
+                                    <div class="form-group floating" data-plugin="formMaterial">
+                                      <label class="floating-label">Description</label>
+										<br/>
+										<textarea name="blue_desc" class="form-control" required>{{data.blue_section.description}}</textarea>
+                                    </div>
+
+                              </div>                   
+                          </div><!--end row -->                                                        
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary blu_save_btn">Save</button>
+                        </div>
+						</form>
+                      </div>
+                        
+                    </div>
+                  </div>
+			  
+			  <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>Heading</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+                 <tr>
+                                                   
+                  <td>
+					  <h3>{{data.blue_section.heading}}</h3>
+					 </td>
+                  <td style="width:45%;">
+					  <p>{{data.blue_section.description}}</p>
+					 </td>
+                 
+                  <td>
+					  <button class="btn btn-primary btn-sm employer_delete" data-target="#blue_section_model" data-toggle="modal" type="button">Edit</button>
+					</td>
+                                                   
+                </tr>                        
+                </tbody>
+            </table>
+           </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+
+  </div>
+<!-- Page End -->
+{% endblock %}

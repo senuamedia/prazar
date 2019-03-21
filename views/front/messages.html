@@ -1,0 +1,222 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Order</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <!--//==Shop Single Page Start==//-->
+	   <input type="hidden" id="lui" value="{{data.userdata.user_id}}">
+	   <input type="hidden" id="pg" value="msg">
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-12 col-sm-12 wv_mydetail marT30 marB70">
+                       
+                           <ul class="wv_page-tab">
+								<li class="ptab-li"><a href="/user_dashboard">My Details</a></li>
+								<li class="ptab-li"><a href="/user_orders" {% if data.updated_return_request > 0 %}class="notification_red_dot"{% endif %}>My Orders</a></li> <!-- FARID -->
+								<li class="ptab-li {% if data.to_user_id_check != 1 %} active {%endif%}"><a href="/users_messages" {% if data.unread_msg_count > 0 %} class="notification_red_dot" {% endif %}>My Messages</a></li><!-- FARID -->
+								<!--<li class="ptab-li {% if data.to_user_id_check == 1 %} active {%endif%}"><a href="/users_messages?ritkn=1">Contact Support</a></li>-->
+								<li class="ptab-li"><a href="/wishlist">Wishlist</a></li>
+							</ul>
+                     
+                         
+                                <div class="wv_ptab-content">
+                                    
+									{%if data.all_conversations.length == 0%}
+									    <h3>No chat conversations yet!</h3>
+									{%endif%}
+									<div class="col-sm-12 col-md-12 marT30 marB20 wv_chat_panel">
+										<div id="frame">
+											<div id="sidepanel">
+												<div id="contacts">
+													<ul class="chart-left" id="conversation_box">
+														{% for c in data.all_conversations %}
+														{% if c.id == data.crr_chat_data.conversation_id %}
+														<li class="contact active" data-cid={{c.id}}>
+														{% else %}
+														<li class="contact" data-cid={{c.id}}>
+														{% endif %}
+															{% if c.from_id == data.userdata.user_id %}
+																<a href="/users_messages?ritkn={{c.to_id}}">
+															{% else %}
+																<a href="/users_messages?ritkn={{c.from_id}}">	
+															{% endif %}	
+															<div class="wrap">
+																<span class="contact-status online"></span>
+																<span class="chat_name_img">{{c.to_user_initials}}</span>
+																
+																
+																<div class="meta">
+																	<p class="name">{{c.to_user_name}}</p>
+																</div>
+															</div>
+															</a>
+														</li>
+														{% endfor %}
+													</ul>
+												</div>
+												
+											</div>
+											
+											<div class="content_chat" data-reciver="{{data.crr_chat_data.reciver_id}}" conversation_id="{{data.crr_chat_data.conversation_id}}">
+												
+												<div class="messages">
+													<ul id="msg_box">
+														{% for msg in data.crr_chat_data.msg_data %}
+														
+														<li class="{% if msg.from_user_id == data.userdata.user_id %} replies {% else %} sent {% endif %}">
+															{% if msg.message_type == 0 %}													
+															<p>{{msg.message}}</p>
+															{% elseif msg.message_type == 1 %}
+															<a href="{{base_url}}{{msg.file_path}}"  target="_blank"><img src="{{msg.file_path}}"></img></a>
+															{% else %}
+															<a href="{{base_url}}{{msg.file_path}}" target="_blank">{{msg.message}}</a>
+															{% endif %}
+														</li>
+														{% endfor %}
+													</ul>
+												</div>
+												<div class="message-input">
+													<div class="wrap wv_wrap">
+													<input type="text" id="msg_input" placeholder="Type a message..." />
+													<i onclick="document.getElementById('f1').click();" class="fa fa-paperclip attachment" aria-hidden="true"></i>
+													<button id="send_msg_btn" class="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+													<input style="display:none" type="file" id="f1" name="f1">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>							
+                                </div>
+                               
+                        
+						
+								
+								
+								
+								<div class="wv_ptab-content" id="area_to_get_pdf" style="display:none;">
+                                    <div class="col-md-12" style="text-align:center;">
+										<h3>Prazer Purchase Invoice</h3>
+									</div>
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper">
+										
+										<div class="wv_myorder_list" style="padding: 35px 10px 20px 10px;">
+											<div class="col-md-6 myorder_left">
+												<h2 style="font-size:14px;">Order No :</h2>
+												<h2 style="font-size:14px;">Ordered on :</h2>
+												<h2 style="font-size:14px;">Total</h2>
+											</div>
+											<div class="col-md-6 myorder_right">
+												<h3>{{data.order_data.order_no}}</h3>
+												<h3>{{data.order_data.order_date}}, {{data.order_data.order_time}}</h3>
+												<h3>${{data.order_data.order_total}}</h3>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-6 marT30 marB20 wv_myorder_wrapper" >
+										<div class="wv_myorder_list" style="padding: 35px 10px 20px 10px;">
+											<div class="col-md-6 myorder_left">
+												<h4 style="font-size:14px;">Shipped to :</h4>
+											</div>
+											<div class="col-md-6 myorder_right">
+												<h3 class="para_li-height">{{data.order_data.ship_fullname}}<br>{{data.order_data.ship_addr1}} {{data.order_data.ship_add2}},<br> {{data.order_data.ship_city}},<br> {{data.order_data.ship_state}},<br> {{data.order_data.ship_country}},<br> {{data.order_data.ship_zip_code}}</h3>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-12 marT30 marB20 myordr_table">
+										<div class="table-responsive table-content">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th class="product-thumbnail-th">Image</th>
+														<th class="product-thumbnail-th">Product</th>
+														<th class="product-quantity-th">Quantity</th>
+														<th class="product-name-th">Price</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for prd in data.order_data.items_details %}
+													<tr>
+														<td style="width:10%;"><a href="javascript:void(0)"><img src="./products/{{prd.product_image}}" alt="cart"></a></td>
+														<td class="cart-product-title">
+															<a href="javascript:void(0)" style="font-size: 14px;">{{prd.product_name}}</a>
+														</td>
+														<td class="cart-product-price"><span>{{prd.quantity}}</span></td>
+														<td class="cart-product-price wv_stock"><span>${{prd.product_price_sub_total}}</span></td>
+													</tr>
+													
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-6 marT20 marB20">
+										
+									</div>
+									<div class="col-sm-12 col-md-6 marT20 marB20 wv_bill_detail">
+										<div class="wv_checkout_right">
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Order Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.sub_total}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Shipping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.shipping_total}}</p>
+												</div>
+											</div>
+											<div class="wv_subtotaling wv_checkout_subtotal">
+												<div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+													<p>Gift Wrapping</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+													<p>${{data.order_data.gift_wrap_total}}</p>
+												</div>
+											</div>
+											<div class="wv_totaling">
+												<div class="col-xs-6 col-md-6 wv_total_left textL">
+													<p>Total</p>
+												</div>
+												<div class="col-xs-6 col-md-6 wv_total_right textR">
+													<p>${{data.order_data.order_total}}</p>
+												</div>
+											</div>
+										</div>
+									</div>								
+                                </div>
+								
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+ 
+{% endblock %}    

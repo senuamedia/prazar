@@ -1,0 +1,61 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+     <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb" style="margin-bottom:10px">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Login</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <section class="login-page" id="login_page_section" style="margin-bottom:100px">
+            <div class="container">
+                <div class="row pad-s15">
+                    <div class="login-form col-md-6 col-md-offset-3">
+                        <h1 class="heading_form padB100" style="margin:0px">Login</h1>
+						 {% if data.error.length > 0 %}
+						
+						<div class="alert alert-danger"> {{data.error}}</div>
+						
+						 {% endif %}
+                        <form method="post">
+                            <input type="email" class="login_input" placeholder="Email" id="email" name="email" value="{{data.remembe_data.email}}" required style="margin-bottom:10px !important">
+                            <input type="password" class="login_input" placeholder="Password" id="Password" name="password" value="{{data.remembe_data.pass}}" required style="margin-bottom:10px !important">
+                            <input type="submit" name="sub" class="login_submit" value="Sign in">
+                        
+                        <div class="after_submit_div" style="margin-top:8px;">
+                            <div class="left_section wv_widget">
+                                        <input type="checkbox" value="remember_me" class="terms" name="remember_me" {%if data.remembe_data %} checked="checked" {%endif%} id="remember-me">
+                                        <label for="remember-me">Remember me</label>
+                            </div>
+                            <div class="right_section"><a href="/forgot_password">forgot username/password</a></div>
+                        </div>
+						</form>
+                        <div class="register_div" style="margin-top:0px;"><a href="/sign_up">create account</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//==Login Page End==//--> 
+
+{% endblock %}    

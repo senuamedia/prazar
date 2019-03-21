@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Edit Page Content</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item "><a href="#">CMS Page Edit</a></li>
+          <li class="breadcrumb-item active">{{data.page_detail.page_title}}</li>
+        </ol>        
+      </div>
+
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">             
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>              
+          </header>
+          <div class="panel-body"> 
+			  
+			     {% if data.message.length > 0 %}
+			      <div class="alert alert-success  alert-dismissible" >
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                    content updated successfully
+                  </div>
+			   {% endif %}
+			  
+                  <form  method="POST" action="/prazar_admin/cms_single" enctype="multipart/form-data">
+                  
+                  <div class="row">        
+                     
+                  <div class="col-lg-8">
+               
+                      <div class="form-group floating" data-plugin="formMaterial">
+                        <label class="floating-label">Page Name</label>
+                        <input type="text" class="form-control empty" name="page_name" value="{{data.page_detail.page_title}}" readonly>
+                      </div>  
+					  
+					  <input type="hidden" name="page_key_update" value="{{data.page_detail.page_key}}" />
+					  
+                      <div class="form-group floating" data-plugin="formMaterial">
+                        <label class="floating-label">Page Heading</label>
+                        <input type="text" class="form-control empty" name="page_heading"  value="{{data.page_detail.page_heading}}" readonly >
+                      </div>                                           
+                      <label class="floating-label">Page Content</label>                          
+                      <div class="form-group floating"  style="border:1px solide #OOO;">                    
+                          <textarea class="form-control empty" data-plugin="summernote" rows="10" name="page_content" placeholder="Page Description">{{data.page_detail.page_content}}</textarea>
+                      </div> 
+                      
+                    <button type="submit" name="sub" value="sub" class="btn btn-primary" >Update</button>
+                    </div>
+                     
+                </div><!--end row -->
+                </form>  
+
+
+
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+    </div>
+    <!-- End Page -->
+{% endblock %}

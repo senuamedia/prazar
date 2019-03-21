@@ -1,0 +1,180 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="index.html">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Account Detail</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <section class="login-page">
+            <div class="container">
+                <div class="row pad-s15">
+					{% if data.message.length > 0 %}
+					 <div class="col-md-12">
+					   <div class="alert alert-info alert-dismissible">
+                        {{data.message}}
+                       </div>
+					 </div>
+					{% endif %}
+                    <div class="login-form account_detail_div col-md-6 ">
+                        <h1 class="heading_form padB100">Personal Details</h1>
+                        <form method="post">
+                            <div class="col-md-6 form-group padL0 ">
+                                    <input class="wv_form_focus" value="{{data.account_detail.fname}}" type="text" placeholder="First Name" name="fname" required>
+                            </div>
+                            <div class="col-md-6 form-group padR0">
+                                    <input class="wv_form_focus" value="{{data.account_detail.lname}}" type="text" placeholder="Last Name" name="lname" required>
+                            </div>
+                            <input class="wv_form_focus" type="hidden" placeholder="Company Name" name="company_name" value="{{data.account_detail.company_name}}" required>
+
+                            <div class="col-md-6 form-group padL0">
+                                    <input class="wv_form_focus" value="{{data.account_detail.email}}" type="email" placeholder="xyz@gmail.com" name="email" readonly>
+                            </div>
+							
+							{% if data.account_detail.phone_no != '' && data.account_detail.phone_no != null %}
+							
+                            <div class="col-md-6 form-group padR0">
+                                    <input class="wv_form_focus" type="number" placeholder="Phone Number" name="phone_no" value="{{data.account_detail.phone_no}}" required>
+                            </div>
+							{% else %}	
+							
+                            <div class="col-md-6 form-group padR0">
+                                    <input class="wv_form_focus" type="number" placeholder="Phone Number" name="phone_no" value="{{data.bank_detail.phn_no}}" required>
+                            </div>
+							{% endif %}	
+							
+                            <input class="wv_form_focus auto_location" type="hidden" placeholder="Address" name="address" value="{{data.account_detail.address}}" required>
+							
+                            <div class="col-md-12 form-group padL0 padR0">
+                                    <input class="wv_form_focus" type="password" placeholder="Old Password" name="old_pass">
+                            </div>
+                            <div class="col-md-12 form-group padL0 padR0">
+                                    <input class="wv_form_focus newpassword" type="password" placeholder="New Password" name="new_pass" >
+                            </div>
+                            <div class="col-md-12 form-group padL0 padR0">
+                                    <input class="wv_form_focus cpassword" type="password" placeholder="Confirm Password" name="cpass" >
+								<input type="hidden" name="db_userp" value="{{data.account_detail.password}}"/>
+                            </div>
+
+                            <input type="submit" name="sub"  class="login_submit" value="Update">
+                        </form>
+
+                     </div>
+
+
+                  <div class="col-sm-6 col-md-6 ">
+                        <div class="wv_checkout_right">
+                        	<a class="edit_anchor" href="#pop_bank"><span><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                            <h2>Paypal details</h2>
+                           <!-- <div class="wv_checkout_subtotal">
+                                <div class="col-xs-4 col-md-4 wv_subtotal_left textL">
+                                    <p>Bank Name :</p>
+                                </div>
+                                <div class="col-xs-8 col-md-8 wv_subtotal_right textL">
+                                    <p>{{data.bank_detail.bank_name}}</p>
+                                </div>
+                            </div>
+                            <div class="wv_checkout_subtotal">
+                                <div class="col-xs-4 col-md-4 wv_subtotal_left textL">
+                                    <p>Account No :</p>
+                                </div>
+                                <div class="col-xs-8 col-md-8 wv_subtotal_right textL">
+                                    <p>{{data.bank_detail.account_no}}</p>
+                                </div>
+                            </div>
+                            <div class="wv_checkout_subtotal">
+                                <div class="col-xs-4 col-md-4 wv_subtotal_left textL">
+                                    <p>Bsb :</p>
+                                </div>
+                                <div class="col-xs-8 col-md-8 wv_subtotal_right textL">
+                                    <p>{% if data.bank_detail.ifsc_code == '' %} -- {%else%}{{data.bank_detail.ifsc_code}} {%endif%}</p>
+                                </div> 
+                            </div>
+                            <div class="wv_checkout_subtotal">
+                                <div class="col-xs-4 col-md-4 wv_subtotal_left textL">
+                                    <p>Bank Address :</p>
+                                </div>
+                                <div class="col-xs-8 col-md-8 wv_subtotal_right textL">
+								    
+                                    <p>{% if data.bank_detail.bank_address == '' %} -- {%else%}{{data.bank_detail.bank_address}}{%endif%}</p>
+                                </div>
+                            </div> -->
+
+							  <div class="wv_checkout_subtotal">
+                                <div class="col-xs-4 col-md-4 wv_subtotal_left textL">
+                                    <p>Paypal Account Email :</p>
+                                </div>
+                                <div class="col-xs-8 col-md-8 wv_subtotal_right textL">
+                                    <p>{{data.bank_detail.paypal_email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="col-sm-12 col-md-12 ">
+                      <div class="register_div"><a onclick="DeleteVendorAccount()">delete account</a></div>
+                    </div>
+                </div>
+            </div>
+      </section>
+		<!-- bank detail model -->	
+        <div id="pop_bank" class="overlay">
+			<div class="popup col-md-6 col-md-offset-3">
+				<h2>Paypal Details</h2>
+				<a class="close" href="#">&times;</a>
+				<form class="contact-form address-popup" id="vendor_bank_form" method="post" >
+					<input type="hidden" name="bank_id" value="{{data.bank_detail.id}}"/>
+					<div class="row">
+						<!--<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{data.bank_detail.bank_name}}" type="text" name="bank_name" required placeholder="Bank Name">
+						</div>
+						<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{data.bank_detail.account_no}}" min="0" type="number" name="account_no" required  placeholder="Account No">
+						</div>
+						
+					<div class="col-md-6 form-group">
+							<input class="wv_form_focus" value="{{data.bank_detail.ifsc_code}}" min="0" type="number" name="ifsc_code" required  placeholder="Bsb">
+						</div>
+					
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus auto_location1" value="{{data.bank_detail.bank_address}}" type="text" name="bank_address"  placeholder="Bank Address" required>
+						</div> -->
+						
+						<div class="col-md-12 form-group">
+							<input class="wv_form_focus" value="{{data.bank_detail.paypal_email}}" type="email" name="paypal_email" required  placeholder="Paypal account email">
+							<p style="padding-left:15px;">Paypal account email is use to receive payment from buyers and refund to buyer.</p>
+						</div>
+						
+						
+					</div>
+					
+					<div class="mydetail_btn">
+						<input type="submit" class="submit-btn" name="sub1" value="Submit"/>
+					</div>
+				</form>
+				
+			</div>
+		</div>   
+       
+{% endblock %}    

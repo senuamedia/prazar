@@ -1,0 +1,17 @@
+https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey=AP-0RE62024497575725
+
+https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey=InsertPayKeyHere
+
+
+https://svcs.sandbox.paypal.com/AdaptivePayments/Pay
+
+https://www.sandbox.paypal.com/webapps/adaptivepayment/flow/pay
+https://www.sandbox.paypal.com/webapps/adaptivepayment/flow/pay
+
+
+https://www.paypal.com/webapps/adaptivepayment/flow/pay?paykey=...
+
+https://www.sandbox.paypal.com/cgi-bin/webscr?x=85&y=13&expType=light&paykey=AP-950750428R666453M
+
+
+https://www.sandbox.paypal.com/cgi-bin/webscr?x=77&y=15&expType=light&cmd%3D=_ap-payment&paykey=AP-34R24353BG493550P

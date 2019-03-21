@@ -1,0 +1,69 @@
+{"responseEnvelope":{"timestamp":"2018-07-07T02:17:41.835-07:00","ack":"Success","correlationId":"885f80a375b3b","build":"47715336"},"currencyCode":"USD","refundInfoList":{"refundInfo":[{"receiver":{"amount":"20.00","email":"ankit.webvillee@gmail.com"},"refundStatus":"NOT_PROCESSED"},{"receiver":{"amount":"50.00","email":"danish.webvillee@gmail.com"},"refundStatus":"NO_API_ACCESS_TO_RECEIVER"}]},"httpStatusCode":200}
+
+
+
+
+{"responseEnvelope":{"timestamp":"2018-07-07T05:28:30.555-07:00","ack":"Success","correlationId":"a1005d79f1c19","build":"47715336"},"currencyCode":"USD","refundInfoList":{"refundInfo":[{"receiver":{"amount":"20.00","email":"ankit.webvillee@gmail.com"},"refundStatus":"REFUNDED","refundNetAmount":"20.00","refundFeeAmount":"0.00","refundGrossAmount":"20.00","totalOfAllRefunds":"20.00","refundHasBecomeFull":"false","encryptedRefundTransactionId":"6U880510AA905874R","refundTransactionStatus":"COMPLETED"},{"receiver":{"amount":"50.00","email":"farid.webvillee@gmail.com"},"refundStatus":"REFUNDED","refundNetAmount":"48.55","refundFeeAmount":"1.45","refundGrossAmount":"50.00","totalOfAllRefunds":"50.00","refundHasBecomeFull":"false","encryptedRefundTransactionId":"06556313VM243213F","refundTransactionStatus":"COMPLETED"}]},"httpStatusCode":200}
+
+
+/*vendor refund payment*/
+
+router.post('/vendor_refund',checkLoginVendor,function(req, res) {
+	
+	
+	
+});
+
+
+
+
+/*test*/
+
+router.all("/test",function (req, res, next) {
+	
+                var Paypal = require('paypal-adaptive');
+ 
+
+				var paypalSdk = new Paypal({
+					userId:config.paypal_user_id,
+					password:config.paypal_password,
+					signature:config.paypal_signature,
+					sandbox:true //defaults to false
+				});
+
+				var payload = {
+				requestEnvelope: {
+					errorLanguage:  'en_US'
+				},
+				currencyCode:   'USD',
+				receiverList: {
+					receiver:[{email:config.paypal_primary_reciever,amount:20,primary:'true'},
+					{email:'farid.webvillee@gmail.com',amount:50,primary:'false'}]
+				   },
+				 payKey:'AP-7P8790591L910612U'  
+				};
+			 
+			 
+				paypalSdk.refund(payload, function (err, response) {
+				if (err) {
+					
+				      console.log("ttttttttt"+err);
+					  
+				      console.log(response);
+				        
+					 res.send(JSON.stringify(response)); 	
+						
+						
+				} else {
+					
+				   console.log(response);
+				  
+				   res.send(JSON.stringify(response));
+				
+				}
+				});
+			
+});
+
+
+

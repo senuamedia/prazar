@@ -1,0 +1,297 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+
+<div class="delete_overlay">
+<div class="loader_delete">
+
+</div>
+</div>
+
+<!-- Page -->
+<div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Vendors List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item active">Vendors List</li>
+        </ol>        
+      </div>
+         <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">   
+				<form method="get" class="customer_date_filter_form">
+                <div class="col-md-8" style="margin-bottom: 30px;">
+                    <div class="col-md-4" id="start_date_div">
+                     <!--  <label>Start Date</label> -->
+                      <input type="text" class="form-control" name="start_date" value="{{data.start_date}}" placeholder="Start Date">
+                    </div>
+                    <div class="col-md-4" id="end_date_div">
+                      <!-- <label>End Date</label> -->
+                      <input type="text" class="form-control" value="{{data.end_date}}" name="end_date" placeholder="End Date">
+                    </div>
+                    <div class="col-md-4" id="search_btn_div">
+                      <input type="submit" class="form-control btn-primary" value="Search">
+                  </div>
+					
+               </div>
+               </form>
+
+               <div class="col-lg-4">
+                 <select class="form-control" id="vendor_show_by">
+          
+              <option value="0">Showed by vendor</option>
+              <option value="1">Over the last month</option>
+              <option value="2">Last 6 months</option>
+              <option value="3">Last year</option>
+             </select>   
+					
+                </div> 
+				 
+            </div>
+      <br>
+      <br>
+          
+
+            <table class="table table-hover table-striped w-full vrtical_align table-responsive table-bordered">
+              <thead>
+               <tr>
+                  <th>S.No.</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Store Name</th>
+                  <th>Phone Number</th>
+                  <th>Email</th>
+                  <th>Category</th>
+                  <th>Amount Sold</th>
+                  <th>Order Number</th>
+                  <th>Total Order</th>
+                  <th>Comm %</th>
+                  <th>Unfulfilled orders</th>
+                  <th>Pending orders</th>
+                  <th>Vendor Status</th>
+                  <th>Action</th> 
+                </tr>
+              </thead>
+           
+              <tbody id="customers_table_body">
+				  
+                   {% if data.vendors.length ==0 %}
+				     <tr>
+				     <td colspan="15">data not found</td>
+					 </tr>
+				   {% endif %}
+				  
+				  {% for vendor in data.vendors %}
+                   <tr>
+                  <td>{{loop.index}}</td>
+                  <td>
+				  {%if vendor.store_logo !="" %}
+				  <img  src="/store_logo/{{vendor.store_logo}}" width="65" height="40" class="img-thumbnail" onerror="arguments[0].currentTarget.style.display='none'">
+				  {%else%}
+				  <img  src="/front_assets/img/store_logo_placeholder.png" width="65" height="40" class="img-thumbnail" onerror="arguments[0].currentTarget.style.display='none'">
+				  {%endif%}
+				  </td>
+                  <td>{{vendor.name}}</td>
+                  <td>{{vendor.store_name}}</td>
+                  <td>{{vendor.phone_no}}</td>
+                  <td>{{vendor.email}}</td>
+                 
+                  <td> <button class="btn btn-primary btn-xs employer_delete openPopupCat" data-href="{{base_url}}prazar_admin/get_vendor_category?vendor_id={{vendor.user_id}}" data-toggle="modal" type="button">View Category</button>
+                  </td>
+                  <td> $ {{vendor.amt_sold}}</td>
+                  <td> <button class="btn btn-primary btn-xs employer_delete openPopupOrder" data-href="{{base_url}}prazar_admin/get_vendor_orders_no?vendor_id={{vendor.user_id}}" data-toggle="modal" type="button">View Order no.</button></td>
+                  <td>{{vendor.total_orders}}</td>
+                  <td>{{vendor.prazar_commision}}%</td>
+                  <td>{{vendor.unfullfill_orders}}</td>
+                  <td>{{vendor.pending_orders}}</td>
+                  <td>
+                    {% if vendor.is_active == 1 %}
+                     <span class="badge badge-success" >Active</span>
+                    {% else %}
+                      <span class="badge badge-danger" >Deactive</span>
+                   {% endif %}
+                 </td>
+                  <td>
+					 <button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlit{{vendor.user_id}}" data-toggle="modal" type="button">Edit</button>
+                      <a href="javascript:void(0)" onclick="vendorDelete({{vendor.user_id}})" class="btn btn-danger btn-sm employer_delete">Delete </a>
+					  <a href="/prazar_admin/vendors_messages?ritknvnd={{vendor.user_id}}" class="btn btn-primary btn-sm employer_delete">Contact</a>
+					   </td>
+                   
+                </tr>
+				  
+		   <!-- Modal edit vendor-->
+		  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlit{{vendor.user_id}}" aria-hidden="true"
+			aria-labelledby="exampleModalTitle" role="dialog" >
+			<div class="modal-dialog modal-simple">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				  </button>
+				  <h4 class="modal-title">Edit {{vendor.name}} Account</h4>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">  
+
+<div class="col-lg-12">         
+                                     <form method="POST" class="edit_vendor_pass_form"  >   
+										
+								<input type="hidden" class="form-control  title" name="user_id" value="{{vendor.user_id}}">		
+								<input type="hidden" class="form-control  title" name="email" value="{{vendor.email}}">
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="text" class="form-control  title" name="new_pass" required>
+                                        <label class="floating-label">New Password</label>
+                                      </div>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     <button type="submit" class="btn btn-primary submit-btn" >Reset Password</button>
+                                    </div>
+									</form> 
+									<hr/>
+									
+									<form method="POST" class="edit_vendor_status_form"  >   
+										<label class="floating-label">Select Action</label>
+										  <br/>
+										<select name="customer_status" required>
+											<option value="">select...</option>
+											  {% if vendor.is_active == 1 %}
+											<option value="0">Block Account</option>
+											<option value="0">Suspend Account</option>
+											{% else %}
+											 <option value="1">Activate Account</option>
+											{% endif %}
+										</select>
+                                   
+								<input type="hidden" class="form-control  title" name="user_id" value="{{vendor.user_id}}">
+										<input type="hidden" class="form-control  title" name="email" value="{{vendor.email}}">
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+										  <label class="floating-label">Reason</label>
+										  <br/>
+										  <textarea rows="4" cols="20" name="reason" required></textarea>
+                                        
+                                      </div>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     <button type="submit" class="btn btn-primary submit-btn1" >Submit</button>
+                                    </div>
+									</form> 
+									
+	                                  	<hr/>
+									<form method="POST" class="edit_vendor_commision_form"  >   
+										<h4>Set Commission</h4>
+								<input type="hidden" class="form-control  title" name="user_id" value="{{vendor.user_id}}">		
+								
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="number" class="form-control title" value="{{vendor.prazar_commision}}" name="commision" required>
+                                        <label class="floating-label">New Commission</label>
+                                      </div>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     <button type="submit" class="btn btn-primary submit-btn2" >Save Commission</button>
+                                    </div>
+									</form> 
+									<hr/>
+	
+	
+                                </div>    
+				  </div><!--end row -->                                                        
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			  </div>                      
+			</div>
+		  </div>
+		  <!-- End Modal -->
+				  
+              {% endfor %}
+                
+              </tbody>
+            </table>
+			  
+			  <!-- pagination -->
+                {% set productCount = data.total_pages %}
+                {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row paginat_row"> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination ">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/prazar_admin/vendors?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+      </div>
+   
+
+   <!-- Modal category -->
+  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitcat" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" >
+	<div class="modal-dialog modal-simple">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		  </button>
+		  <h4 class="modal-title">View Category Name</h4>
+		</div>
+		<div class="modal-body-cat">
+
+			                                                      
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>                      
+	</div>
+  </div>
+  <!-- End Modal -->
+  
+
+<!-- Modal order No-->
+  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitOrder" aria-hidden="true"
+	aria-labelledby="exampleModalTitle" role="dialog" >
+	<div class="modal-dialog modal-simple">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		  </button>
+		  <h4 class="modal-title">View Order Number</h4>
+		</div>
+		<div class="modal-body-order-nos">
+                                                    
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>                      
+	</div>
+  </div>
+  <!-- End Modal --> 
+
+{% endblock %}

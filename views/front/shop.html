@@ -1,0 +1,450 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/shop">Shop</a>
+                                </li>
+                                <li class="active">{{ data.cat_details[0].cat_name }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Shop Page Start==//-->
+		<input type="hidden" id="shop_page_val" value="shop_page">
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Sidear Start==//-->
+					
+                    <div class="col-md-3 col-sm-4">
+                        <div class="row">
+                            <div class="sidebar">
+                                <!--//==Widget Item==//-->
+                                <div class="col-md-12">
+                                    <div class="wv_widget marB30 selected_cat_list">
+                                        <h3>{{ data.cat_details[0].cat_name }}</h3>
+                                        <!--//==Product Category List End==// cat_slug -->
+                                        <ul class="list1">
+                                            {% for sub_cat_lnk in data.all_sub_cats %}
+											<li>
+                                                <a href="/shop?c={{data.cat_details[0].cat_slug}}&sc={{sub_cat_lnk.su_cat_bslug}}" class="{% if sub_cat_lnk.su_cat_bslug == data.sub_cat_slug %}active{% endif %}">
+                                                    <i class="fa fa-chevron-right wv-arrowright" aria-hidden="true"></i>
+                                                    <div class="clearfix wv_category"><span class="pull-left">{{sub_cat_lnk.name}}</span></div>
+                                                </a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <!--//==Product Category List End==//-->
+                                    </div>
+                                </div>
+								{% if data.product_data.length > 0 %}
+                                <!--//==Widget Item==//-->
+                                <div class="col-md-12">
+                                    <div class="wv_widget1 marB30">
+                                        <h3>Filter By Price</h3>
+                                        <!--//==Product Price List Start==//-->
+										 <div class="price-range-filter">
+											<!--price filter-->
+											<div class="rslt__fltr ui-nav-menu state--expanded">
+												<ul class="ui-nav-menu-opts">
+													<li class="menu__fltr fltr-type__sldr">
+														<div class="js-price-slider" id="price_filter"></div>
+													</li>
+													<li class="menu__fltr fltr-type__sldr"></li>
+												</ul>
+											</div>
+											<div class="price_result">
+												<h4>
+												Price : <span class="wv_price_result" id="price_show"></span>
+												<span class="wv_price_result" id="price_show1"></span>
+												</h4>
+												<input type="hidden" id="min_price" value="{{data.mmprice_res[0].min_price}}">
+												<input type="hidden" id="max_price" value="{{data.mmprice_res[0].max_price}}">
+											</div>
+										</div>
+                                        <!--//==Product Price List End==//-->
+                                    </div>
+                                </div>
+                                <!--//==Widget Item==//-->
+                                <!--<div class="col-md-12">
+                                    <div class="wv_widget wv_loc-pad marB30">
+                                        <h3>filter by Location</h3>
+                                        
+										<select class="form-control wv_select" id="sel1">
+											<option>Location1</option>
+											<option>Location2</option>
+											<option>Location3</option>
+											<option>Location4</option>
+											<option>Location5</option>
+											<option>Location6</option>
+											<option>Location7</option>
+											<option>Location8</option>
+									    </select>
+                                    </div>
+                                </div>-->
+                                <!--//==Widget Item==//-->
+                                <!--<div class="col-md-12">
+                                    <div class="wv_widget marB30">
+                                        <h3>filter by color</h3>
+                                       
+                                        <ul class="wv_choose_color">
+                                            <li>
+                                                <input type="checkbox" class="red" name="red" id="beige">
+                                                <label class="form-label" for="beige"> Red</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="pink" name="pink" id="white">
+                                                <label for="white"> Pink</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="purple" name="purple" id="black">
+                                                <label for="black"> Purple </label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="blue" name="blue" id="orange">
+                                                <label for="orange"> Blue</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="green" name="green" id="blue">
+                                                <label for="blue"> Green</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="yellow" name="yellow" id="green">
+                                                <label for="green"> Yellow</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="black" name="black" id="yellow">
+                                                <label for="yellow"> Black</label>
+                                            </li>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>-->
+								
+								<div class="col-md-12">
+                                    <div class="wv_widget marB30">
+                                        <h3>Features</h3>
+                                       
+                                        <ul class="wv_choose_color">
+                                            <li>
+                                                <input type="checkbox" class="blue sale_features" value="on_sale" id="beige">
+                                                <label class="form-label" for="beige"> On Sale</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="blue personlized_features" value="personalised" id="white">
+                                                <label for="white"> Personalized</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" class="blue gift_features" value="gift_wrapping" id="black">
+                                                <label for="black"> Gift Wrapping</label>
+                                            </li>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+								
+								
+								<div class="col-md-12">
+                                    <div class="wv_widget marB30 wv_loc-pad wv_payment" style="margin-top:0px;">
+                                        <h3>Delivery</h3>
+                                       
+                                       <ul>
+											<li>
+												<label class="control control--radio">
+													All
+													<input type="radio" name="radio" value="all" class="delivery" />
+													<span class="control__indicator"></span>
+												</label>
+											</li>
+											<li>
+												<label class="control control--radio">
+													Express delivery
+													<input type="radio" name="radio" value="express" class="delivery" />
+													<span class="control__indicator"></span>
+												</label>
+											</li>
+											<li>
+												<label class="control control--radio">
+													Free Standard Delivery
+													<input type="radio" name="radio" value="instant" class="delivery" />
+													<span class="control__indicator"></span>
+												</label>
+											</li>
+											<li>
+												<label class="control control--radio">
+													International Delivery
+													<input type="radio" name="radio" value="international" class="delivery" />
+													<span class="control__indicator"></span>
+												</label>
+											</li>
+										</ul>
+										<div class="show_location" style="display:none;">
+											<h5>Select Region</h5>
+											<select class="form-control wv_select show_location_regions" id="sel1">
+												<option value="all">All</option>
+												{% for loc in data.all_locations %}
+												<option value="{{loc.name}}">{{loc.name}}</option>
+												{% endfor %}
+											</select>
+										</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+					
+                    <!--//==Shop Page Sidear End==//-->
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-9 col-sm-8 marB50 wvshop_right">
+                        <div class="row">
+                            <div class="wv_shop_banner">
+                                <img src="/categories/{{ data.cat_details[0].cat_banner_image }}" alt="">
+                                <div class="shop_inner">
+                                    <p>{{ data.cat_details[0].cat_name }}</p>
+                                   
+                                </div>
+                            </div>
+							{% if data.product_data.length > 0 %}
+                            <div class="col-md-12 marT30">
+                                <div class="tool-page-top tool-page clearfix">
+                                    <div class="">
+                                        <div class="sort wv_grid_left col-xs-12 col-md-6">
+                                            <label>Sort By:</label>
+                                            <div class="box-option">
+                                                <select class="order_by">
+                                                    <option value="none">Default</option>
+                                                    <option value="date_desc">Newest First</option>
+                                                    <option value="price_asc">Price Low to High</option>
+                                                    <option value="price_desc">Price High to Low</option>
+                                                    <!--<option value="order_desc">Most Ordered</option>-->
+                                                    <option value="name_asc">Product Name Asc</option>
+                                                    <option value="name_desc">Product Name Desc</option>
+                                                </select>
+                                                <span class="icon"></span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="show-item wv_grid_right col-xs-6 col-md-6">
+                                            <label>Show:</label>
+                                            <div class="box-option">
+                                                <select class="responsive_grid_right">
+                                                    <option>12</option>
+                                                    <option>18</option>
+                                                    <option>24</option>
+                                                </select>
+                                                <span class="icon"></span>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+							{% endif %}
+							
+                            <!--//==Product Item Start==//-->
+							<input type="hidden" id="cat_id" value="{{ data.cat_id }}">
+							<input type="hidden" id="sub_cat_id" value="{{ data.sub_cat_id }}">
+							<input type="hidden" id="sub_sub_cat_id" value="{{ data.sub_sub_cat_id }}">
+							<input type="hidden" id="sub_sub_cat_slug" value="{{ data.sub_sub_cat_slug }}">
+							<input type="hidden" id="sub_cat_slug" value="{{ data.sub_cat_slug }}">
+							<input type="hidden" id="cat_slug" value="{{ data.cat_slug }}">
+							
+							{% if data.userdata %}
+							 <input type="hidden" id="is_user_logged_in" value="1">
+							{% else %}
+							 <input type="hidden" id="is_user_logged_in" value="0">
+							{% endif %}
+							
+							
+							{% if data.product_data.length == 0 %}
+							<input type="hidden" id="call_ajax" value="0">
+							{% else %}
+							<input type="hidden" id="call_ajax" value="1">
+							{% endif %}
+							<div id="product_main_container_to_append">
+								{% for single_prod in data.product_data %}
+								<div class="col-md-3 col-sm-6  col-xs-6 wv_clear marB30" >
+									<div class="wa-theme-design-block">
+									
+										<figure class="dark-theme">
+										<a class="pro_img_anchr" href="/product_datail?p={{single_prod.slug}}">
+											<img src="./products/{{single_prod.images[0].image_url}}" alt="Women Thumbnail">
+											</a>
+											{% if single_prod.quantity == 0 %}
+											<div class="out_stock_div">
+												<span>out of stock</span>
+											</div>
+											{% endif %}
+											<!--<div class="ribbon"><span>New</span></div>-->
+											{% if single_prod.quantity != 0 %}
+											
+											   {% if single_prod.product_type == 2%}
+												<span class="block-sticker-tag1 add_variant_pro_cart" data-id="{{single_prod.product_id}}" data-slug="{{single_prod.slug}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+												  {%else%}
+												   <span class="block-sticker-tag1 add_to_cart_other" data-id="{{single_prod.product_id}}" data-sale-price="{{single_prod.sale_price}}" data-is-customize="{{single_prod.is_customizable}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+											     {%endif%}
+												 
+											{% endif %}
+											{% if data.userdata %}
+											<span class="block-sticker-tag2 add_to_wishlist" data-id="{{single_prod.product_id}}" style="cursor:pointer;">									   
+												<span class="off_tag1"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></span>
+											</span>
+											{% else %}
+											<span class="block-sticker-tag2">									   
+												<a class="off_tag1" href="/login"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></a>
+											</span>
+											{% endif %}
+											<span class="block-sticker-tag3">
+											<a class="off_tag1 btn-action btn-quickview" href="/product_datail?p={{single_prod.slug}}"><strong><i class="fa fa-eye" aria-hidden="true"></i></strong></a>
+											</span>
+										</figure>
+										
+										<div class="block-caption1">
+											<h4><a href="/product_datail?p={{single_prod.slug}}">{{single_prod.product_name}}</a></h4>
+											<div class="col-xs-12 col-sm-12 col-md-12 text_left">
+												<a href="/store?ss={{single_prod.store_slug}}"><span class="price-text-color ">By {{single_prod.store_name}}</span></a>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-12 review_right">
+												<ul class="wv_rating">
+												{% if single_prod.ratings[0].average_rates == 0 %}
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 0 && single_prod.ratings[0].average_rates < 1 %}
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 1 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 1 && single_prod.ratings[0].average_rates < 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 2 && single_prod.ratings[0].average_rates < 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 3 && single_prod.ratings[0].average_rates < 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates > 4 && single_prod.ratings[0].average_rates < 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													{% elseif single_prod.ratings[0].average_rates == 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													
+												 {% endif %}	
+													<li><span class="review">({{single_prod.ratings[0].total_rates}})</span></li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<div class="price col-md-12">
+											{% if Number.isInteger(single_prod.sale_price)%}
+												<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%else%}
+											<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%endif%}
+											{% if single_prod.sale_price < single_prod.price %}
+											<span class="actual-price">${{single_prod.price.toFixed(2)}}</span>
+											{% endif %}
+											</div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								{% endfor %}
+								{% if data.product_data.length == 0 %}
+								<div class="col-md-12">
+									<h2>Sorry we couldn’t find what you were looking for</h2>
+								</div>
+							</div>
+							{% endif %}
+                            <!--//==Product Item End==//-->						
+                        </div>
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+        <!--//==Shop Page End==//-->
+        <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+{% endblock %}    

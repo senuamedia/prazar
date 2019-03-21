@@ -1,0 +1,90 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+   <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb"  >
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li ><a href="/vendor_manage_product">Manage Products</a></li>
+                                <li class="active">Add Variant</li>
+                                <li class="active">{{data.product_name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+       <div class="product_v-wrapper" id="variant_wraper_div">
+			<div class="container">
+				<div class="row variant_main_div_row">
+					<form method="post">
+					 <div class="col-md-12 productv_inner">
+						<h1>Variants</h1>
+						<p>Set the product variants like size and color</p>
+					</div>
+						
+						{% if data.message.length > 0 %}
+						
+						  <div class="col-md-12 alert alert-success alert-dismissible show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.message}}
+							</div>
+						
+						{% endif %}
+					 <div class="col-md-12 variant_option padLR0 marTB30">
+						<h2>Add variant option type</h2>
+						<div class="col-md-6 form-group padLR0">
+							<select class="wv_form_focus varianttype_select_box" name="varinat_types">
+								<option value="">Select variant type</option>
+								{% for variant in data.variants %}
+								  <option variant_id="{{variant.variant_id}}" value="{{variant.variant}}" variant_type="{{variant.is_custome}}" style="text-transform:capitalize;">{{variant.variant}}</option>
+								{% endfor %}
+								
+							</select>
+						</div>
+					</div>
+					 <div class="col-md-12 var_sav-btn hide_div">
+						<input class="bth_A variant_sub_btn"  type="submit" name="sub" value="Save">
+					</div>
+				   </form>
+				</div>
+				
+			</div>
+		</div>
+		
+		<input type="hidden" id="count_of_variants" value="0" />
+        <div id="scroll_div"></div>
+        <!--//==Wishlist Page End==//-->
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Get fresh prazar trends and unique gift ideas delivered right to your inbox</p>
+                        <div class="prazar-subscribe-inner-box">
+                            <input type="email" class="transparent-field" placeholder="email address">
+                            <input type="submit" class="submit-btn" value="Subscribe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>  
+       
+{% endblock %}    

@@ -1,0 +1,61 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                               
+                                <li class="active">Returns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+     <!--//==Contact Page Start==//-->
+        <section class="contact-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <div class="about_wrapper">
+                        <div class="col-sm-12 aboutfirst-left other-pages">
+                             <h1>{{data.content.page_heading | safe }}</h1>
+                           {{data.content.page_content | safe }}
+                        </div>
+					</div>
+                </div>
+            </div>
+        </section>
+        <!--//==Contact Page End==//-->
+         <!--//======= Service Start =======//--> 
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" required name="subscribe_email">
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//======= Service End =======//-->      
+       
+{% endblock %}    

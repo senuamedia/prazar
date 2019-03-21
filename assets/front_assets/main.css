@@ -1,0 +1,73 @@
+/*------------------------------------------------------------------
+[Master Stylesheet]
+
+Project:	My Shop Responsive HTML Template
+Version:	1.0.0
+Assigned to:	Themeforest
+Primary use:	Business, Marketing, Blogs, Firm   
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Body
+2. Common Css
+	2.1 Reset Elements / img
+	2.2 Form Inputs / input
+	2.3 Blockquote / blockquote
+	2.4 Button Style / .wv-button
+	2.5 Padding Style / .padT0
+	2.6 Margin Style / .marT0
+3. Top Header / .top-bar
+4. Middle Header / .middle-search
+5. Navbar / .navbar-default
+6. Main Slider / .fullwidthbanner
+7. Shop Category / .shop-category
+8. Women Section / .women-section
+9. Add Banner / .add-banner
+10. Accessories Banner / .accessories-add
+11. Blog / .wv-main-blog
+12. Services / .service_main
+13. Sidebar / .sidebar
+14. Comment-Section / .comment_form
+15. Page Title / .wv_breadcrumb
+16. All Shop pages filter / .price_result
+17. Shop-list-left-sidebar / .shop_list_icon
+18. Shop-single-left-sidebar / .single_display_image
+19. Shopping-cart-page / .cart-page
+20. Wishlist-page / .cart-product-button a
+21. Contact-page / .wv_right_contact
+22. Checkout-page / .checkout-page
+23. Blog-page / .gallery_inner
+24. Blog-Single-page / .wv_blog_img
+25. Partner / .wa-partner-carousel
+26. Owl Carousel Style / .owl-carousel-style1
+27. Shop Banner / .wv_shop_banner
+28. Footer / .wv_footer
+
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+All Import Css
+-------------------------------------------------------------------*/
+
+/* Bootstrap core CSS*/
+@import url("css/bootstrap.min.css");
+
+/*Plugins CSS */	
+@import url("plugins/font-awesome/css/font-awesome.min.css");
+@import url("plugins/menu/css/hover-dropdown-menu.css");
+@import url("plugins/owl-carousel/css/owl.carousel.css"); 
+@import url("plugins/fancymedia/css/jquery.fancybox.css");
+@import url("css/jquery-ui.css");
+
+@import url("plugins/revslider/css/settings.css");
+@import url("plugins/revslider/css/extralayers.css");
+@import url("plugins/revslider/css/navigation.css");
+
+			
+/*Defaults CSS SETTINGS */	
+@import url("css/style.css");
+
+/*Template Media Query CSS */
+@import url("css/responsive.css");

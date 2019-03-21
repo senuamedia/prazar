@@ -1,0 +1,294 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                               
+                                <li class="active">Checkout</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Checkout Page Start==//-->
+        <section class="checkout-page">
+            <div class="container">
+                <div class="row pad-s15">
+				
+				<form class="contact-form" id="place_order_form">
+				
+                    <div class="col-sm-6 col-md-6 wv_checkout_left marT30">
+						
+                        <h2>Shipping details</h2>
+                        <!--//==Contact Form Start==//-->
+                        
+                            <div class="row">
+                                <!--//==Contact Input Field==//-->
+								<div class="col-md-12 form-group">
+									 <select class="wv_form_focus users_addresses" >
+										<option value="">Select Address</option>
+										{% for add in data.user_address%}
+										<option value="{{add.id}}">{{add.location}}</option>
+										{% endfor %}
+									</select>
+								</div>
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_fname" type="text"  placeholder="First Name:" required name="ship_fname">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_lname" type="text"  placeholder="Last Name:" required name="ship_lname">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_cname" type="text"  placeholder="Company Name:" name="ship_cname">
+                                </div>
+								<div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_phn" type="text"  placeholder="Phone Number:" name="ship_phone">
+                               </div>
+                                <!--//==Contact Input Field==//-->
+                                <div class="col-md-12 form-group">
+                                    <input class="wv_form_focus shpping_street" type="text"  placeholder="Address Line 1:" required name="ship_street1">
+                                </div>
+								<div class="col-md-12 form-group">
+                                    <input class="wv_form_focus shpping_street2" type="text"  placeholder="Address Line 2:"  name="ship_fname2">
+                                </div>
+                                                                <!--//==Contact Input Field==//-->
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_city" type="text"  placeholder="Suburb/City:" required name="ship_city">
+                                </div>
+                                <!--//==Contact Input Field==//-->
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus shpping_postcode" type="text"  placeholder="Postcode/Zip:" required name="ship_zip">
+                                </div>
+								 <div class="col-md-12 form-group">
+                                    <select class="wv_form_focus shpping_country" required name="ship_country">
+                                        <option value="">Select Country</option>
+										{% for c in data.country %}
+										<option value="{{c.name}}" continent="{{c.continent}}">{{c.name}}</option>
+										{% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <select class="wv_form_focus shpping_state" required name="ship_state">
+                                        <option value="">State</option>
+                                    </select>
+                                </div>
+                                
+                               <!-- <div class="wv_widget wv_checkout_check">
+                                    <input type="checkbox" class="grey use_ship_as_bil" name="pink" id="grey" >
+                                    <label for="grey">Use shipping details for billing</label>
+                                </div> -->
+                            </div>
+                       
+                       <!-- <h2 class="marT30">Billing Details</h2>
+                      
+                      
+                            <div class="row">
+                                
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_fname" type="text"  placeholder="First Name:" required name="bill_fname">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_lname" type="text"  placeholder="Last Name:" required name="bill_lname">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_cname" type="text"  placeholder="Company Name:" required name="bill_company">
+                                </div>
+								<div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_phn" type="text"  placeholder="Phone Number:" required name="bill_phone">
+                                </div>
+                               
+
+                                <div class="col-md-12 form-group">
+                                    <input class="wv_form_focus billing_street" type="text"  placeholder="Address Line 1:" required name="bill_street1">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <input class="wv_form_focus billing_street2" type="text"  placeholder="Address Line 2:" required name="bill_street2">
+                                </div>
+                                
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_city" type="text"  placeholder="Suburb/City:" required name="bill_city">
+                                </div>
+                             
+                                <div class="col-md-6 form-group">
+                                    <input class="wv_form_focus billing_postcode" type="text"  placeholder="Postcode/Zip:" required name="bill_zip">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <select class="wv_form_focus billing_country" required name="bill_country">
+                                        <option value="">Select Country</option>
+										{% for c in data.country %}
+										<option value="{{c.name}}">{{c.name}}</option>
+										{% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <select class="wv_form_focus billing_state" required name="bill_state">
+                                        <option value="">State</option>
+                                    </select>
+                                </div>
+                               
+                            </div> -->
+							
+							
+                            <input type="hidden" name="cid" class="c_order_id" value="{{data.userdata.user_id}}"/>
+                       
+                    </div>
+                    <div class="col-sm-6 col-md-6 marT30">
+					
+                        <div class="wv_checkout_right">
+                            <h2>Order details</h2>
+                            <div class="wv_subtotaling wv_checkout_subtotal">
+                                <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                    <p>{{data.data.product_length}} Products</p>
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                    <p>Total</p>
+                                </div>
+                            </div>
+							<input type="hidden" id="shipping_type" value="{{data.data.prd_list[0].item_ship_type}}" />
+							
+                            <div class="wv_subtotaling wv_checkout_subtotal1">
+								{% set sum_gift_wrap_price = 0 %}
+                                {% for prd in data.data.prd_list %}
+								<div class="col-xs-6 col-md-6 wv_subtotal_left textL ordered_pro_list" ship_region="{{prd.ship_region}}" order_item_name="{{prd.item_name}}">
+                                    <p>{{prd.item_name}} (x{{prd.quantity}})</p>
+									{% if prd.item_ship_price == 0  %}
+									<p style="margin-top:-15px;font-size:13px;color:#e60000;">* Free Shipping</p>
+									{% endif %}
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                    <p>${{(prd.single_item_price * prd.quantity).toFixed(2)}}</p>
+                                </div>
+                                <div class="clear"></div>
+								{% if prd.is_gift_wrap == 1 %}
+								{% set sum_gift_wrap_price = sum_gift_wrap_price+prd.gift_wrap_price* prd.quantity %}
+								{% endif %}
+								{% endfor %}
+                            </div>
+                            <div class="wv_subtotaling">
+                                <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                    <p>subtotal</p>
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                    <p>${{(data.data.cart_sub_total - sum_gift_wrap_price).toFixed(2)}}</p>
+                                </div>
+                            </div>
+                            <div class="wv_subtotaling">
+                                <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                    <p>Shipping</p>
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                    <p>${{data.data.total_ship_price}}</p>
+                                </div>
+                            </div>
+							<div class="wv_subtotaling">
+                                <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                    <p>Gift wrapping</p>
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                    <p>${{sum_gift_wrap_price.toFixed(2)}}</p>
+                                </div>
+                            </div>
+                            <div class="wv_totaling">
+                                <div class="col-xs-6 col-md-6 wv_total_left textL">
+                                    <p>Total</p>
+                                </div>
+                                <div class="col-xs-6 col-md-6 wv_total_right textR">
+                                    <p>${{data.data.total_cart_price}}</p>
+                                </div>
+                            </div>
+                            <div class="wv_payment">
+                                <ul>
+                                    <li>
+                                        <label class="control control--radio">
+										   Paypal and Card Payment &nbsp;
+										    <img src="./front_assets/img/icons/pay4.png" alt="paypal">
+                                            <img src="./front_assets/img/icons/pay1.png" alt="visa">&nbsp;<img src="./front_assets/img/icons/pay2.png" alt="mastercard">&nbsp;<img src="./front_assets/img/icons/pay3.png" alt="visa">
+                                            <input type="radio" name="radio" checked="checked"/>
+                                            <span class="control__indicator"></span>
+                                        </label>
+                                    </li>
+                                  
+                                </ul>
+								
+							
+                                <div class="wv_payment_button">
+									{% if data.userdata %}
+                                    <button type="submit" class="wv_button_blue wv_button_style1 marT0 place_order_btn">Place order</button>
+									
+									{% else %}
+                                    <a href="#checkout_login_model" type="button" class="wv_button_blue wv_button_style1 marT0">Place order</a>
+									{% endif %}
+                                </div>
+                                <div class="wv_widget wv_checkout_check">
+                                    <input type="checkbox" class="grey checkot_term_check" name="pink1" id="grey1"  name="terms" >
+									<label for="grey1"><label>
+                                    <a href="/terms_conditions"  target="_blank" style="color:#86c2ea;text-decoration:underline;" >I accept the terms & conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					</form>
+					
+					
+					<form style="display:none" action="" target="PPDGFrame" class="standard" id="pay-form">
+
+					<input type="image" value="Pay with PayPal" id="submitBtn" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif">
+					<input id="type" type="hidden" name="expType" value="mini">
+					<input id="type" type="hidden" name="cmd" value="_ap-payment">
+					<input id="paykey" type="hidden" name="paykey" value="">
+				
+					</form> 
+                </div>
+            </div>
+        </section>
+
+		
+		<style>
+		a.wv_button{
+			display: inline-block;
+			text-align: center;
+		}
+		</style>
+		
+        <!--//==Checkout Page End==//-->
+       <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>	
+		
+		
+		{% if data.userdata == undefined%}
+		<script>
+		 window.history.replaceState(null, null, "#checkout_login_model");
+		</script>
+		{%endif%}
+
+{% endblock %}    

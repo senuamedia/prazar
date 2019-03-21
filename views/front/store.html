@@ -1,0 +1,355 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Store Detail</li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Shop Page Start==//-->
+		<input type="hidden" id="store_page_val" value="store_page">
+        <section class="shop-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <!--//==Shop Page Sidear Start==//-->
+					
+                    <div class="col-md-3 col-sm-4">
+                        <div class="row">
+                            <div class="sidebar">
+                                <!--//==Widget Item==//-->
+                                <div class="col-md-12">
+                                    <div class="wv_widget marB30 selected_cat_list">
+                                        <h3>Categories</h3>
+                                        <!--//==Product Category List End==// cat_slug -->
+                                        <ul class="list1">
+                                            {% for cates in data.categories %}
+											<li>
+                                                <a href="/store?ss={{data.store_slug}}&c={{cates.cat_slug}}" class="{% if data.cat_slug == cates.cat_slug %}active{% endif %}">
+                                                    <i class="fa fa-chevron-right wv-arrowright" aria-hidden="true"></i>
+                                                    <div class="clearfix wv_category"><span class="pull-left">{{cates.cat_name}}</span></div>
+													
+                                                </a>
+												<ul class="list2">
+													{% for sub_cates in cates.sub_cat %}
+													 <li>
+													 <a href="/store?ss={{data.store_slug}}&sc={{sub_cates.su_cat_bslug}}" class="{% if data.sub_cat_slug == sub_cates.su_cat_bslug %}active{% endif %}">
+													 {{sub_cates.name}}
+													 </a>
+													 </li>
+													 {%endfor%}
+													</ul>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <!--//==Product Category List End==//-->
+                                    </div>
+                                </div>
+								{% if data.product_data.length > 0 %}
+                                <!--//==Widget Item==//-->
+                                <div class="col-md-12">
+                                    <div class="wv_widget1 marB30">
+                                        <h3>Filter By Price</h3>
+                                        <!--//==Product Price List Start==//-->
+										 <div class="price-range-filter">
+											<!--price filter-->
+											<div class="rslt__fltr ui-nav-menu state--expanded">
+												<ul class="ui-nav-menu-opts">
+													<li class="menu__fltr fltr-type__sldr">
+														<div class="js-price-slider" id="price_filter"></div>
+													</li>
+													<li class="menu__fltr fltr-type__sldr"></li>
+												</ul>
+											</div>
+											<div class="price_result">
+												<h4>
+												Price : <span class="wv_price_result" id="price_show_on_store"></span>
+												<span class="wv_price_result" id="price_show1"></span>
+												</h4>
+												<input type="hidden" id="min_price" value="{{data.min_max_price[0].min_price}}">
+												<input type="hidden" id="max_price" value="{{data.min_max_price[0].max_price}}">
+											</div>
+										</div>
+                                        <!--//==Product Price List End==//-->
+                                    </div>
+                                </div>
+                               
+							
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+					
+                    <!--//==Shop Page Sidear End==//-->
+                    <!--//==Shop Page Product Section Start==//-->
+                    <div class="col-md-9 col-sm-8 marB50 wvshop_right">
+                        <div class="row">
+                            <div class="wv_shop_banner">
+							    
+							   {% if data.store_detail.store_banner !="" %}
+                                <img src="/store_logo/{{data.store_detail.store_banner}}" alt="">
+								{%else%}
+								
+								 <img src="/front_assets/img/store_banner_placeholder.png" alt="Store Banner">
+								{%endif%}
+                                <div class="shop_inner">
+                                    <p>{{data.store_detail.store_name}}</p>
+                                </div>
+								<div class="str_logo_div">
+								   {% if data.store_detail.store_logo !="" %}
+								
+								   <img src="/store_logo/{{data.store_detail.store_logo}}" alt="">
+								   
+								   {%else%}
+								   
+								   <img src="/front_assets/img/store_logo_placeholder.png" alt="Store Logo">
+								   
+								   {%endif%}
+								  
+								</div>
+                            </div>
+							
+							
+							<div class="col-md-12 marT30">
+							  <h3>About </h3>
+							   <p>{{data.store_detail.description}}</p>
+							   <h3>Contact Info</h3>
+							   <p><b>Location:</b> {{data.store_detail.state}}</p>
+							    {% if data.userdata %}
+							   <div> <a class="msg_to_vendor_btn" href="/users_messages?ritkn={{data.store_detail.vendor_id}}">Message</a></div>
+							    {%else%}
+								<div> <a id="msg_to_vendor_btn_pop" class="msg_to_vendor_btn" href="#checkout_login_model">Message</a></div>
+							   {%endif%}
+							</div>
+							
+							
+							{% if data.product_data.length > 0 %}
+                            <div class="col-md-12 marT30">
+                                <div class="tool-page-top tool-page clearfix">
+                                    <div class="">
+                                        <div class="sort wv_grid_left col-xs-12 col-md-6">
+                                            <label>Sort By:</label>
+                                            <div class="box-option">
+                                                <select class="order_by_store">
+                                                    <option value="none">Default</option>
+                                                    <option value="date_desc">Newest First</option>
+                                                    <option value="price_asc">Price Low to High</option>
+                                                    <option value="price_desc">Price High to Low</option>
+                                                    <!--<option value="order_desc">Most Ordered</option>-->
+                                                    <option value="name_asc">Product Name Asc</option>
+                                                    <option value="name_desc">Product Name Desc</option>
+                                                </select>
+                                                <span class="icon"></span>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+							{% endif %}
+                            <!--//==Product Item Start==//-->
+							
+							<input type="hidden" id="store_slug" value="{{data.store_slug}}">
+							<input type="hidden" id="sub_cat_slug" value="{{data.sub_cat_slug}}">
+							<input type="hidden" id="cat_slug" value="{{data.cat_slug}}">
+							
+							{% if data.userdata %}
+							 <input type="hidden" id="is_user_logged_in" value="1">
+							{% else %}
+							 <input type="hidden" id="is_user_logged_in" value="0">
+							{% endif %}
+							
+							{% if data.product_data.length == 0 %}
+							<input type="hidden" id="call_ajax_store" value="0">
+							{% else %}
+							<input type="hidden" id="call_ajax_store" value="1">
+							{% endif %}
+							
+							<div id="product_main_container_to_append">
+								{% for single_prod in data.product_data %}
+								<div class="col-md-3 col-sm-6 col-xs-6 wv_clear marB30" >
+									<div class="wa-theme-design-block">
+									
+										<figure class="dark-theme">
+										<a class="pro_img_anchr" href="/product_datail?p={{single_prod.slug}}">
+											<img src="./products/{{single_prod.images[0].image_url}}" alt="Women Thumbnail">
+											</a>
+											{% if single_prod.quantity == 0 %}
+											<div class="out_stock_div">
+												<span>out of stock</span>
+											</div>
+											{% endif %}
+											<!--<div class="ribbon"><span>New</span></div>-->
+											{% if single_prod.quantity != 0 %}
+											
+											 {% if single_prod.product_type == 2%}
+												<span class="block-sticker-tag1 add_variant_pro_cart" data-id="{{single_prod.product_id}}" data-slug="{{single_prod.slug}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+												  {%else%}
+												   <span class="block-sticker-tag1 add_to_cart_other" data-id="{{single_prod.product_id}}" data-sale-price="{{single_prod.sale_price}}" data-is-customize="{{single_prod.is_customizable}}">
+													<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+												</span>
+											     {%endif%}
+												
+											{% endif %}
+											
+											{% if data.userdata %}
+											<span class="block-sticker-tag2 add_to_wishlist" data-id="{{single_prod.product_id}}" style="cursor:pointer;">									   
+												<span class="off_tag1"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></span>
+											</span>
+											{% else %}
+											<span class="block-sticker-tag2">									   
+												<a class="off_tag1" href="/login"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></a>
+											</span>
+											{% endif %}
+											<span class="block-sticker-tag3">
+											<a class="off_tag1 btn-action btn-quickview" href="/product_datail?p={{single_prod.slug}}"><strong><i class="fa fa-eye" aria-hidden="true"></i></strong></a>
+											</span>
+										</figure>
+										
+										<div class="block-caption1">
+											<h4><a href="/product_datail?p={{single_prod.slug}}">{{single_prod.product_name}}</a></h4>
+											<div class="col-xs-12 col-sm-12 col-md-12 text_left">
+												<a href="/store?ss={{single_prod.store_slug}}"><span class="price-text-color ">By {{single_prod.store_name}}</span></a>
+											</div>
+											<div class="col-xs-12 col-sm-12 col-md-12 review_right">
+												<ul class="wv_rating">
+												{% if single_prod.ratings.average_rates == 0 %}
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates > 0 && single_prod.ratings.average_rates < 1 %}
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates == 1 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates > 1 && single_prod.ratings.average_rates < 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates == 2 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates > 2 && single_prod.ratings.average_rates < 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates == 3 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates > 3 && single_prod.ratings.average_rates < 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates == 4 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-o"></i></li>
+													{% elseif single_prod.ratings.average_rates > 4 && single_prod.ratings.average_rates < 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star-half-o"></i></li>
+													{% elseif single_prod.ratings.average_rates == 5 %}
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													
+												 {% endif %}	
+													<li><span class="review">({{single_prod.ratings.total_rates}})</span></li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<div class="price col-md-12">
+											{% if Number.isInteger(single_prod.sale_price)%}
+												<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%else%}
+												<span class="sell-price">AU ${{single_prod.sale_price.toFixed(2)}}</span>
+											{%endif%}
+											{% if single_prod.sale_price < single_prod.price %}
+											<span class="actual-price">${{single_prod.price.toFixed(2)}}</span>
+											{% endif %}
+											</div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								{% endfor %}
+								{% if data.product_data.length == 0 %}
+								<div class="col-md-12">
+									<h2>Sorry we couldn’t find what you were looking for </h2>
+								</div>
+							</div>
+							{% endif %}
+                            <!--//==Product Item End==//-->						
+                        </div>
+                        
+                    </div>
+                    <!--//==Shop Page Product Section End==//-->
+                </div>
+            </div>
+        </section>
+        <!--//==Shop Page End==//-->
+        <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+{% endblock %}    

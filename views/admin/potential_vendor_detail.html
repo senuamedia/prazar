@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Potential vendor Details</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item"><a href="/prazar_admin/potential_vendors">Potential vendors</a></li>          
+          <li class="breadcrumb-item active">Potential vendor Details</li>
+        </ol>
+        
+      </div>
+
+       <div class="page-content container-fluid">
+                 
+        <div class="panel col-lg-12">
+            <div class="panel-heading">
+                <h3 class="panel-title">Vendor Details </h3>
+            </div> 
+             <div class="panel-body container-fluid">
+
+                     <div class="row"> 
+                     <div class="col-lg-6"> 
+                        <table class="table">
+                        <thead>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                         <td> <b> Name </b> </td> <td>:- </td> <td>{{data.vendor_details.name}}</td>
+                         </tr>
+                         <tr>
+                          <td><b>Email </b> </td><td>:- </td><td>{{data.vendor_details.useremail}} </td>
+                          </tr>
+                         <tr>
+                          <td><b>Business Name </b></td> <td>:- </td><td>{{data.vendor_details.store_name}} </td>
+                          </tr>
+                        
+							<tr>
+                          <td><b>Site Url </b></td> <td>:- </td><td>{{data.vendor_details.site_url}} </td>
+                          </tr>
+							 <tr>
+                          <td><b> Contact No</b> </td> <td>:-</td>  <td>{{data.vendor_details.phone_no}} </td> 
+                          </tr>
+                          </tbody>
+                          </table>
+                      </div>
+                      <div class="col-lg-6"> 
+
+                          <table class="table">
+                            <thead>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              
+                            </thead>
+                            <tbody>
+                          <tr>
+                          <td><b>Country</b></td><td> :-</td>  <td>{{data.vendor_details.country}} </td> 
+                          </tr>
+						  
+						   <tr>
+                          <td><b>State</b></td><td> :-</td>  <td>{{data.vendor_details.state}} </td> 
+                          </tr>
+						  
+                         <tr>
+                          <td><b> Business Location</b></td><td> :-</td>  <td>{{data.vendor_details.address_line_1}} </td> 
+                          </tr>
+                         <tr>
+                          <td><b> Description</b> </td> <td>:-</td>  <td>{{data.vendor_details.description}} </td> 
+                          </tr>
+                      
+                         
+                          </tbody>
+                          </table>
+                      </div>
+              </div>
+          </div>
+        </div>
+		   
+		<!-- products details -->
+		  {% if data.vendor_products.length > 0 %}
+		 <div class="panel col-lg-12">
+		    <div class="panel-heading">
+                <h3 class="panel-title">Vendor Products Details </h3>
+            </div>
+		     <div class="panel-body container-fluid">
+               <div class="row">
+				   <div class="col-lg-12">
+				     <table class="table">
+                        <thead>
+                          <th>Product Name</th>
+                          <th>Category</th>
+                          <th>Product Link</th>
+                          <th>Description</th>
+                          <th>Images</th>	
+                        </thead>
+                        <tbody>
+							{% for products in data.vendor_products %}
+						     <tr>
+								 <td>{{products.name}}</td>
+								 <td>{{products.cat_name}}</td>
+								 <td>{{products.link}}</td>
+								 <td>{{products.description}}</td>
+								 <td>
+								 {% for image in products.images %}
+									 <a href="/vendor_products/{{image.image_path}}" target="_blank"> <img src="/vendor_products/{{image.image_path}}" width="50" height="50"/></a>
+								 {% endfor %}
+								 </td>
+							</tr>
+							{% endfor %}
+					   </table>
+				   </div>
+			   </div>
+			   </div>
+		   </div>
+		  {% endif %}
+    </div>
+    </div>
+    <!-- End Page -->
+    
+    
+
+
+{% endblock %}

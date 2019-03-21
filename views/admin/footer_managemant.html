@@ -1,0 +1,679 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Footer Pages List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active">Footer Pages List</li>
+        </ol>        
+      </div>
+
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">Shopping with us</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlitShopping" data-toggle="modal"
+                      type="button">Add Shopping</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitShopping" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add Shopping</h4>
+                          </div>
+							<form method="POST" enctype="multipart/form-data" class="add_footer_link_form"> 
+                              <div class="modal-body">
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                      <input type="hidden" name="category" value="shopping_with_us"/>
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="heading" required>
+                                      <label class="floating-label">Shopping Heading</label>
+                                    </div>                                                                       
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="url" class="form-control empty title" name="url_link" required>
+                                      <label class="floating-label">Shopping Link</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                                     </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary footer_link_btn">Save Shopping</button>
+                          </div>
+							</form> 
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+       
+
+            <table class="table table-hover table-striped w-full vrtical_align table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>ID No.</th>                 
+                  <th>Shopping Name</th>                 
+                  <th>Shopping Link </th> 
+                  <th>Action</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+               {% for page in data.footer_pages %}
+				  {% if page.category == 'shopping_with_us' %}
+               <tr>
+                  <td>{{page.id}}</td>                  
+                  <td>{{page.label}}</td>
+                  <td>{{base_url}}{{page.url}}</td>
+                  <td><button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitShopping{{page.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                      <a href="javascript:void(0)" onclick="deleteFooterLink({{page.id}})" class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr>  
+				  
+			  <!-- Modal edit-->
+			  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitShopping{{page.id}}" aria-hidden="true"
+				aria-labelledby="exampleModalTitle" role="dialog" >
+				<div class="modal-dialog modal-simple">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					  </button>
+					  <h4 class="modal-title">Edit Shopping</h4>
+					</div> 
+					  <form method="POST" enctype="multipart/form-data" class="edit_footer_link_form">
+					<div class="modal-body">
+					
+						<div class="row">  
+						  <div class="col-lg-12">                        
+								<input type="hidden" class="form-control empty" name="table_id" value="{{page.id}}">
+							  <input type="hidden" class="form-control empty" name="url_type" value="{{page.type}}">
+
+								<div class="form-group" data-plugin="formMaterial">
+								  <label class="floating-label">Shopping Heading</label>
+								  <input type="text" class="form-control empty title" name="heading" value="{{page.label}}" required>
+								</div>
+
+								<div class="form-group " data-plugin="formMaterial">
+								  <label class="floating-label">Shopping Link</label>
+								  <input type="text" class="form-control empty title" name="url_link" value="{{base_url}}{{page.url}}" required {% if page.type==0 %} readonly {% endif %}>
+								</div>
+
+						  </div>                   
+					  </div><!--end row -->                                                        
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  <button type="submit" class="btn btn-primary footer_link_btn" >Update Shopping</button>
+					</div>
+						 </form> 
+				  </div>
+				  
+				</div>
+</div>
+			  <!-- End Modal edit-->  
+				  
+				  {% endif %}
+               {% endfor %}
+              </tbody>
+            </table>
+             
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+		
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">Selling with us</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlitSelling" data-toggle="modal"
+                      type="button">Add Selling</button>
+
+                     <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitSelling" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add Selling With Us Links</h4>
+                          </div>
+							<form method="POST" enctype="multipart/form-data" class="add_footer_link_form"> 
+                              <div class="modal-body">
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                      <input type="hidden" name="category" value="selling_with_us"/>
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="heading" required>
+                                      <label class="floating-label">Heading</label>
+                                    </div>                                                                       
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="url" class="form-control empty title" name="url_link" required>
+                                      <label class="floating-label">Link</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                                     </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary footer_link_btn">Save</button>
+                          </div>
+							</form> 
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+          
+
+           <table class="table table-hover table-striped w-full vrtical_align table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>ID No.</th>                 
+                  <th>Selling Name</th>                 
+                  <th>Selling Link </th> 
+                  <th>Action</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+             {% for page in data.footer_pages %}
+				  {% if page.category == 'selling_with_us' %}
+                  <tr>
+                  <td>{{page.id}}</td>                  
+                  <td>{{page.label}}</td>
+                  <td>{{base_url}}{{page.url}}</td>
+                  <td><button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitShopping{{page.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                      <a href="javascript:void(0)" onclick="deleteFooterLink({{page.id}})" class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr> 
+                                 
+     <!-- Modal edit-->
+			  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitShopping{{page.id}}" aria-hidden="true"
+				aria-labelledby="exampleModalTitle" role="dialog" >
+				<div class="modal-dialog modal-simple">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					  </button>
+					  <h4 class="modal-title">Edit Selling With Us</h4>
+					</div> 
+					  <form method="POST" enctype="multipart/form-data" class="edit_footer_link_form">
+					<div class="modal-body">
+					
+						<div class="row">  
+						  <div class="col-lg-12">                        
+								<input type="hidden" class="form-control empty" name="table_id" value="{{page.id}}">
+							  <input type="hidden" class="form-control empty" name="url_type" value="{{page.type}}">
+
+								<div class="form-group" data-plugin="formMaterial">
+								  <label class="floating-label">Heading</label>
+								  <input type="text" class="form-control empty title" name="heading" value="{{page.label}}" required>
+								</div>
+
+								<div class="form-group " data-plugin="formMaterial">
+								  <label class="floating-label">Link</label>
+								  <input type="text" class="form-control empty title" name="url_link" value="{{base_url}}{{page.url}}" required {% if page.type==0 %} readonly {% endif %}>
+								</div>
+
+						  </div>                   
+					  </div><!--end row -->                                                        
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  <button type="submit" class="btn btn-primary footer_link_btn" >Update </button>
+					</div>
+						 </form> 
+				  </div>
+				  
+				</div>
+</div>
+			  <!-- End Modal edit-->  
+
+                {% endif %}
+               {% endfor %}
+                
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">About us</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlitAbout" data-toggle="modal"
+                      type="button">Add About</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitAbout" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add About Us Links</h4>
+                          </div>
+							<form method="POST" enctype="multipart/form-data" class="add_footer_link_form"> 
+                              <div class="modal-body">
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                      <input type="hidden" name="category" value="about_us"/>
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="heading" required>
+                                      <label class="floating-label">Heading</label>
+                                    </div>                                                                       
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="url" class="form-control empty title" name="url_link" required>
+                                      <label class="floating-label">Link</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                                     </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary footer_link_btn">Save</button>
+                          </div>
+							</form> 
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+           
+             <table class="table table-hover table-striped w-full vrtical_align table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>ID No.</th>                 
+                  <th>About Page Name</th>                 
+                  <th>About Link </th> 
+                  <th>Action</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+              {% for page in data.footer_pages %}
+				  {% if page.category == 'about_us' %}
+                <tr>
+                  <td>{{page.id}}</td>                  
+                  <td>{{page.label}}</td>
+                  <td>{{base_url}}{{page.url}}</td>
+                  <td><button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitShopping{{page.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                      <a href="javascript:void(0)" onclick="deleteFooterLink({{page.id}})" class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr> 
+                     
+                 <!-- Modal edit-->
+			  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitShopping{{page.id}}" aria-hidden="true"
+				aria-labelledby="exampleModalTitle" role="dialog" >
+				<div class="modal-dialog modal-simple">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					  </button>
+					  <h4 class="modal-title">Edit Shopping</h4>
+					</div> 
+					  <form method="POST" enctype="multipart/form-data" class="edit_footer_link_form">
+					<div class="modal-body">
+					
+						<div class="row">  
+						  <div class="col-lg-12">                        
+								<input type="hidden" class="form-control empty" name="table_id" value="{{page.id}}">
+							  <input type="hidden" class="form-control empty" name="url_type" value="{{page.type}}">
+
+								<div class="form-group" data-plugin="formMaterial">
+								  <label class="floating-label">Shopping Heading</label>
+								  <input type="text" class="form-control empty title" name="heading" value="{{page.label}}" required>
+								</div>
+
+								<div class="form-group " data-plugin="formMaterial">
+								  <label class="floating-label">Shopping Link</label>
+								  <input type="text" class="form-control empty title" name="url_link" value="{{base_url}}{{page.url}}" required {% if page.type==0 %} readonly {% endif %}>
+								</div>
+
+						  </div>                   
+					  </div><!--end row -->                                                        
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  <button type="submit" class="btn btn-primary footer_link_btn" >Update</button>
+					</div>
+						 </form> 
+				  </div>
+				  
+				</div>
+</div>
+			  <!-- End Modal edit-->  
+
+               {% endif %}
+               {% endfor %}
+                
+              </tbody>
+            </table>
+             
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+	  
+     <!-- <div class="page-content">
+       
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">Our Sellers</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlitSeller" data-toggle="modal"
+                      type="button">Add Seller</button>
+
+                 
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitSeller" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add Sellers</h4>
+                          </div>
+                          <div class="modal-body">
+                             <form method="POST" enctype="multipart/form-data" id="add_home_banner_form">                  
+                              <div class="row">  
+                                <div class="col-lg-12"> 
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="heading" required>
+                                      <label class="floating-label">Seller Heading</label>
+                                    </div>                                                                         
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="short_description" required>
+                                      <label class="floating-label">Seller Link</label>
+                                    </div>
+                                </div>                   
+                            </div>                                                          
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Home Page</button>
+                          </div>
+                        </div>
+                         </form> 
+                      </div>
+                    </div>
+                   
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+          
+            <table class="table table-hover table-striped w-full vrtical_align">
+              <thead>
+                <tr>
+                  <th>ID No.</th>                 
+                  <th>Seller Name</th>                 
+                  <th>Seller Link </th> 
+                  <th>Action</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+              {% for page in data.footer_pages %}
+				  {% if page.category == 'our_sellers' %}
+                <tr>
+                  <td>{{page.id}}</td>                  
+                  <td>{{page.label}}</td>
+                  <td>{{base_url}}{{page.url}}</td>
+                  <td><button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlitShopping{{page.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                      <a href="javascript:void(0)"  class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr> 
+                            
+                   
+                  
+                  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlit{{page.id}}" aria-hidden="true"
+                    aria-labelledby="exampleModalTitle" role="dialog" >
+                    <div class="modal-dialog modal-simple">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title">Edit Seller</h4>
+                        </div> 
+                        <div class="modal-body">
+                           <form method="POST" enctype="multipart/form-data" class="edit_home_banner_form">
+                
+                            <div class="row">  
+                              <div class="col-lg-12">                        
+                                    <input type="hidden" class="form-control empty" name="id" value="">
+                                   
+                                    <div class="form-group" data-plugin="formMaterial">
+                                      <label class="floating-label">Seller Heading</label>
+                                      <input type="text" class="form-control empty title" name="heading" value="" required>
+                                    </div>                                                                            
+                                    <div class="form-group " data-plugin="formMaterial">
+                                      <label class="floating-label">Seller Link</label>
+                                      <input type="text" class="form-control empty title" name="short_description" value=""required>
+                                    </div>
+                              </div>                   
+                          </div>                                                       
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary" >Update Home Page</button>
+                        </div>
+                      </div>
+                       </form> 
+                    </div>
+                  </div>
+                 
+
+                 {%endif%}
+                {%endfor%}
+                
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+       
+      </div> -->
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title">Follow us</h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">              
+                <div class="col-lg-9">
+                 <button class="btn btn-primary" data-target="#exampleNifty3dSlitFollow" data-toggle="modal"
+                      type="button">Add Follow</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitFollow" aria-hidden="true"
+                      aria-labelledby="exampleModalTitle" role="dialog" >
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Add Follow Us</h4>
+                          </div>
+							<form method="POST" enctype="multipart/form-data" class="add_footer_link_form"> 
+                              <div class="modal-body">
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                      <input type="hidden" name="category" value="follow_us"/>
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="text" class="form-control empty title" name="heading" required>
+                                      <label class="floating-label"> Heading</label>
+                                    </div>                                                                       
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                      <input type="url" class="form-control empty title" name="url_link" required>
+                                      <label class="floating-label"> Link</label>
+                                    </div>
+                                </div>                   
+                            </div><!--end row -->                                                                     </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary footer_link_btn">Save</button>
+                          </div>
+							</form> 
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div> 
+                <div class="col-lg-3">
+                </div>                 
+            </div>
+            <br>
+          
+
+            <table class="table table-hover table-striped w-full vrtical_align table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>ID No.</th>                 
+                  <th>Follow Name</th>                 
+                  <th>Follow Link </th> 
+                  <th>Action</th>
+                </tr>
+              </thead>
+            
+              <tbody>
+               {% for page in data.footer_pages %}
+				  {% if page.category == 'follow_us' %}
+                <tr>
+                  <td>{{page.id}}</td>
+                  <td>{{page.label}}</td>
+                  <td>{{page.url}}</td>
+                  <td><button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlit{{page.id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                      <a href="javascript:void(0)" onclick="deleteFooterLink({{page.id}})"  class="btn btn-danger btn-sm employer_delete">Delete </a></td>
+                                                   
+                </tr>                        
+                   
+                  <!-- Modal edit-->
+			  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlit{{page.id}}" aria-hidden="true"
+				aria-labelledby="exampleModalTitle" role="dialog" >
+				<div class="modal-dialog modal-simple">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					  </button>
+					  <h4 class="modal-title">Edit Follow Us</h4>
+					</div> 
+					  <form method="POST" enctype="multipart/form-data" class="edit_footer_link_form">
+					<div class="modal-body">
+					
+						<div class="row">  
+						  <div class="col-lg-12">                        
+								<input type="hidden" class="form-control empty" name="table_id" value="{{page.id}}">
+							  <input type="hidden" class="form-control empty" name="url_type" value="{{page.type}}">
+
+								<div class="form-group" data-plugin="formMaterial">
+								  <label class="floating-label">Heading</label>
+								  <input type="text" class="form-control empty title" name="heading" value="{{page.label}}" required>
+								</div>
+
+								<div class="form-group " data-plugin="formMaterial">
+								  <label class="floating-label">Link</label>
+								  <input type="text" class="form-control empty title" name="url_link" value="{{page.url}}" required {% if page.type==0 %} readonly {% endif %}>
+								</div>
+
+						  </div>                   
+					  </div><!--end row -->                                                        
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  <button type="submit" class="btn btn-primary footer_link_btn" >Update </button>
+					</div>
+						 </form> 
+				  </div>
+				  
+				</div>
+</div>
+			  <!-- End Modal edit-->  
+
+               {%endif%}
+               {%endfor%}
+                
+              </tbody>
+            </table>
+             
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+    </div>
+ <!-- End Page -->
+{% endblock %}

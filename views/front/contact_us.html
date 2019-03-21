@@ -1,0 +1,165 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                               
+                                <li class="active">Contact us</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Contact Page Start==//-->
+        <section class="contact-page">
+            <div class="container">
+                <div class="row pad-s15 contact_us_div">
+					  <div class="col-md-12 marB50">
+                    
+                        <h1 class="heading_form">{{data.content.page_heading | safe }}</h1>
+					
+                          {{data.content.page_content | safe }}
+                    </div>
+					
+                    <div class="">
+                        <!--//==Contact Map Section Start==//-->
+                       <!--  <div class="col-md-12 col-sm-12 marB40">
+                            <div style='overflow:hidden;height:410px;width:100%;'>
+                            <div id='gmap_canvas' style='height:410px;width:100%;'></div>
+                            <div><small><a href="http://embedgooglemaps.com/">embed google maps</a></small></div>
+                            <div><small><a href="https://www.autohuren.world/">geen annuleringskosten</a></small></div>
+                            </div>
+                            </div> -->
+                        <!--//==Contact Map Section End==//-->
+                        <div class="col-sm-12 col-md-12 wv_left_contact">
+                            <h2>Contact form</h2>
+                            <!--//==Contact Form Start==//-->
+                            <form class="contact-form" id="contact-us-form">
+                                <div class="row">
+									<!--//==Contact Input Field==//-->
+                                    <div class="col-md-6 form-group">
+										<select class="wv_form_focus" name="inquiry_type" required>
+											<option value=""  selected>Enquiry Type</option>
+											<option value="Order query" >Order query</option>
+											<option value="Returns" >Returns</option>
+											<option value="General" >General</option>
+											<option value="Press Enquiry" >Press Enquiry</option>
+											<option value="Work with us" >Work with us</option>
+											<option value="Sell with us" >Sell with us</option>
+											<option value="Technical issues" >Technical issues</option>
+											<option value="Other" >Other</option>
+									
+										</select>
+									</div>
+                                    <!--//==Contact Input Field==//-->
+                                    <div class="col-md-6 form-group">
+                                        <input class="wv_form_focus" type="text" name="fullname"  placeholder="Name:" required>
+                                    </div>
+                                    <!--//==Contact Input Field==//-->
+									<div class="col-md-6 padLR0">
+										<div class="col-md-12 form-group">
+											<input class="wv_form_focus" type="email" name="email" id="exampleInputEmail" placeholder="Email:" required>
+										</div>
+										<!--//==Contact Input Field==//-->
+										<div class="col-md-12 form-group">
+											<input class="wv_form_focus" type="text" name="subject" placeholder="Subject:" required>
+										</div>
+									</div>
+                                    <!--//==Contact Input Field==//-->
+                                    <div class="col-md-6 form-group">
+                                        <textarea name="contact_message" class="textarea-message wv_form_focus" placeholder="Message:"  rows="5" required></textarea>							
+                                    </div>
+                                    <div class="col-md-12">
+                                       <input type="submit" name="sub" value="Send" class="wv_button responsive_contact_button wv_broad submit-btn"/>
+                                    </div>
+									<div class="wv_widget wv_checkout_check marT30">
+										<input type="checkbox" name="is_news_letter" class="grey" name="pink" id="grey" value="1">
+										<label for="grey">Sign up to newsletter </label>
+									</div>
+                                </div>
+                            </form>
+                            <!--//==Contact Form End==//-->
+                        </div>
+                     <!--   <div class="col-sm-6 col-md-6">
+                            <div class="wv_right_contact">
+                                <div class="wv_contact_inner">
+                                    <div class="col-xs-2 col-md-2 wv_contact_icon">
+                                        <span><i class="fa fa-map-marker"></i></span>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10 wv_contact_text">
+                                        <p>PO Box 16122 Collins Street<br>West Victoria 8007 Australia</p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="wv_contact_inner">
+                                    <div class="col-xs-2 col-md-2 wv_contact_icon">
+                                        <span><i class="fa fa-phone"></i></span>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10 wv_contact_text">
+                                        <p>+(00)123 456 789<br>+(00)123 456 789</p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="wv_contact_inner">
+                                    <div class="col-xs-2 col-md-2 wv_contact_icon">
+                                        <span><i class="fa fa-map-marker"></i></span>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10 wv_contact_text">
+                                        <p>+(00)123 456 789<br>+(00)123 456 789</p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="wv_contact_inner">
+                                    <div class="col-xs-2 col-md-2 wv_contact_icon">
+                                        <span><i class="fa fa-envelope-o"></i></span>
+                                    </div>
+                                    <div class="col-xs-10 col-md-10 wv_contact_text">
+                                        <p>admin@prazar.com<br>admin@prazar.com</p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//==Contact Page End==//-->
+        <!--//======= Service Start =======//--> 
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//======= Service End =======//-->        
+        <!--//=======Footer Start=======//-->         
+       
+       
+{% endblock %}    

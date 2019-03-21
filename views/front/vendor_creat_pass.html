@@ -1,0 +1,52 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+   <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Create Password</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <section class="login-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <div class="forgot_div">
+                        <div class="login-form col-md-8 col-md-offset-2">
+                            <h1 class="heading_form padB100">Create Password</h1>
+                            <form method="post">
+                                <input type="email" class="login_input" placeholder="your registered email" id="email" value="{{data.email}}" name="email" readonly>
+								<input type="password" class="login_input newpassword" placeholder="enter your password" id="pass" name="pass" pattern=".{6,25}" required title="password must be 6 to 25 characters" required>
+								
+							<input type="password" class="login_input cpassword" placeholder="re enter password" id="cpass" name="cpass" required>	
+								
+                                <input type="submit" name="sub" class="login_submit" value="Submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--//==Login Page End==//-->  
+       
+{% endblock %}    

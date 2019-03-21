@@ -1,0 +1,127 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+   <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li class="active">Manage Product</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+		
+        <div class="cart-page manage-product">
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="col-sm-12 col-md-12 marT30 marB20 myordr_table">
+						<div class="table-responsive table-content">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="product-thumbnail-th">Id No</th>
+										<th class="product-thumbnail-th">Product Image</th>
+										<th class="product-quantity-th">Product Name</th>
+										<th class="product-name-th">Category</th>
+										<th class="product-name-th">Sub Category</th>
+										<th class="product-subtotal">Inventory</th>
+										<th class="product-subtotal">Status</th>
+										<th class="product-subtotal">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% if data.products.length == 0 %}
+									<tr><td colspan="8" style="text-align:center">No products found. Please add products.</td></tr>
+									{% endif %}
+									
+									{% for product in data.products %}
+									
+									<tr>
+										<td class="cart-product-price"><span>{{product.product_id}}</span></td>
+										<td><a href="#"><img width="120" height="120" src="/products/{{product.image_name}}" alt="Product image"></a></td>
+										<td class="cart-product-price"><span>{{product.product_name}}</span></td>
+										<td class="cart-product-price"><span>{{product.cat_name}}</span></td>
+										<td class="cart-product-price">
+											<span>
+											{% set counter = 0 %}
+												{% for sub_cat in product.sub_cat %} 
+												{% set counter = counter+1 %}
+												  {{sub_cat.name}} {% if counter <= product.sub_cat.length-1  %},{%endif%}
+												{% endfor %}
+											</span>
+										</td>
+										<td class="cart-product-price wv_stock">
+											<span>                                                                                                             {{product.quantity_remaining}}
+											</span>
+										</td>
+										<td class="cart-product-price wv_green">
+											{% if product.is_active == 1 %}
+											<span>Active</span>
+											{% else %}
+											<span>Inactive</span>
+											{% endif %}
+										</td>
+										<td style="width:140px" class="cart-product-button wv_manage" id="wrapper">
+											<a class="morder_btn1"  href="/vendor_edit_product?product_no={{product.product_id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+											<a class="morder_btn2" onclick="productDelete({{product.product_id}})">Delete</a>
+											
+											{%  if product.product_type == 1 %}
+											<a class="morder_btn3" href="/vendor_add_product_variant?product_no={{product.product_id}}">Add Variant</a>
+											{% else %}
+											
+									<a class="morder_btn3" href="/vendor_edit_product_variant?product_no={{product.product_id}}">Edit Variant</a>
+											
+										    {% endif %}	
+											
+										</td>
+									</tr>
+								    {% endfor %}
+								</tbody>
+							</table>
+								{% set productCount = data.total_pages %}
+                            {% set productCountAsArray = Array(productCount) %}
+							<ul class="pagination" style="margin-top:0px">
+								{% for x, y in productCountAsArray %}	 
+								 <li {% if data.page == x %} class="active" {% endif %}><a href="/vendor_manage_product?page={{x}}" >{{loop.index}}</a></li>
+								{% endfor %}	 
+					 </ul>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//-->
+       <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> 
+       
+{% endblock %}    

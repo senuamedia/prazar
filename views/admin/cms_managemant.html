@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!-- Page -->
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">CMS Page List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active">CMS Page List</li>
+        </ol>        
+      </div>
+
+      <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+             
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>
+              
+          </header>
+          <div class="panel-body">
+
+              <div class="row">              
+                <div class="col-lg-9"> </div> 
+                <div class="col-lg-3">                        
+                </div> 
+                
+            </div>
+            <br>
+            <div>           
+         
+           <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>Id No.</th>
+                  <th>Page Name</th>
+                  <th>Page Heading</th>
+                  <th>Page Content</th>                                    
+                  <th>Action</th>
+                </tr>
+              </thead>
+            
+              <tbody>
+               {% for pages in data.cms_pages %}
+                <tr>
+                  <td>{{pages.id}}</td>
+
+                  <td>{{pages.page_title}}</td>
+                  <td>{{pages.page_heading}}</td>
+                  <td>{{pages.page_content}}</td>
+
+                   <td>
+					   <a href="/prazar_admin/cms_single?page_key={{pages.page_key}}" class="btn btn-primary btn-sm employer_delete">Edit</a>
+                      
+                  </td>
+                  
+                </tr>
+               
+                {% endfor %}
+              </tbody>
+            </table>
+            
+            </div>
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+    </div>
+ <!-- End Page -->
+{% endblock %}

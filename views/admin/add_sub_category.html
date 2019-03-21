@@ -1,0 +1,122 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="page">
+     
+      <div class="page-header">
+        <h1 class="page-title">Edit sub Category</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+           <li class="breadcrumb-item"><a href="/prazar_admin/categories">Category List</a></li>           
+          <li class="breadcrumb-item active">edit sub Category</li>
+        </ol>
+        
+      </div>
+      <div class="page-content container-fluid">
+        
+            <!-- Panel Floating Labels -->
+        <div class="panel col-lg-10">
+          
+              <div class="panel-body container-fluid">
+
+                     {% if data.error.length > 0 %}
+				      
+				      <div class="alert alert-danger  alert-dismissible">
+					   <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					      {{data.error}}
+					</div>
+                       {% endif %}
+				  
+				  {%  if data.success.length > 0 %}
+			      <div class="alert alert-success  alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					{{data.success}}
+					</div>
+			     {% endif %}
+				  
+                  <form  action="/prazar_admin/add_category" class="add_cat_from" method="post" >
+                  
+                  <div class="row">  
+                    <div class="col-lg-12">   
+                          	
+                        <div class="form-group" data-plugin="formMaterial">
+                          <label class="floating-label">Category Name</label>
+                          <input type="text" class="form-control empty" name="cat_name" value="{{data.cat_detail.cat_name}}" readonly>
+                          <input type="hidden" class="form-control empty" id="cat_id" name="cat_id" value ="{{data.cat_id}}">
+                        </div>
+
+							
+                        <div class="form-group" data-plugin="formMaterial">
+                          <label class="floating-label">Sub Category Name</label>
+                          <select name="sub_cat" id="sub_cat_drp" class="form-control"> 
+						  <option value="">choose sub category</option>
+						  {%for sub_cat in data.sub_cates%}
+						   <option value="{{sub_cat.id}}" {%if data.sub_cat_id == sub_cat.id %}selected{%endif%}>{{sub_cat.name}}</option>
+						   {%endfor%}
+						  </select>
+                        </div>
+                    
+					  
+					
+					
+                        <label class="floating-label">Sub of Sub Category Name</label>                    
+                         <div class="div_exp_description input_history_wrap" style="/*border: 1px solid lightgray;*/">
+                              <div class="form-group " data-plugin="formMaterial" style="border: 1px solid lightgray;width:93%;">                    
+                                <button class="add_history_button exp_desc_botton"><i class="icon wb-plus-circle" aria-hidden="true"></i> </button>                
+                                
+                                <div><input type="text" class="form-control empty" name="sub_catrgory" required>
+                                </div>                                  
+                              </div> 
+							  
+							  {%for sub_cats in data.subsub_cates%}
+							  <div>
+							  <div class="form-group " data-plugin="formMaterial" style="border: 1px solid lightgray;width:93%;"><input type="text" class="form-control empty" name="subsub_catrgory" required="" value="{{sub_cats.name}}"><button class="remove_field rem_his_botton"> <input type="hidden" name="subcat_ids" value="{{sub_cats.id}}"><i class="icon wb-close" aria-hidden="true"></i></button>
+							  </div>
+							  </div>
+							  {%endfor%}
+							  
+                          </div>
+
+                    </div>                   
+                </div><!--end row -->
+                    <button type="submit" class="btn btn-primary button_padding add_cat_sub_btn" >Save</button>
+                </form>              
+                
+              </div>
+              <!-- End Panel Floating Labels -->                
+
+           </div>
+      </div>
+
+   
+      
+    </div>
+
+	
+	<!-- Modal suggested category -->
+  <div class="modal fade modal-3d-slit" id="suggested_cat_popup" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" >
+	<div class="modal-dialog modal-simple">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		  </button>
+		  <h4 class="modal-title">View suggested Category Names</h4>
+		</div>
+		<div class="modal-body">
+
+			                                                      
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>                      
+	</div>
+  </div>
+  <!-- End Modal -->
+	
+
+{% endblock %}

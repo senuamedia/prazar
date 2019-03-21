@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+<div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Profile</h1>
+        <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>        
+      </div>
+     
+      <div class="page-content">
+        <div class="panel">
+          <div class="panel-body container-fluid">
+            <div class="row row-lg">
+                <div class="col-md-7">
+                <!-- Example Basic Form (Form row) -->
+                <div class="example-wrap">
+                  <h4 class="example-title">Profile</h4>
+                 
+                   <script>
+                        setTimeout(function() {
+                            $('.alert').fadeOut('fast');
+                        }, 5000);
+                   </script>
+                  <div class="example">
+                             
+				{%  if data.error.length > 0 %}
+					<div class="alert alert-danger  alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					{{data.error}}
+					</div>
+				 {% endif %}
+					
+				 {%  if data.success.length > 0 %}
+			      <div class="alert alert-success  alert-dismissible">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					{{data.success}}
+					</div>
+			     {% endif %}	
+					  
+                    <form method="post" action="/prazar_admin/admin_profile"  class="">                   
+                     <!-- <img class="img-round" src="" width="30%" height="150" alt="...">
+                       <br> <br>
+                      <div class="form-group">
+                          <input type="file" class="form-control"  name="user_image"  autocomplete="off" >
+                      </div>  -->
+						
+					<div class="form-group">
+                        <label class="form-control-label" for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{data.admin_data.email}}" autocomplete="off" readonly="" required >
+                       
+                      </div>
+						
+                      <div class="form-group">
+                        <label class="form-control-label" for="fname">First Name</label>
+                        <input type="text" class="form-control" id="fname" name="fname" value="{{data.admin_data.fname}}" autocomplete="off" required  >
+                      </div>
+                      
+					  <div class="form-group">
+                        <label class="form-control-label" for="lname">Last Name</label>
+                        <input type="text" class="form-control" id="lname" name="lname" value="{{data.admin_data.lname}}" autocomplete="off" required  >
+                      </div>
+					  
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- End Example Basic Form (Form row) -->
+              </div>              
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+  </div>
+
+
+{% endblock %}

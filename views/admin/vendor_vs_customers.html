@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="page">      
+    <div class="page-header">
+      <h1 class="page-title">Vendor VS Customer</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>                
+        <li class="breadcrumb-item active">Vendor VS Customer</li>
+      </ol>
+	  <input type="hidden" id="lui" value="{{data.userdata.user_id}}">
+      <input type="hidden" id="pg" value="msg">
+    </div>
+    <div class="page-content container-fluid">
+                 
+        <div class="panel col-lg-12">
+            <div class="panel-heading">
+			<br/>
+             <div class="row">
+                <div class="col-lg-6">
+                 
+                  <select class="form-control transaction_select" id="all_vendor_list">
+                    <option value="">Select Vendor</option>
+					{% for v in data.all_vendors %}
+					<option value="{{v.user_id}}">{{v.store_name}}</option>
+					{% endfor %}
+                  </select>
+                    
+                  
+                </div>
+				<div class="col-lg-6">
+                 
+                  <select class="form-control transaction_select" id="all_customers">
+                    <option value="">Select Customer</option>
+                  </select>
+                    
+                  
+                </div>
+                </div>
+              
+            </div> 
+			<br/.
+            <div class="panel-body container-fluid">
+
+            
+              <div class="row"> 
+                  <div class="col-lg-12"> 
+                    <!-- Panel Title -->
+                    <div class="panel message_chat content_chat" data-reciver="{{data.crr_chat_data.reciver_id}}" conversation_id="{{data.crr_chat_data.conversation_id}}">
+                      <div class="panel-body" >
+                        <div class="chat-box">
+                         <div class="chats" id="msg_box">
+							                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Panel Title -->
+                                         
+
+                  </div>
+              </div>
+        </div>
+        <hr>
+
+      
+      </div>
+    </div>
+</div>
+{% endblock %}

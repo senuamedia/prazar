@@ -1,0 +1,279 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+
+<div class="delete_overlay">
+<div class="loader_delete">
+
+</div>
+</div>
+
+<!-- Page -->
+<div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Customers List</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>          
+          <li class="breadcrumb-item active">Customers List</li>
+        </ol>        
+      </div>
+         <div class="page-content">
+        <!-- Panel Basic -->
+        <div class="panel">
+          <header class="panel-heading">
+            <div class="panel-actions"></div>
+            <h3 class="panel-title"></h3>
+          </header>
+          <div class="panel-body">
+            <div class="row">   
+				<form method="get" class="customer_date_filter_form">
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <div class="col-md-4" id="start_date_div">
+                     <!--  <label>Start Date</label> -->
+                      <input type="text" class="form-control" name="start_date" value="{{data.start_date}}" placeholder="Start Date">
+                    </div>
+                    <div class="col-md-4" id="end_date_div">
+                      <!-- <label>End Date</label> -->
+                      <input type="text" class="form-control" value="{{data.end_date}}" name="end_date" placeholder="End Date">
+                    </div>
+                    <div class="col-md-4" id="search_btn_div">
+                      <input type="submit" class="form-control btn-primary" value="Search">
+                  </div>
+					
+               </div>
+               </form>
+
+               <div class="col-lg-4">
+                 <select class="form-control" id="customer_show_by">
+          
+              <option value="0">Showed by customer</option>
+              <option value="1">Over the last month</option>
+              <option value="2">Last 6 months</option>
+              <option value="3">Last year</option>
+             </select>   
+					
+                </div> 
+				 
+            </div>
+      <br>
+      <br>
+          
+
+            <table class="table table-hover table-striped w-full table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>S.No.</th>                  
+                  <th>Customer Name</th>
+                  <th>Email</th>                 
+                  <!--<th>Address</th>-->                             
+                  <th>Total Purchases</th>
+                  <th>Order Number</th>
+                  <th>Total Order</th>                  
+                  <th>Status</th>
+                  <th>Action</th> 
+                </tr>
+              </thead>
+           
+              <tbody id="customers_table_body">
+				  
+                   {% if data.customers.length ==0 %}
+				     <td colspan="8">data not found</td>
+				   {% endif %}
+				  
+				  {% for customer in data.customers %}
+                  <tr>
+                  <td>{{loop.index+(data.page*data.limit)}}</td>
+                  <td>{{customer.name}}</td>
+                  <td>{{customer.email}}</td>
+                  <!--<td>{{customer.address_line_1}}</td>-->
+                  <td>${{customer.total_purches}}</td>
+                 <!-- <td>{{customer.order_no}}</td> -->
+				 
+                  <td>
+				  <button class="btn btn-primary btn-xs employer_delete openPopupOrderCustomer" data-href="{{base_url}}prazar_admin/get_customer_orders_no?customer={{customer.user_id}}" data-toggle="modal" type="button">View Orders</button>
+                  </td>
+				  
+                  <td>{{customer.total_orders}}</td>
+                  <td>
+					  {% if customer.is_active==1 %}
+                        <span class="badge badge-success" >Active</span>
+					  {% else %}
+					   <span class="badge badge-danger" >block/suspended</span>
+					  {% endif %}
+                  </td>
+                  <td>
+					  
+					 
+                  <button class="btn btn-primary btn-sm employer_delete" data-target="#exampleNifty3dSlit{{customer.user_id}}" data-toggle="modal"
+                      type="button">Edit</button>
+                  <a href="javascript:void(0)" onclick="customerDelete({{customer.user_id}})" class="btn btn-danger btn-sm employer_delete">Delete </a>
+				  <a href="/prazar_admin/customer_messages?ritkn={{customer.user_id}}" class="btn btn-primary btn-sm employer_delete">Contact</a>
+				  </td>
+                   
+                </tr>
+				  
+				  
+				  <!-- Modal edit  -->
+                  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlit{{customer.user_id}}" aria-hidden="true"
+                    aria-labelledby="exampleModalTitle" role="dialog" >
+					  
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Edit {{customer.name}} Account</h4>
+                          </div>
+                          <div class="modal-body">
+							  
+                              <span id="success_msg" style="color:green"></span>        
+                              <div class="row">  
+                                <div class="col-lg-12">         
+                                     <form method="POST" class="edit_customer_pass_form"  >   
+										
+								<input type="hidden" class="form-control  title" name="user_id" value="{{customer.user_id}}">		
+								<input type="hidden" class="form-control  title" name="email" value="{{customer.email}}">
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+                                        <input type="text" class="form-control  title" name="new_pass" required>
+                                        <label class="floating-label">New Password</label>
+                                      </div>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     <button type="submit" class="btn btn-primary submit-btn" >Reset Password</button>
+                                    </div>
+									</form> 
+									<hr/>
+									
+									<form method="POST" class="edit_customer_status_form"  >   
+										<label class="floating-label">Select Action</label>
+										  <br/>
+										<select name="customer_status" required>
+											<option value="">select...</option>
+											  {% if customer.is_active==1 %}
+											<option value="0">Block Account</option>
+											<option value="0">Suspend Account</option>
+											{% else %}
+											 <option value="1">Activat Account</option>
+											{% endif %}
+										</select>
+                                   
+								<input type="hidden" class="form-control  title" name="user_id" value="{{customer.user_id}}">
+										<input type="hidden" class="form-control  title" name="email" value="{{customer.email}}">
+                                      <div class="form-group form-material floating" data-plugin="formMaterial">
+										  <label class="floating-label">Reason</label>
+										  <br/>
+										  <textarea rows="4" cols="20" name="reason" required></textarea>
+                                        
+                                      </div>
+									
+                                    <div class="form-group form-material floating" data-plugin="formMaterial">
+                                     <button type="submit" class="btn btn-primary submit-btn1" >Submit</button>
+                                    </div>
+									</form> 
+									<hr/>
+								
+									
+                                </div>                   
+                            </div><!--end row -->                                                                                   
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" onclick="$('.title').val('');" class="btn btn-default" data-dismiss="modal">Close</button>
+                            
+                          </div>
+                        </div>
+                         
+                      </div>
+						 
+                  </div>
+                  <!-- End Modal edit  -->  
+				  
+				  
+              {% endfor %}
+                
+              </tbody>
+            </table>
+			  
+			  <!-- pagination -->
+                {% set productCount = data.total_pages %}
+                {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row paginat_row"> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination ">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/prazar_admin/customers?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+          </div>
+        </div>
+        <!-- End Panel Basic -->
+      </div>
+      </div>
+   
+
+   <!-- filter model -->
+ <div class="modal fade modal-3d-slit" id="customer_filter_model" aria-hidden="true"
+                    aria-labelledby="exampleModalTitle" role="dialog" >
+					  
+                      <div class="modal-dialog modal-simple">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">Edit Account</h4>
+                          </div>
+                          <div class="modal-body">
+						                                                                                      
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                            
+                          </div>
+                        </div>
+                         
+                      </div>
+						 
+                  </div>
+
+<!-- End Page -->
+
+
+<!-- Modal order No-->
+  <div class="modal fade modal-3d-slit" id="exampleNifty3dSlitOrder" aria-hidden="true"
+	aria-labelledby="exampleModalTitle" role="dialog" >
+	<div class="modal-dialog modal-simple">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		  </button>
+		  <h4 class="modal-title">View Orders Number</h4>
+		</div>
+		<div class="modal-body-order-nos">
+                                                    
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>                      
+	</div>
+  </div>
+  <!-- End Modal --> 
+  
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+
+    <div class="dashboard">  
+
+    <!-- Page -->
+    <div class="page">      
+
+        <div class="page-content container-fluid min_height" >          
+          <div class="row">
+               <div class="col-md-12" style="margin-bottom: 30px;">
+				   <form method="get" >
+                    <div class="col-md-3" id="start_date_div">
+                     <!--  <label>Start Date</label> -->
+                      <input type="text" name="start_date" class="form-control" value="{{data.start_date}}" placeholder="Start Date">
+                    </div>
+                    <div class="col-md-3" id="end_date_div">
+                      <!-- <label>End Date</label> -->
+                      <input type="text" name="end_date" class="form-control" placeholder="End Date" value="{{data.end_date}}">
+                    </div>
+                    <div class="col-md-2" id="search_btn_div">
+                      <input type="submit" class="form-control btn-primary"  value="Search">
+                  </div>
+				   </form>
+               </div>
+          </div>
+          <div class="row">
+            <!-- First Row -->
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-warning">
+                    <i class="icon wb-users"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Consumers</span>
+                  <div class="content-text text-center mb-0">
+                    
+                    <span class="font-size-40 font-weight-100">{{data.customers}}</span>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-success">
+                    <i class="icon wb-users"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Vendors</span>
+                  <div class="content-text text-center mb-0">
+                    
+                    <span class="font-size-40 font-weight-100">{{data.vendors}}</span>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-danger">
+                    <i class="fa-product-hunt"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Products</span>
+                  <div class="content-text text-center mb-0">
+                   
+                    <span class="font-size-40 font-weight-100">{{data.products}}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        	
+			<div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-success">
+                    <i class="icon fa-shopping-cart"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Orders</span>
+                  <div class="content-text text-center mb-0">
+                   
+                    <span class="font-size-40 font-weight-100">{{data.orders}}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+			
+            <!-- End First Row -->
+
+          </div>
+          <div class="row">
+            <!-- First Row -->
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-warning">
+                    <i class="icon fa-sitemap"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Categories</span>
+                  <div class="content-text text-center mb-0">
+                    
+                    <span class="font-size-40 font-weight-100">{{data.categories}}</span>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+			 <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-primary">
+                    <i class="icon fa-sitemap"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Sub Categories</span>
+                  <div class="content-text text-center mb-0">
+
+                   <span class="font-size-40 font-weight-100">{{data.sub_cates}}</span>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-danger">
+                    <i class="icon wb-users"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Total Visits</span>
+                  <div class="content-text text-center mb-0">
+                    
+                    <span class="font-size-40 font-weight-100">{{data.visitors}}</span>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 info-panel">
+              <div class="card card-shadow">
+                <div class="card-block bg-white p-20">
+                  <button type="button" class="btn btn-floating btn-sm btn-primary">
+                    <i class="icon fa-dollar"></i>
+                  </button>
+                  <span class="ml-15 font-weight-400">Total Transaction</span>
+                  <div class="content-text text-center mb-0">
+
+                  <span class="font-size-40 font-weight-100">{{data.transections}}</span>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End First Row -->
+
+          </div>
+		  
+		  <input type="hidden" id="customers_counts" value="{{data.counts_customers}}"/>
+		  <input type="hidden" id="counts_vendors" value="{{data.counts_vendors}}"/>
+		  <input type="hidden" id="counts_visitor" value="{{data.counts_visitor}}"/>
+		  <input type="hidden" id="counts_products" value="{{data.counts_products}}"/>
+		  <input type="hidden" id="counts_sub_categories" value="{{data.counts_sub_categories}}"/>
+		  <input type="hidden" id="counts_categories" value="{{data.counts_categories}}"/>
+		  <input type="hidden" id="counts_orders" value="{{data.counts_orders}}"/>
+		  <input type="hidden" id="counts_transections" value="{{data.counts_transections}}"/>
+		  <!-- charts -->
+		  <div class="row">
+		  
+		  <div class="col-lg-12 col-md-12">
+		  <div class="col-lg-6 wv-width-50 wv-float-l">
+			  <span class="ml-15 font-weight-400 chart_title">Customers</span>
+			  <div class="ct-chart1 ct-perfect-fourth">
+			  </div>
+		  </div>
+		  <div class="col-lg-6 wv-width-50 wv-float-l">
+			   <span class="ml-15 font-weight-400 chart_title">Vendors</span>
+			  <div class="ct-chart2 ct-perfect-fourth"></div>
+		  </div>
+		    <div class="clearfix"></div>
+		  <div class="col-lg-6 wv-width-50 wv-float-l">
+		   <span class="ml-15 font-weight-400 chart_title">Products</span>
+		   <div class="ct-chart4 ct-perfect-fourth"></div>
+		  </div>
+		  <div class="col-lg-6 wv-width-50 wv-float-l">
+		    <span class="ml-15 font-weight-400 chart_title">Orders</span>
+		    <div class="ct-chart7 ct-perfect-fourth"></div>
+		  </div>
+		  <div class="clearfix"></div>
+		   <div class="col-lg-6 wv-width-50 wv-float-l">
+		    <span class="ml-15 font-weight-400 chart_title">Transactions</span>
+		    <div class="ct-chart8 ct-perfect-fourth"></div>
+		  </div>
+		  
+		   <div class="col-lg-6 wv-width-50 wv-float-l">
+		    <span class="ml-15 font-weight-400 chart_title">Categories</span>
+		    <div class="ct-chart6 ct-perfect-fourth"></div>
+		  </div>
+		  <div class="clearfix"></div>
+		   <div class="col-lg-6 wv-width-50 wv-float-l">
+		    <span class="ml-15 font-weight-400 chart_title">Sub Categories</span>
+		    <div class="ct-chart5 ct-perfect-fourth"></div>
+		  </div>
+		  
+		  
+		   <div class="col-lg-6 wv-width-50 wv-float-l">
+		    <span class="ml-15 font-weight-400 chart_title">Visitors</span>
+		    <div class="ct-chart3 ct-perfect-fourth"></div>
+		  </div>
+		  
+		 
+		  
+		  </div>
+		  
+		  </div>
+		  
+		  
+        </div>    
+    </div>
+
+    <!-- End Page -->
+</div>
+    <!-- End DAshboard -->
+
+{% endblock %}

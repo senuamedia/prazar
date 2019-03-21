@@ -1,0 +1,556 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+     <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/vendor_dashboard">Home</a>
+                                </li>
+                                <li class="active">Add Product</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Wishlist Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                <div class="col-md-12 col-sm-12">
+					
+					{% if data.message.length > 0 %}
+					
+					     <div class="alert alert-success alert-dismissible show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+							{{data.message}}
+							</div>
+					
+					{% endif %}
+                    <form class="product-form" id="add_pro_form" method="post" enctype="multipart/form-data" >
+					
+					  
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Title</h3>
+                                    <input class="wv_form_focus" id="add_product_name"  type="text"  name="product_name" required pattern=".{0,40}" oninvalid="setCustomValidity('Please match the requested format max 40 letters')" oninput="setCustomValidity('')">
+                                   </div>
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Primary category</h3>
+                                    <select class="wv_form_focus" id="primary_cat" name="cat1" required>
+                                        <option value="">Select category</option>
+										{% for cate in data.categories %}  
+                                        <option value="{{cate.cat_id}}">{{cate.cat_name}}</option>
+                                       {% endfor %}
+                                    </select>
+                                   </div>
+									
+									
+                                  <!-- <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Secondary category</h3>
+                                    <select class="wv_form_focus" id="secondry_cat" name="cat2" >
+                                       <option value="">Select category</option>
+                                       <option value="">None</option>
+										{% for cate in data.categories %}  
+                                        <option value="{{cate.cat_id}}">{{cate.cat_name}}</option>
+                                       {% endfor %}
+                                    </select>
+                                   </div> -->
+									
+									  <div id="subcat_div" style="display:none">
+									   <div class="col-md-12 padL0 padR0 form-group">
+										   <h3>Sub category</h3>
+										   <select class="wv_form_focus" id="sub_cat" name="sub_cat" multiple >                                            </select>
+										  </div>
+									 
+									  </div>	
+									  
+									  
+									   <div id="subsubcat_div" style="display:none">
+									   <div class="col-md-12 padL0 padR0 form-group">
+										   <h3>Sub sub category</h3>
+										   <select class="wv_form_focus" id="subsub_cat" name="subsub_cat" multiple >                                            </select>
+										  </div>
+									 
+									  </div>
+									  
+									 
+                                <!--
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Add product Personalisation (Max 7 Products)</h3>
+                                    <input class="wv_form_focus" type="text" placeholder="Personalised Products:">
+                                   </div> -->
+                                   <input type="hidden" id="page_type_pro_image" value="add_product"/>
+								  
+                                  <!-- <div class="col-md-12 padL0 padR0">
+									  <input type="hidden" id="total_imgs" value="1"/>
+									  <a class="" id="add_more_img">Add New Image</a>
+									  </div> -->
+									  
+									  
+                                   <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add1" id="img-div-no1" >
+                                                <h3>Product images (Max 5 images)</h3>
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files1">Choose Photo 1</label>
+                                                    <input type="file" id="pro_files1"   name="pro_image1" class="FilesUploader pro_files_class" img_no="1" accept="image/*" >
+                                                    </div>
+												  
+									             <span class="img_err_product" id="image_err1"></span>
+									             <input id="image_width1" type="hidden" name="image_width1" value=""/>
+                                   </div>
+								   
+								     <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add2" id="img-div-no2">
+                                               
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files2">Choose Photo 2</label>
+                                                    <input type="file" id="pro_files2"   name="pro_image2" class="FilesUploader pro_files_class" img_no="2" accept="image/*" >
+                                                    </div>
+												  
+									   <span class="img_err_product" id="image_err2"></span>
+									      <input id="image_width2" type="hidden" name="image_width2" value=""/>
+								
+                                   </div>
+								   
+								   
+								    <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add3" id="img-div-no3">
+                                               
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files3">Choose Photo 3</label>
+                                                    <input type="file" id="pro_files3"   name="pro_image3" class="FilesUploader pro_files_class" img_no="3" accept="image/*" >
+                                                    </div>
+												  
+									   <span class="img_err_product" id="image_err3"></span>
+									   
+									    <input id="image_width3" type="hidden" name="image_width3" value=""/>
+								
+                                   </div>
+								   
+								    <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add4" id="img-div-no4">
+                                               
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files4">Choose Photo 4</label>
+                                                    <input type="file" id="pro_files4"   name="pro_image4" class="FilesUploader pro_files_class" img_no="4" accept="image/*" >
+                                                    </div>
+												  
+									   <span class="img_err_product"  id="image_err4"></span>
+									  <input id="image_width4" type="hidden" name="image_width4" value=""/>
+                                   </div>
+								   
+								   <div class="col-md-12 padL0 padR0 form-group pic_upload preview_selected_images_add5" id="img-div-no5">
+                                               
+                                                 <div class="upload-btn wv_upload-btn">
+                                                    <!--<span>No file selected</span>-->
+                                                    <label for="pro_files5">Choose Photo 5</label>
+                                                    <input type="file" id="pro_files5"   name="pro_image5" class="FilesUploader pro_files_class" img_no="5" accept="image/*" >
+                                                    </div>
+												  
+									   <span class="img_err_product" id="image_err5"></span>
+									    <input id="image_width5" type="hidden" name="image_width5" value=""/>
+									 
+                                   </div>
+								  
+								  
+								  
+								   <div class="col-md-12 cropper_main_div">
+								   
+								   	<div class="cropper" id="cropper_container1">
+									<img id="photo1" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<input type="hidden" name="cropped_img1" id="cropped_img1" value=""/>
+									<input type="hidden" name="cropped_img_ext1" id="cropped_img_ext1" value=""/>
+									</div>
+								   
+								   	<div class="cropper" id="cropper_container2">
+									<img id="photo2" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<input type="hidden" name="cropped_img2" id="cropped_img2" value=""/>
+									<input type="hidden" name="cropped_img_ext2" id="cropped_img_ext2" value=""/>
+									</div>
+								   
+								    <div class="cropper" id="cropper_container3">
+									<img id="photo3" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<input type="hidden" name="cropped_img3" id="cropped_img3" value=""/>
+									<input type="hidden" name="cropped_img_ext3" id="cropped_img_ext3" value=""/>
+									</div>
+								   
+								   
+								   <div class="cropper" id="cropper_container4">
+									<img id="photo4" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<input type="hidden" name="cropped_img4" id="cropped_img4" value=""/>
+									<input type="hidden" name="cropped_img_ext4" id="cropped_img_ext4" value=""/>
+									</div>
+								   
+								   <div class="cropper" id="cropper_container5">
+									<img id="photo5" class="cropper_photo" src="./front_assets/img/placeholder.png" alt="" />
+									<input type="hidden" name="cropped_img5" id="cropped_img5" value=""/>
+									<input type="hidden" name="cropped_img_ext5" id="cropped_img_ext5" value=""/>
+									</div>
+								   
+								   
+								   </div>
+								   
+								   
+								   
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Description</h3>
+                                    <textarea class="wv_form_focus empty summernote product_desc"  data-plugin="summernote"  name="desc" ></textarea>
+                                   </div>
+
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Regular Price</h3>
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+								
+                                    <input class="wv_form_focus wv_dolr-padd" id="regular_price_id" min="0" step="any" type="number"  name="price" required>
+									
+                                   </div>
+								   
+								   <div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Is this product on sale?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="is_on_sale_yes" class="checkcontainer" id="option_sale1">Yes
+                                        <input type="radio"  id="is_on_sale_yes" name="is_on_sale" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="is_on_sale_no" class="checkcontainer" id="option_sale2">No
+                                        <input type="radio" checked="checked" id="is_on_sale_no" name="is_on_sale" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   
+								   
+                                   <div class="col-md-12 padL0 padR0 form-group hide_div" id="sell_price_div_pro">
+                                    <h3>Sale Price</h3>
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" id="sell_price_id" min="0" step="any" type="number"  name="sale_price" >
+								<p>Sale price can be between 5% and 50% off of the regular price</p>
+									<!--<p>Should be min 5% of price max 50% of price.</p>-->
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Gender</h3>
+                                    <select class="wv_form_focus" name="gender" id="add_product_gender" required>
+                                        <option value="" selected>Please choose</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="neutral">Neutral</option>
+                                        <option value="undefined">Undefined</option>
+                                    </select>
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Quantity of Stock Available</h3>
+                                    <input class="wv_form_focus" type="number" id="add_product_stock" name="stock_quantity" required>
+                                   </div>
+									
+									<div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Customization option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="customizedyes" class="checkcontainer" id="option10">Yes
+                                        <input type="radio"  id="customizedyes" name="customized" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="customizedno" class="checkcontainer" id="option11">No
+                                        <input type="radio" checked="checked" id="customizedno" name="customized" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   
+								   
+								   <div id="custom_inpt_lbls_div" class="hide_div">
+								   
+								   <input type="hidden" id="total_lables" value="1"/>
+								   
+								   <div class="label_div">
+								    <div class="col-md-10 padL0 padR0 form-group label_headings">
+                                     <h3>Input Label #1</h3>
+                                     <input class="wv_form_focus first_cst_label" maxlength="50" type="text" placeholder="Custom Text:" name="cst_txt_lbl" >
+                                    </div>
+								    <div class="col-md-2 padL0 padR0 form-group form-plus-add">
+                                      <h1 id="add_custom_opt">+</h1>
+                                    </div>
+								   </div>
+								   </div>
+								   
+								    <div class="col-md-12 padL0 padR0 form-group hide_div" id="cstm_price_div">
+                                    <h3>Price</h3>
+                                    <input class="wv_form_focus" min="0" step="any" type="number"  name="customized_price" >
+                                   </div>
+								   
+								   
+								   
+								   <div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Variation Option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="variableyes" class="checkcontainer" id="option14">Yes
+                                        <input type="radio"  id="variableyes" name="is_variable" value="2">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="variableno" class="checkcontainer" id="option15">No
+                                        <input type="radio" checked="checked" id="variableno" name="is_variable" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   
+								   
+									<input type="hidden" id="continue_inpt_hidn" name="continue_to_variant" value="0"/>
+									
+									<div  class="col-md-3 padL0 add_pr_varint_btn_div hide_div">
+										 <a href="JavaScript:void(0);" class="login_submit wv_button_prazar" id="add_prod_var_btn"  >Variants</a> 
+										
+								   </div>
+ 
+                                </div>
+                                
+                                <div class="col-md-6">
+									
+									
+                                    <div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Gift wrap option</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="gift_wrap_yes" class="checkcontainer" id="option1">Yes
+                                        <input type="radio"  id="gift_wrap_yes" name="gift_wrap" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="gift_wrap_no" class="checkcontainer" id="option1">No
+                                        <input type="radio" checked="checked" id="gift_wrap_no" name="gift_wrap" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        <h3>Price for gift wrap</h3>
+										<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                        <input class="wv_form_focus wv_dolr-padd" type="number" min="0" step="any"  name="gift_price" disabled>
+                                    </div>
+                                    
+                                    <div class="col-md-12 padL0 padR0 form-group">
+
+                                    <h3>Ships Overseas</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="ship_overseas_yes" class="checkcontainer" id="option1">Yes
+                                        <input type="radio"  id="ship_overseas_yes" name="ship_overseas" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="ship_overseas_no" class="checkcontainer" id="option1">No
+                                        <input type="radio" checked id="ship_overseas_no" name="ship_overseas" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group wv_widget">
+                                        <h3>Region to ship</h3>
+                                        
+										<ul class="wv_choose_color ship_regons_ul">
+										{% for state in data.states |sort  %}
+                                            <li>
+                                                <input type="checkbox" class="check-colr" value="{{state.name}}" id="region_id{{loop.index}}" name="ship_region">
+                                                <label class="form-label region_labels" for="region_id{{loop.index}}"  style="cursor:not-allowed"> {{state.name}}</label>
+                                            </li>
+                                          {%endfor%}
+                                        </ul>
+                                    </div>
+
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Ships Overseas price</h3>
+									
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number" placeholder="Price Of Ships Overseas:" name="ship_overseas_price"  id="overseas_ship_input_id" disabled>
+                                   </div> 
+									
+									
+									
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Express delivery available?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="express_delivery_yes" class="checkcontainer" id="option1">Yes
+                                        <input type="radio" id="express_delivery_yes" name="express_type" value="1">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+								   
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="express_delivery_no" class="checkcontainer" id="option1">No
+                                        <input type="radio"  checked="checked" id="express_delivery_no" name="express_type" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div>
+								   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Express delivery price</h3>
+									
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number"  name="express_delivery_price"  id="express_delivery_input_id" disabled>
+                                   </div>
+
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                        <h3>Dimension</h3>
+                                    </div>
+
+                                    <div class="col-md-6 padL0  form-group">
+                                    <h3>Width</h3>
+										<span class="glyphicon form-control-feedback wv_right-prop">CM</span>
+                                    <input class="wv_form_focus" name="width" type="text"  id="width_input" autocomplete="off" required>
+                                   </div>
+
+                                   <div class="col-md-6  padR0 form-group">
+                                    <h3>Height</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">CM</span>
+                                    <input class="wv_form_focus" name="height" type="text"  id="height_input" autocomplete="off" required>
+                                   </div>
+
+								    <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Length</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">CM</span>
+                                    <input class="wv_form_focus" name="length" type="text"  id="length_input" autocomplete="off" required>
+                                   </div>
+								   
+                                    <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Weight</h3>
+									<span class="glyphicon form-control-feedback wv_right-prop1">KG</span>
+                                    <input class="wv_form_focus" name="weight" type="text"  id="weight_input" autocomplete="off" required>
+                                   </div>
+
+								 
+								   
+									<!--
+									 <div class="col-md-12 padL0 padR0 form-group">
+                                        
+                                    <h3>Is free shipping available?</h3>
+
+                                    <div class="col-md-3 padL0 padR0">
+                                    <label for="is_free_delivery_yes" class="checkcontainer" id="option11">Yes
+                                        <input type="radio" checked="checked" id="is_free_delivery_yes" name="is_free_delivery" value="1" >
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   <div class="col-md-3 padL0 padR0">
+                                    <label for="is_free_delivery_no" class="checkcontainer" id="option12">No
+                                        <input type="radio" id="is_free_delivery_no" name="is_free_delivery" value="0">
+                                        <span class="radiobtn"></span>
+                                   </label>
+                                   </div>
+
+                                   </div> -->
+									
+									
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Price of Shipping</h3>
+									<input type="hidden" id="is_free_delivery_hidden" name="is_free_delivery" value="0" >
+									<span class="glyphicon form-control-feedback wv_left_prop_dolr">$</span> 
+                                    <input class="wv_form_focus wv_dolr-padd" min="0" step="any" type="number" placeholder="Enter 0 for Free shipping" name="ship_price"  id="price_ship_input_id" required>
+                                   </div>
+
+                                   <div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Ships Within</h3>
+                                    <select class="wv_form_focus" id="add_product_ships_within" name="ship_within" required>
+                                        <option value="">Please choose</option>
+                                        <option value="1-3 Business Days">1-3 Business Days</option>
+                                        <option value="3-5 Business Days">3-5 Business Days</option>
+                                        <option value="5-10 Business Days">5-10 Business Days</option>
+                                    </select>
+                                   </div>
+									<!--
+									<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Product Specification</h3>
+									<textarea class="form-control empty summernote" data-plugin="summernote" rows="10"  name="specification" placeholder="Page Description"></textarea>
+									  </div>-->
+									
+									<!--<div class="col-md-12 padL0 padR0 form-group">
+                                    <h3>Delivery & Returns</h3>
+									<textarea class="form-control empty summernote" data-plugin="summernote" rows="10"  name="delivery_returns" placeholder="Page Description"></textarea>
+									  </div>-->
+									
+									
+                                </div>
+								
+                                <div class="col-md-12">
+                                	<div class="row">
+                                	    <div class="col-md-3">
+											
+										<input type="submit" name="later_sub" class="login_submit add_product_form" value="Save for Later" id="later_sub" data="0">
+										</div>
+                                	    <div class="col-md-3"><input type="submit"  name="live_sub" class="login_submit add_product_form" value="List Product" id="live_sub" data="1"></div>
+										
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//-->
+        <section class="Service join_newsletter_color">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Get fresh prazar trends and unique gift ideas delivered right to your inbox</p>
+                        <div class="prazar-subscribe-inner-box">
+                            <input type="email" class="transparent-field" placeholder="email address">
+                            <input  type="submit" class="submit-btn" value="Subscribe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>          
+       
+       
+{% endblock %}    

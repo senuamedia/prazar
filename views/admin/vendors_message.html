@@ -1,0 +1,186 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="page">      
+    <div class="page-header">
+      <h1 class="page-title">Vendor Messages List</h1>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/prazar_admin/dashboard">Dashboard</a></li>                
+        <li class="breadcrumb-item active">Vendor Messages List</li>
+      </ol>
+	  <input type="hidden" id="lui" value="{{data.userdata.user_id}}">
+      <input type="hidden" id="pg" value="msg">
+    </div>
+    <div class="page-content container-fluid">
+                 
+        <div class="panel col-lg-12">
+		<br/>
+            <div class="panel-heading">
+              <div class="row">
+                <!--<div class="col-lg-4">
+                 
+                    <select class="form-control transaction_select" style="width: 96%;
+    margin-left: 33px;">
+                    <option value="0">Select</option>
+                    <option value="1" selected>Venders</option>
+                    <option value="2">Customers</option>
+                    <option value="2">Venders v/s Customers</option>
+                  </select>
+                    
+                  
+                </div>
+                <div class="col-lg-8">
+                  <div class="example serch_input">
+                      <form autocomplete="off">
+                        <div class="input-search clearfix">
+                          <span class="twitter-typeahead" style="width: 100%;position: relative; display: inline-block;">
+                            <input type="text" class="form-control tt-hint transaction_select" readonly="" autocomplete="off" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box padding-box rgb(255, 255, 255);" dir="ltr">
+                            <input type="text" class="form-control tt-input transaction_select" id="exampleTypeaheadStyle" name="exampleTypeaheadStyle" placeholder="Search..." autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Roboto, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 100; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;">x</pre>
+                            <div class="tt-menu tt-empty" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-states">
+                              
+                            </div>
+                          </div>
+                        </span>
+                          <button type="submit" class="input-search-btn">
+                            <i class="icon wb-search" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </form>                    
+                  </div>
+                </div>-->
+                
+              </div> 
+            </div> 
+            <div class="panel-body container-fluid">
+
+            
+              <div class="row"> 
+                 <div class="col-lg-4"> 
+                  <!-- Panel Title -->
+                    <div class="panel message_chat_list">
+                      <div class="">
+                        <div class="chat-box">
+                          <div class="chats" id="conversation_box">
+                            
+							{% for c in data.all_conversations %}
+							{% if c.id == data.crr_chat_data.conversation_id %}
+							<div class="chat chat-left chat_border_bottom active" data-cid={{c.id}}>
+							{% else %}
+							<div class="chat chat-left chat_border_bottom" data-cid={{c.id}}>
+							{% endif %}
+							{% if c.store_logo == "" %}
+                              <div class="chat-avatar" {% if c.contact_name != "" %}style="width:60px;height:60px;padding-top:11px;font-size:24px;"{% endif %}>
+                                {% if c.from_id == data.userdata.user_id %}
+								<a href="/prazar_admin/vendors_messages?ritknvnd={{c.to_id}}">
+								{% else %}
+								<a href="/prazar_admin/vendors_messages?ritknvnd={{c.from_id}}">	
+								{% endif %}	
+                                  <span class="chat_name_img">{{c.to_user_initials}}</span>
+                                </a>
+                              </div>
+							 {% else %} 
+							  <div class="">
+                                {% if c.from_id == data.userdata.user_id %}
+								<a href="/prazar_admin/vendors_messages?ritknvnd={{c.to_id}}" style="float:left;">
+								{% else %}
+								<a href="/prazar_admin/vendors_messages?ritknvnd={{c.from_id}}" style="float:left;">	
+								{% endif %}	
+                                  <img style="width:60px;height:60px;border-radius:50px;" src="/store_logo/{{c.store_logo}}">
+                                </a>
+                              </div>
+							{% endif %}  
+                              <div class="chat-body">
+                                <div class="chat-list_name">
+                                  <h4>
+									{% if c.from_id == data.userdata.user_id %}
+									<a href="/prazar_admin/vendors_messages?ritknvnd={{c.to_id}}">
+									{% else %}
+									<a href="/prazar_admin/vendors_messages?ritknvnd={{c.from_id}}">	
+									{% endif %}	
+									  {{c.to_user_name}}
+									</a>
+                                    
+                                  </h4>
+								  {% if c.from_id == data.userdata.user_id %}
+									<a href="/prazar_admin/vendors_messages?ritknvnd={{c.to_id}}">
+									{% else %}
+									<a href="/prazar_admin/vendors_messages?ritknvnd={{c.from_id}}">	
+									{% endif %}	
+									  <span>{{c.contact_name}}</span>
+									</a>
+								  
+                                </div>
+                              </div>
+                            </div>
+                            {% endfor %}
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer pb-30">
+                       
+                      </div>
+                    </div>
+                    <!-- End Panel Title -->
+
+                  </div>
+                  <div class="col-lg-8"> 
+                    <!-- Panel Title -->
+                    <div class="panel message_chat content_chat" data-reciver="{{data.crr_chat_data.reciver_id}}" conversation_id="{{data.crr_chat_data.conversation_id}}">
+                      <div class="panel-body" >
+                        <div class="chat-box">
+                          <div class="chats" id="msg_box">
+							{% for msg in data.crr_chat_data.msg_data %}
+                            <div class="chat {% if msg.from_user_id == data.userdata.user_id %} {% else %} chat-left {% endif %}">
+                              <div class="chat-avatar">
+								
+                              </div>
+                              <div class="chat-body">
+                                <div class="chat-content">
+                                  {% if msg.message_type == 0 %}													
+									<p>{{msg.message}}</p>
+								  {% elseif msg.message_type == 1 %}
+									<a href="{{base_url}}{{msg.file_path}}" target="_blank"><img src="/{{msg.file_path}}"></img></a>
+								  {% else %}
+									<a  href="{{base_url}}{{msg.file_path}}" target="_blank">{{msg.message}}</a>
+								  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+							{% endfor %}
+                            
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+					
+                    <!-- End Panel Title -->
+                         <div id="msg_send_btn" class="panel-footer ">
+                        
+                          <div class="input-group">
+                            <input type="text" id="msg_input"  class="form-control" placeholder="Say something">
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary" id="send_msg_btn" type="button">Send</button>
+                            </span>
+							&nbsp;
+							<span class="input-group-btn">
+                            <button class="btn btn-primary" id="send_msg_btn" type="button"> <i onclick="document.getElementById('f1').click();" class="fa fa-paperclip attachment" aria-hidden="true"></i></button>
+							<input style="display:none" type="file" id="f1" name="f1">
+                            </span>
+                          </div>
+                        
+                      </div>                
+
+                  </div>
+              </div>
+        </div>
+        <hr>
+
+      
+      </div>
+    </div>
+</div>
+{% endblock %}

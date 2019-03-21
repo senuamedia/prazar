@@ -1,0 +1,530 @@
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+       <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/">Shop</a>
+                                </li>
+                                <li class="active">Cart</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Shopping Cart Page Start==//-->
+        <section class="cart-page">
+		<input type="hidden" id="shopping_cart_page" value="cart_page"/>
+		{% if data.userdata %}
+		<input type="hidden" id="is_user_logged_in" value="1">
+		{% else %}
+		<input type="hidden" id="is_user_logged_in" value="0">
+		{% endif %}
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="table-responsive table-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail-th wc_left_align">Image</th>
+                                    <th class="product-thumbnail-th">Product</th>
+                                    <th class="product-name-th">Price</th>
+                                    <th class="product-quantity-th">Quantity</th>
+                                    <th class="product-quantity-th">Shipping</th>
+                                    <th class="product-quantity-th">Gift Wrapping</th>
+                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-subtotal">Special request</th>
+                                    <th class="product-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cart_body">
+							{% set sub_total = 0 %}
+							{% set ship_total = 0 %}
+							{% set total = 0 %}
+								{% if data.data.length > 0 %}
+								{% for item in data.data %}
+								{% set tmp = item.sale_price * item.quantity %}
+								{% set sub_total = sub_total + tmp %}
+								
+                                <tr pid="{{item.product_id}}" store_id="{{item.store_id}}" cart_item_id="{{item.cart_item_id}}" customization_data="{{item.customization_data}}" is_customizable="{{item.is_customizable}}" variation_data="{{item.variation_data}}" is_variable="{{item.product_type}}" add_request="" quantity_remaining="{{item.quantity_remaining}}" code_id="" code_name="" code_value="" minimum_purcahse_amt_for_free_ship="{{item.minimum_purcahse_amt_for_free_ship}}" overseas_ship_regions="{{item.ship_region}}">
+                                    <td class="wc_left_align" style="width:10%;"><a href="/product_datail?p={{item.slug}}" ><img src="./products/{{item.images[0].image_url}}" alt="cart"></a></td>
+                                    <td class="cart-product-title" style="width:15%;"><a href="/product_datail?p={{item.slug}}" class="item_name">{{item.product_name}}</a><br><p>{{item.store_name}}</p>
+                                           <ul class="wv_rating">
+                                           {% if item.ratings[0].average_rates == 0 %}
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates > 0 && item.ratings[0].average_rates < 1 %}
+												<li><i class="fa fa-star-half-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates == 1 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates > 1 && item.ratings[0].average_rates < 2 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-half-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates == 2 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates > 2 && item.ratings[0].average_rates < 3 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-half-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates == 3 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates > 3 && item.ratings[0].average_rates < 4 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-half-o"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates == 4 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-o"></i></li>
+												{% elseif item.ratings[0].average_rates > 4 && item.ratings[0].average_rates < 5 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star-half-o"></i></li>
+												{% elseif item.ratings[0].average_rates == 5 %}
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												
+											 {% endif %}	
+												<li><span class="review">({{item.ratings[0].total_rates}})</span></li>
+                                            </ul>
+                                     </td>
+                                    <td class="cart-product-price"><span item_price="{{item.sale_price}}" class="item_price">${{item.sale_price.toFixed(2)}}</span>
+									{% if item.user_select_customizable_option == 1 %}
+										<br><span class="custom_text">Customization cost : ${{item.customize_price}}</span></td>
+									{% endif %}
+									{% if item.quantity_remaining > 0 %}
+                                    <td class="p-qty">
+                                        <input class="quantity_field" value="{{item.quantity}}" type="number" min="1" max="20" step="1" data-min="1"/>
+                                    </td>
+									<td class="cart-product-price">
+									<select class="shipping_classes item_ship_price" {% if item.total_store_amount < item.minimum_purcahse_amt_for_free_ship || item.minimum_purcahse_amt_for_free_ship <= 0 %} item_ship_price="{{item.standard_price}}" {% else %} item_ship_price="0" {% endif %} data_shipping_type="standard" name="shipping_classes">
+									
+										{% if item.standard_shipping == 1 %}
+											{% if item.total_store_amount < item.minimum_purcahse_amt_for_free_ship || item.minimum_purcahse_amt_for_free_ship <= 0 %}
+												<option value="{{item.standard_price}}#s" selected>Standard Shipping ${{item.standard_price.toFixed(2)}}</option>
+												{% set ship_total = ship_total + item.standard_price*item.quantity %}
+											{% else %}
+												<option value="0#s" selected>Free Standard Shipping</option>
+											
+												{% set ship_total = ship_total + 0 %}
+											{% endif %}
+										{% else %}
+											<option value="0#s" selected>Free Standard Shipping</option>
+											
+											{% set ship_total = ship_total + 0 %}
+										{% endif %}
+										{% if item.express_delivery == 1 %}
+											<option value="{{item.express_price}}#e">Express Delivery ${{item.express_price.toFixed(2)}}</option>
+										{% endif %}
+										{% if item.overseas_delivery == 1 %}
+											<option value="{{item.overseas_price}}#i">Overseas Shipping ${{item.overseas_price.toFixed(2)}}</option>
+										{% endif %}
+									</select>
+									
+                                    </td>
+									<td class="cart-product-price gift_wrap_td" is_gift_wrap="{{item.is_gift_wrap}}">
+									{% if item.is_gift_wrap == 1 %}
+										 <div class="wv_widget wv_checkout_check wv_table-check">
+											<input type="checkbox" class="grey gift_wrap_cb" name="pink" id="grey{{loop.index}}" value="{{item.gift_price}}">
+											<label for="grey{{loop.index}}">${{item.gift_price.toFixed(2)}}</label>
+										 </div>
+									{% else %}
+										<span>NA</span>
+									{% endif %}
+									 </td>
+                                    <td class="cart-product-price">
+									
+										{% if item.is_free_delivery == 0 %}
+										
+										 {% set tmp = item.sale_price*item.quantity %}
+										
+										{% if item.total_store_amount < item.minimum_purcahse_amt_for_free_ship || item.minimum_purcahse_amt_for_free_ship <=0  %}
+										
+										{%set temp1= item.standard_price*item.quantity %}
+										
+										<span one class="item_total_price" item_total_price={{(tmp+temp1).toFixed(2)}}>
+										${{ (tmp+temp1).toFixed(2) }}
+										</span>
+										
+										{% else %}
+										<span two class="item_total_price" item_total_price={{tmp+ 0}}>
+										${{tmp+0 }}
+										</span>
+										{% endif %}
+										
+										{% else %}
+										<span three class="item_total_price" item_total_price={{item.sale_price*item.quantity}}>
+										${{(item.sale_price*item.quantity).toFixed(2)}}
+										</span>
+									    {% endif %}
+									</td>
+                                    <td class="cart-product-price"><span id="request1"  data-toggle="modal" data-target="#myModal" class="wv_button_prazar add_request_btn" crr_tr_ref="">Add</span></td>
+									{% else %}
+									<td colspan="5">OUT OF STOCK</td>
+									{% endif %}
+                                    <td class="delete-products"><a href="javascript:void(0);" class="remove_prd_from_cart_page"><i class="fa fa-times"></i></a></td>
+                                </tr>
+								
+								{% set total = ship_total + sub_total %}
+								{% endfor %}
+								
+								{% else %}
+								<tr><td colspan="9">No item in cart</td></tr>
+								{% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title">Add your special request</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control wv_request_textarea"></textarea>
+        <span class="wv_button_prazar save_request">Submit</span> <span class="wv_button_prazar cancel_request" data-dismiss="modal">Cancel</span>
+      </div>
+
+	  
+    </div>
+
+  </div>
+</div>
+                    <div class="">
+					<style>
+					a.wv_button{
+						display: inline-block;
+						text-align: center;
+					}
+					</style>
+                        <div class="col-xs-12 col-sm-4 col-md-4 wv_shipping_outer">
+						
+                            <div class="col-xs-6 col-md-6 wv_checkout wv_form_field responsive_field1">
+                                <a data-href="{{base_url}}get_return_policy_data" data-toggle="modal" class="wv_button wv_button_style1 marT0 openPopupReturnPolicy" >Return policy</a>
+                            </div>
+                            <div class="col-xs-6 col-md-6 wv_checkout wv_form_field1">
+                                <a  data-href="{{base_url}}get_delivery_info_data" data-toggle="modal" class="wv_button wv_button_style1 marT0 openPopupDeliveryInfo" >Delivery Info</a>
+                            </div>
+                        </div>
+						{% if data.data.length > 0 %}
+                        <div class="col-xs-12 col-sm-4 col-md-4 wv_coupon">
+                            <div class="wv_shipping responsive_coupon">
+                                <h2 class="marB10">Discount code</h2>
+                                <p>Enter your discount or promo code here.</p>
+                                <form class="contact-form">
+                                    <!--//==Contact Input Field==//-->
+                                    <div class="col-md-12 form-group wv_form_field">
+                                        <input class="wv_form_focus cpn_code_fld" type="text" placeholder="Code">
+                                    </div>
+                                    <div class="col-md-12 wv_form_field">
+                                        <button type="button" class="wv_button marT0 apply_coupon_code">apply code</button>
+                                        <a href="JavaScript:void(0)" class="wv_button marT0 remove_code" style="display:none;">Code Applied</a>
+                                    </div>
+                                </form>
+                            </div>
+                            
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4 wv_subtotal">
+                            <div class="wv_shipping">
+                                <div class="wv_subtotaling">
+                                    <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                        <p>subtotal</p>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                        <p id="cart_sub_total" cart_sub_total="{{sub_total.toFixed(2)}}">${{sub_total.toFixed(2)}}</p>
+                                    </div>
+                                </div>
+                                <div class="wv_subtotaling">
+                                    <div class="col-xs-6 col-md-6 wv_subtotal_left textL">
+                                        <p>Shipping Cost</p>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6 wv_subtotal_right textR">
+                                        <p id="cart_ship_total" cart_ship_total="{{ship_total.toFixed(2)}}">${{ship_total.toFixed(2)}}</p>
+                                    </div>
+                                </div>
+                                <div class="wv_totaling">
+                                    <div class="col-xs-6 col-md-6 wv_total_left textL">
+                                        <p>Total</p>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6 wv_total_right textR">
+                                        <p id="cart_full_total" cart_full_total="{{total.toFixed(2)}}">${{total.toFixed(2)}}</p>
+                                    </div>
+                                </div>
+                               <!-- <div class="wv_totaling">
+                                    <div class="col-xs-12 col-md-12 wv_widget wv_checkout_check padd_left_right_0">
+                                        <input type="checkbox" class="terms" name="pink" id="terms-condition">
+                                        <label for="terms-condition">Terms & Conditions</label>
+                                    </div>
+                                </div>-->
+                            </div>
+                            
+                            <div class="col-xs-6 col-md-6 wv_checkout wv_form_field responsive_field1">
+                                <a href="/" class="wv_button wv_button_style1 marT0">continue shopping</a>
+                            </div>
+							<div class="col-xs-6 col-md-6 wv_checkout wv_form_field1">
+                                <a href="javascript:void(0);" class=""><button type="button" class="wv_button wv_button_style2 marT0 checkout_proceed">checkout</button></a>
+                            </div>
+                        </div>
+						{% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+		
+<!-- return policy pop up -->		
+<div id="return_policy_pop_up" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title">Return Policy</h4>
+      </div>
+      <div class="modal-body1">
+      
+      </div>
+
+	  
+    </div>
+
+  </div>
+</div>
+	
+
+<!-- delivery info pop up -->		
+<div id="delivery_info_pop_up" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       <!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title">Delivery Info</h4>
+      </div>
+      <div class="modal-body2">
+      
+      </div>
+
+	  
+    </div>
+
+  </div>
+</div>
+
+	
+ <!--//==Shopping Cart Page End==//-->
+		
+	<!-- Suggested products -->
+	{% if data.related_roducts.length>0%}
+<div class="container">
+                        <section class="wv-main-women padT70 padB70">
+                            <div class="row">
+                                <div class="col-md-12 padLR0 wv_responsive_pad">
+                                    <div class="wv-heading-style1 pad-s15">
+                                        <h2>Suggested products</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 padLR0 wv_responsive_pad">
+                                    <div class="row pad-s15">
+                                        <div class="owl-carousel-style1 owl_sub" id="women-single-carousel1">
+										{% for single_prod in data.related_roducts %}
+                                            <div class="wa-item">
+                                                <div class="col-md-12">
+                                                    <div class="wa-theme-design-block">
+														<figure class="dark-theme">
+															<a class="pro_img_anchr" href="/product_datail?p={{single_prod.slug}}"><img src="./products/{{single_prod.images[0].image_url}}" alt="Thumbnail"></a>
+															{% if single_prod.quantity != 0 %}
+															  {% if single_prod.product_type == 2%}
+																	<span class="block-sticker-tag1 add_variant_pro_cart" data-id="{{single_prod.product_id}}" data-slug="{{single_prod.slug}}">
+																	<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+																	</span>
+																  {%else%}
+																   <span class="block-sticker-tag1 add_to_cart_other" data-id="{{single_prod.product_id}}" data-sale-price="{{single_prod.sale_price}}" data-is-customize="{{single_prod.is_customizable}}">
+																	<strong><i class="fa fa-shopping-bag" aria-hidden="true"></i></strong>
+																</span>
+											     {%endif%}
+															{% endif %}
+															{% if data.userdata %}
+															<span class="block-sticker-tag2 add_to_wishlist" data-id="{{single_prod.product_id}}" style="cursor:pointer;">									   
+																<span class="off_tag1"><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></span>
+															</span>
+															{% else %}
+															<span class="block-sticker-tag2">									   
+																<a class="off_tag1" href="/login" class=""><strong><i class="fa fa-heart-o" aria-hidden="true"></i></strong></a>
+															</span>
+															{% endif %}
+															<span class="block-sticker-tag3">
+															<a class="off_tag1 btn-action btn-quickview" href="/product_datail?p={{single_prod.slug}}"><strong><i class="fa fa-eye" aria-hidden="true"></i></strong></a>
+														</figure>
+														<div class="block-caption1">
+															<h4>{{single_prod.product_name}}</h4>
+															<div class="col-xs-12 col-sm-12 col-md-12 text_left">
+																<a href="/store?ss={{single_prod.store_slug}}"><span class="price-text-color ">By {{single_prod.store_name}}</span></a>
+															</div>
+															<div class="col-xs-12 col-sm-12 col-md-12 review_right">
+																<ul class="wv_rating">
+																{% if single_prod.ratings[0].average_rates == 0 %}
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates > 0 && single_prod.ratings[0].average_rates < 1 %}
+																	<li><i class="fa fa-star-half-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates == 1 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates > 1 && single_prod.ratings[0].average_rates < 2 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-half-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates == 2 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates > 2 && single_prod.ratings[0].average_rates < 3 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-half-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates == 3 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates > 3 && single_prod.ratings[0].average_rates < 4 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-half-o"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates == 4 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates > 4 && single_prod.ratings[0].average_rates < 5 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star-half-o"></i></li>
+																	{% elseif single_prod.ratings[0].average_rates == 5 %}
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	<li><i class="fa fa-star"></i></li>
+																	
+																 {% endif %}	
+																	<li><span class="review">({{single_prod.ratings[0].total_rates}})</span></li>
+																</ul>
+															</div>
+															<div class="clear"></div>
+															<div class="price col-md-12">
+															
+												          {% if Number.isInteger(single_prod.sale_price)%}
+																<span class="sell-price">AU ${{single_prod.sale_price}}.00</span>
+																{%else%}
+																<span class="sell-price">AU ${{single_prod.sale_price}}</span>
+																{%endif%}
+ 															</div>
+														</div>
+													</div>
+                                                </div>
+                                            </div>
+											{%endfor%}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+</div>
+	{%endif%}
+	
+	
+    <section class="Service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 prazar_subcribe_box text_center">
+                        <h2 class="prezer_heading marB10">Join the Prazar community</h2>
+                        <p>Jot down your email address and we promise to delight you with VIP offers, styling tips, gift buying guides and a plenty more.</p>
+						
+                        <div class="prazar-subscribe-inner-box">
+							<form id="subscribe_form">
+                             <input type="email" class="transparent-field" placeholder="email address" name="subscribe_email" required>
+                             <input type="submit" class="submit-btn" value="Subscribe">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>     
+      			
+{% endblock %}    

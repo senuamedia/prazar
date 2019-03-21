@@ -1,0 +1,110 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="/vendor_dashboard">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Transaction History</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="table-responsive table-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail-th">Order No.</th>
+                                    <th class="product-thumbnail-th">Transaction Id</th>
+                                    <th class="product-thumbnail-th">Order Date</th>
+                                    <th class="product-quantity-th">Customer Name</th>
+                                    <th class="product-subtotal">Payment Status</th>
+                                    <th class="product-subtotal">Transaction Status</th>
+                                    <th class="product-remove">Product</th>
+                                    <th class="product-remove">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+								 {% if data.transactions.length==0 %}
+								 <tr><td colspan="6"></td></tr>
+								 {% endif %}
+								{% for order in data.transactions %}
+                                 <tr>
+                                    <td class="cart-product-price1"><span>{{order.order_no}}</span></td>
+                                    <td class="cart-product-price1"><span>{{order.transection_id}}</span></td>
+                                    <td class="cart-product-price1"><span>{{order.order_date}}</span></td>
+                                    <td class="cart-product-price1"><span>{{order.name}}</span></td>
+									  <td class="cart-product-price1"><span>completed</span>
+									 </td>
+									 <td class="cart-product-price1"><span>
+									 {% if order.transaction_type == 0 %}
+										Order
+									  {% elseif order.transaction_type == 1 %}	
+										Refunded (by customer)
+								      {% else %}
+										Refunded (by vendor)
+                                      {% endif %}									  
+									 </span></td>
+                                    <td class="cart-product-price1"><span>{{order.product_name}}</span></td>
+									
+                                    <td class="cart-product-price1">{% if Number.isInteger(order.amount)%}
+										<span>AU ${{order.amount}}.00</span>
+									{%else%}
+									<span>AU ${{order.amount.toFixed(2)}}</span>{%endif%}</td>
+                                </tr>
+								{% endfor %}
+                               
+                               
+                            </tbody>
+                        </table>
+						
+						  <!-- pagination -->
+                {% set productCount = data.total_pages %}
+                {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row "> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination ">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/vendor_transaction_history?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//--> 
+       
+{% endblock %}    

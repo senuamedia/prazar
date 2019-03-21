@@ -1,0 +1,101 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <!--//==Page Header Start==//-->
+        <div class="wv_breadcrumb">
+            <div class="container breadcrumb-section">
+                <div class="row pad-s15">
+                    <div class="col-md-12">
+                        <div class="clear"></div>
+                        <div class="breadcrumb-box">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="index.html">Home</a>
+                                </li>
+<!--                                 <li>
+                                    <a href="index.html">Shop</a>
+                                </li> -->
+                                <li class="active">Order Tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Page Header End==//-->
+        <!--//==Login Page Start==//-->
+        <div class="cart-page">
+            <div class="container">
+                <div class="row wv-pads15">
+                    <div class="table-responsive table-content">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail-th">Order No.</th>
+                                    <th class="product-thumbnail-th">Order Date</th>
+                                    <th class="product-quantity-th">Customer Name</th>
+                                    <th class="product-subtotal">Fulfillment Status</th>
+                                    <th class="product-subtotal">Payment Status</th>
+                                    <th class="product-remove">Product</th>
+                                    <th class="product-remove">Price</th>
+                                    <th class="product-remove">View Order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+								 {% if data.orders.length==0 %}
+								 <tr><td colspan="8"></td></tr>
+								 {% endif %}
+								{% for order in data.orders %}
+                                 <tr>
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>{{order.order_no}}</span></a></td>
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>{{order.order_date}}</span></a></td>
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>{{order.ordered_by}}</span></a></td>
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>{% if order.fulfill_status==0%}pending {% elseif order.fulfill_status==1 %}processed {%elseif order.fulfill_status==2 %} shipped {%else%} completed {%endif%}</span></a></td>
+									  <td class="cart-product-price1">{% if order.is_paid == 1%}<a href="/vendor_order_detail?order_no={{order.order_no}}"><span>paid</span></a>{%else%}<a href="/vendor_order_detail?order_no={{order.order_no}}"><span>failed</span></a>{%endif%}
+									 </td>
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>{{order.order_products_count}}</span></a></td>
+									
+                                    <td class="cart-product-price1"><a href="/vendor_order_detail?order_no={{order.order_no}}"><span>${{order.order_total.toFixed(2)}}</span></a></td>
+									
+									<td class="cart-product-price1 view_ordr_btn_td"><a href="/vendor_order_detail?order_no={{order.order_no}}">View Order</a></td>
+									
+                                </tr>
+								{% endfor %}
+                               
+                               
+                            </tbody>
+                        </table>
+						
+						  <!-- pagination -->
+                {% set productCount = data.total_pages %}
+                {% set productCountAsArray = Array(productCount) %}
+
+              <div class="row "> 
+                <div class="col-lg-10">
+				 {{data.show_str}}
+				  </div>
+				  <div class="col-lg-2 pull-right" id="pagination"> 
+                 <ul class="tsc_pagination ">
+                 <nav>
+					 <ul class="pagination" style="margin-top:0px">
+					{% for x, y in productCountAsArray %}	 
+					 <li {% if data.page == x %} class="active" {% endif %}><a href="/vendor_order_tracking?page={{x}}" >{{loop.index}}</a></li>
+					{% endfor %}	 
+					 </ul>
+					 </nav>
+               </ul>
+                </div>
+              
+               
+              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//==Wishlist Page End==//--> 
+       
+{% endblock %}    

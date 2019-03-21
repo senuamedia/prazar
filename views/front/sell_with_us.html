@@ -1,0 +1,178 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+ <div class="wv_breadcrumb">
+		<div class="container breadcrumb-section">
+			<div class="row pad-s15">
+				<div class="col-md-12">
+					<div class="clear"></div>
+					<div class="breadcrumb-box">
+						<ul class="breadcrumb">
+							<li>
+								<a href="/">Home</a>
+							</li>
+<!--                                 <li>
+								<a href="index.html">Shop</a>
+							</li> -->
+							<li class="active">Sell With Us</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--//==Page Header End==//-->
+	<!--//==sell with us Page Start==//-->
+  <section class="login-page">
+            <div class="container">
+                <div class="row pad-s15">
+                    <div class="login-form sell_with_us_div col-md-12 padLR0">
+                        <h1 class="heading_form padB100">Sell with us</h1>
+                        <p>If you’re interested in selling with us, pop your details in the form below and we’ll get back to you within 24 hours.</p>
+						
+						
+                       {% if data.error.length > 0 %}
+				      
+				      <div class="alert alert-danger  alert-dismissible">
+					   <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					      {{data.error}}
+					</div>
+                       {% endif %}
+						
+                        <form method="post"   enctype="multipart/form-data">
+							<div class="col-md-6 padL0">
+                                <input type="text" class="wv_form_focus" placeholder="First Name" id="fname" name="first_name" value="{{data.form_data.first_name}}" required autocomplete="off">
+                            </div>
+							<div class="col-md-6 padR0">
+                                <input type="text" class="wv_form_focus" placeholder="Last Name" id="lname" name="last_name" value="{{data.form_data.last_name}}" required autocomplete="off">
+                            </div>
+							<div class="col-md-6 padL0">
+                                <input type="email" class="wv_form_focus" placeholder="Email Address" id="email" name="e_mail" value="{{data.form_data.e_mail}}" required autocomplete="off">
+                            </div>
+							<div class="col-md-6 padR0">
+                                <input type="text" class="wv_form_focus" placeholder="Phone Number" id="p-number" name="phone_number" value="{{data.form_data.phone_number}}" required>
+                            </div>
+                            <div class="col-md-12 padLR0">
+                                <input type="text" class="wv_form_focus" placeholder="Business Name" id="business_name" name="business_name" value="{{data.form_data.business_name}}" required>
+                            </div>
+							
+							<div class="col-md-12 padLR0">
+                                <input type="text" class="wv_form_focus auto_location" placeholder="Address Line 1" id="business_location" name="address_line1"  value="{{data.form_data.business_location}}" required autocomplete="off">
+								<input type="hidden" class="lat" value="" name="lat"/>
+								<input type="hidden" class="lng" value="" name="lng"/>
+                            </div>
+							
+							 <div class="col-md-12 padLR0">
+                                <input type="text" class="wv_form_focus auto_location1" placeholder="Address Line 2" id="business_location2" name="address_line2"  value="{{data.form_data.business_location2}}" autocomplete="off" />
+								
+                            </div>
+							
+							
+							<div class="col-md-6 padL0">
+							
+								<select class="wv_form_focus country_select_box" placeholder="Select country" id="country" name="country" required autocomplete="off">
+								 <option value="" selected>Select Country</option>
+							   	  {% for country in data.countries%}
+								  <option value="{{country.name}}">{{country.name}}</option>
+								 {%endfor%}
+							    </select>
+							</div>
+							
+							<div class="col-md-6 padR0">
+							
+								<select class="wv_form_focus states_select_box" placeholder="Select state" id="state" name="state" required autocomplete="off">
+								 <option value="" selected>Select state</option>
+							   	 
+							    </select>
+							</div>
+							<div class="col-md-6 padL0">
+							
+							 <input type="text" class="wv_form_focus" placeholder="City" id="city" name="city" value="{{data.form_data.zip_code}}" required autocomplete="off">
+							   
+								<!--<select class="wv_form_focus cities_select_box" placeholder="Select city" id="city" name="city" required>
+								 <option value="" selected>Select city</option>
+							   	 
+							    </select> -->
+							</div>
+							<div class="col-md-6 padR0">
+                                <input type="text" class="wv_form_focus" placeholder="Zip code" id="zip_code" name="zip_code" value="{{data.form_data.zip_code}}" required autocomplete="off">
+                            </div>
+							
+							
+                            <div class="col-md-12 padLR0">
+                                
+								<textarea rows="5" type="text" class="wv_form_focus " placeholder="Tell us about your business" id="about_you" name="about_you" required></textarea>
+								
+                            </div>
+
+							
+							
+							
+                            <div class="col-md-12 padLR0">
+                                <label for="url_submission" class="checkcontainer" id="option1">OPTION 1 - URL SUBMISSION
+                                        <input type="radio" checked="checked" id="url_submission" name="url_type" value="url">
+                                        <span class="radiobtn"></span>
+                                </label>
+                                <p class="padL35">If you have a business website please enter the URL below and click submit.</p>
+                                <div class="url_submission">
+                                     <input type="text" class="wv_form_focus" placeholder="Enter your website url" id="website_url" name="website_url">
+                                </div>
+                            </div>
+                            <div class="col-md-12 padLR0">
+                                <label for="manual_submission" class="checkcontainer" id="option2">OPTION 2 - MANUAL SUBMISSION
+                                           <input type="radio" id="manual_submission" name="url_type" value="manual">
+                                           <span class="radiobtn"></span>
+                                </label>
+                                <p class="padL35">If you don’t have a business website just fill out the information below relating to at least one of your products and click submit.</p>
+                                <div class="manual_submission">
+                                     <div class="add_product_btn">
+                                         <button id="add_product" class="add_product" type="button">Add Another Product</button>
+                                     </div>
+                                     <div class="outer_div">
+                                            <div class="col-md-6 padL0">
+                                                <input type="text" class="wv_form_focus" placeholder="Product Name" id="product_name" name="product_name" >
+                                            </div>
+                                            <div class="col-md-6 pic_upload padR0">
+                                                <p class="absolute_p">Please upload 1 image</p>                                                    
+                                                <div class="upload-btn">
+                                                    <span>No file selected</span>
+                                                    <label for="file-upload">Choose File</label>
+                                                    <input type="file" name="product_image" accept="image/*" class="FilUploader" id="file-upload" multiple >
+													<input type="hidden" class="total_imgs" name="total_imgs" value="0" />
+                                                  </div>
+                                            </div>
+                                            <div class="col-md-6 padL0">
+                                                <select class="wv_form_focus" placeholder="Category" id="product_category" name="product_category" >
+											   {% for category in data.categories %}
+													
+                                                <option value="{{category.cat_id}}">{{category.cat_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            </div>
+											
+											
+                                            <div class="col-md-6 padR0">
+                                                <input type="text" class="wv_form_focus" placeholder="Link" id="link" name="link" >
+                                            </div>
+											
+											<div class="col-md-12 padR0 padL0">
+                                                <input type="text" class="wv_form_focus" placeholder="Category Suggestion" id="cat_sug" name="cat_sug" >
+                                            </div>
+                                            <div class="col-md-12 padLR0">
+                                                <textarea type="text" class="wv_form_focus sell_textarea" placeholder="Description" id="description" name="description" ></textarea>
+                                            </div>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-4"><input type="submit" class="login_submit" value="Submit" name="sub" id="sale_with_us_form"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+       
+{% endblock %}    
